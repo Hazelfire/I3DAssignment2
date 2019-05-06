@@ -1,6 +1,9 @@
 *.o
 *.d
 
+# we should remove this before we remove cmake
+directories.h
+
 # ignore everything in build except for the makefile
 # the teachers need the makefile
 build/*

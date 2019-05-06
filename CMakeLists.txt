@@ -11,4 +11,8 @@ file(GLOB_RECURSE GAME_HEADERS
 	${CMAKE_SOURCE_DIR}/src/*.h
 	)
 
+set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/")
+
+configure_file(${SOURCE_DIR}/_directories.h ${SOURCE_DIR}/generated_directories.h)
+
 add_executable(Frogger ${GAME_SRC} ${GAME_HEADERS})
