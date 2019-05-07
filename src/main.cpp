@@ -19,7 +19,19 @@ void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
 
+  // camera
+  glPushMatrix();
+  player_camera.move_to();
 
+  glBegin(GL_QUADS);
+  glVertex3f(0,0,0);
+  glVertex3f(0,0.5,0);
+  glVertex3f(0.5,0.5,0);
+  glVertex3f(0.5,0,0);
+  glEnd();
+
+
+  glPopMatrix();
 #ifndef VSYNC
 #define VSYNC 1
 #endif
@@ -37,6 +49,21 @@ void display() {
 	  printf("display: %s\n", gluErrorString(err));
   }
 
+}
+
+void mouseMotion(int x, int y) {
+  std::cout << "x: " << x << "\ny: " << y << std::endl;
+  static int last_x = 0;
+  static int last_y = 0;
+
+  int dx = x - last_x;
+  int dy = y - last_y;
+
+  player_camera.rotation.x += 0.5 * dx;
+  player_camera.rotation.y += 0.5 * dy;
+
+  last_x = x;
+  last_y = y;
 }
 
 void specialUp(int key, int x, int y) {
@@ -68,6 +95,8 @@ void keyboard(unsigned char key, int x, int y) {
 
 
 void init() {
+  player_camera = camera();
+
   glMatrixMode(GL_PROJECTION);
   glOrtho(-1.0, (GLUT_SCREEN_HEIGHT * 2 / GLUT_SCREEN_WIDTH) - 1, -1.0, 1.0, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
@@ -84,6 +113,8 @@ int main(int argc, char **argv) {
 
   init();
 
+  glutPassiveMotionFunc(mouseMotion);
+  glutMotionFunc(mouseMotion);
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
   glutKeyboardUpFunc(keyboardUp);

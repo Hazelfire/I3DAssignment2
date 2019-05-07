@@ -2,13 +2,15 @@
 
 class v3d {
 	public:
+		static v3d zero;
+		static v3d unit;
+
 		double x;
 		double y;
 		double z;
 
 		v3d(void);
 		v3d(double x, double y, double z);
-
 
 		// static methods here do not modify the inputs
 		// non-static versions modify the class its called on

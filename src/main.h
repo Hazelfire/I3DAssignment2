@@ -15,3 +15,6 @@ void glutBitmapString(void *font, char *str);
 
 #include "generated_directories.h"
 #include VECTOR_H
+#include CAMERA_H
+
+camera player_camera;
