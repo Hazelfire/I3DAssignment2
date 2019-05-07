@@ -5,8 +5,8 @@
 v3d::v3d(void) {}
 v3d::v3d(double x, double y, double z): x(x), y(y), z(z) {}
 
-v3d v3d::zero = v3d(0,0,0);
-v3d v3d::unit = v3d(1,1,1);
+const v3d v3d::zero = v3d(0,0,0);
+const v3d v3d::unit = v3d(1,1,1);
 
 
 // length

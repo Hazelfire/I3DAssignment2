@@ -2,8 +2,8 @@
 
 class v3d {
 	public:
-		static v3d zero;
-		static v3d unit;
+		static const v3d zero;
+		static const v3d unit;
 
 		double x;
 		double y;
