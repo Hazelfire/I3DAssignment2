@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (I3DAssignment2)
 
+
 #source & headers
 file(GLOB_RECURSE GAME_SRC
 	${CMAKE_SOURCE_DIR}/src/*.cpp

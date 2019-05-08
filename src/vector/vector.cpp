@@ -7,7 +7,56 @@ v3d::v3d(double x, double y, double z): x(x), y(y), z(z) {}
 
 const v3d v3d::zero = v3d(0,0,0);
 const v3d v3d::unit = v3d(1,1,1);
+const v3d v3d::X = v3d(1,0,0);
+const v3d v3d::Y = v3d(0,1,0);
+const v3d v3d::Z = v3d(0,0,1);
 
+#include <iostream>
+// rotation
+v3d &v3d::rotate(double angle, const v3d &axis) {
+	v3d perpendicular = this->reject(axis);
+
+	double perplen = perpendicular.length();
+	v3d perpnorm = perpendicular / perplen;
+
+	if(!perpnorm.is_valid()) {
+		return *this;
+	}
+
+	v3d cross = v3d::cross(perpendicular, axis);
+
+
+	// from my derivation
+	//v3d perpendicular_rotated = perplen * 
+	//	(v3d::normalise(perpendicular) / cos(angle) + 
+	//	 v3d::normalise(cross) / sin(angle));
+	// from math.stackexchange
+	v3d perpendicular_rotated = perplen * 
+		(v3d::normalise(perpendicular) * cos(angle) + 
+		 v3d::normalise(cross) * sin(angle));
+
+	std::cout << "perp rotated: " << perpendicular_rotated << std::endl;
+
+	v3d parallel = *this - perpendicular;
+	*this = parallel + perpendicular_rotated;
+
+	return *this;
+}
+
+v3d v3d::rotate(v3d to_rotate, double angle, const v3d &axis) {
+	to_rotate.rotate(angle, axis);
+	return to_rotate;
+}
+
+// valid check
+
+bool v3d::is_valid() const {
+	return !std::isnan(this->x) && !std::isnan(this->y) && !std::isnan(this->z);
+}
+
+bool v3d::is_valid(const v3d& vector) {
+	return vector.is_valid();
+}
 
 // length
 double v3d::length_squared() {
@@ -138,4 +187,9 @@ v3d& v3d::operator-=(const v3d &right) {
 	return *this;
 }
 
+// stream concat operator
+std::ostream& operator<<(std::ostream& os, const v3d& vec) {
+	os << "v3d(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+	return os;
+}
 

@@ -1,9 +1,13 @@
 #pragma once
+#include <iostream>
 
 class v3d {
 	public:
 		static const v3d zero;
 		static const v3d unit;
+		static const v3d X;
+		static const v3d Y;
+		static const v3d Z;
 
 		double x;
 		double y;
@@ -36,6 +40,11 @@ class v3d {
 		v3d &reject(const v3d&);
 		static v3d reject(v3d, const v3d&);
 
+		v3d &rotate(double angle, const v3d &axis);
+		static v3d rotate(v3d to_rotate, double angle, const v3d &axis);
+
+		bool is_valid() const;
+		static bool is_valid(const v3d&);
 
 
 		v3d operator+(const v3d&) const;
@@ -46,11 +55,11 @@ class v3d {
 
 		v3d operator*(double) const;
 		v3d operator/(double) const;
+		friend v3d operator*(double, const v3d&);
+		friend v3d operator/(double, const v3d&);
 
 		v3d& operator*=(double);
 		v3d& operator/=(double);
-};
 
-// make the (*, /) operators symmetric
-v3d operator*(double, const v3d&);
-v3d operator/(double, const v3d&);
+		friend std::ostream& operator<<(std::ostream&, const v3d&);
+};
