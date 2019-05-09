@@ -17,5 +17,9 @@ void glutBitmapString(void *font, char *str);
 #include VECTOR_H
 #include CAMERA_H
 #include TIME_H
+#include KEYBOARD_H
 
 camera player_camera;
+
+
+void handle_keys();

@@ -25,17 +25,22 @@ v3d &v3d::rotate(double angle, const v3d &axis) {
 
 	v3d cross = v3d::cross(perpendicular, axis);
 
+#define PI 3.14159
 
+	angle *= PI / 180;
+
+#define USE_MINE 0
+#if USE_MINE
 	// from my derivation
-	//v3d perpendicular_rotated = perplen * 
-	//	(v3d::normalise(perpendicular) / cos(angle) + 
-	//	 v3d::normalise(cross) / sin(angle));
+	v3d perpendicular_rotated = perplen * 
+		(v3d::normalise(perpendicular) / cos(angle) + 
+		 v3d::normalise(cross) / sin(angle));
+#else
 	// from math.stackexchange
 	v3d perpendicular_rotated = perplen * 
 		(v3d::normalise(perpendicular) * cos(angle) + 
 		 v3d::normalise(cross) * sin(angle));
-
-	std::cout << "perp rotated: " << perpendicular_rotated << std::endl;
+#endif
 
 	v3d parallel = *this - perpendicular;
 	*this = parallel + perpendicular_rotated;
@@ -122,7 +127,7 @@ v3d& v3d::project(const v3d& right) {
 }
 
 v3d& v3d::reject(const v3d& right) {
-	return *this -= this->project(right);
+	return *this -= v3d::project(*this, right);
 }
 
 v3d v3d::project(v3d left, const v3d& right) {
