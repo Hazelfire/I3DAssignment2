@@ -1,7 +1,9 @@
 #include "main.h"
 
 void update(void) {
+  const _time& time = _time::get_instance();
 
+  _time::update(glutGet(GLUT_ELAPSED_TIME));
 
   // redraw the screen
   glutPostRedisplay();
