@@ -102,7 +102,7 @@ void special(int key, int x, int y) {
 }
 
 void keyboard(unsigned char key, int x, int y) {
-  double movement = 0.0001;
+  double movement = 0.1;
   v3d forward = player_camera.get_forward();
 
 
@@ -130,7 +130,6 @@ void keyboard(unsigned char key, int x, int y) {
 	  default:
 	  break;
   }
-  std::cout << "position: " << player_camera.position << std::endl;
 }
 
 

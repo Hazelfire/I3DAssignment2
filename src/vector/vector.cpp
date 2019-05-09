@@ -14,7 +14,7 @@ const v3d v3d::Z = v3d(0,0,1);
 #include <iostream>
 // rotation
 v3d &v3d::rotate(double angle, const v3d &axis) {
-	v3d perpendicular = this->reject(axis);
+	v3d perpendicular = v3d::reject(*this, axis);
 
 	double perplen = perpendicular.length();
 	v3d perpnorm = perpendicular / perplen;
@@ -63,14 +63,14 @@ double v3d::length_squared() {
 	return v3d::length_squared(*this);
 }
 double v3d::length_squared(const v3d& val) {
-	return val.x * val.x + val.y * val.y + val.z + val.z;
+	return val.x * val.x + val.y * val.y + val.z * val.z;
 }
 
 double v3d::length() {
 	return sqrt(v3d::length_squared(*this));
 }
 double v3d::length(const v3d& val) {
-	return sqrt(val.x * val.x + val.y * val.y + val.z + val.z);
+	return sqrt(val.x * val.x + val.y * val.y + val.z * val.z);
 }
 
 // normalise
