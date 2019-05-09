@@ -45,6 +45,26 @@ void display() {
   glVertex3f(0.5,1,5);
   glEnd();
 
+  //X axis
+  glBegin(GL_LINES);
+  glColor3f(1,0,0);
+  glVertex3f(0,0,0);
+  glVertex3f(1,0,0);
+  glEnd();
+  //Y axis
+  glBegin(GL_LINES);
+  glColor3f(0,1,0);
+  glVertex3f(0,0,0);
+  glVertex3f(0,1,0);
+  glEnd();
+  //Z axis
+  glBegin(GL_LINES);
+  glColor3f(0,0,1);
+  glVertex3f(0,0,0);
+  glVertex3f(0,0,1);
+  glEnd();
+
+
 
   glPopMatrix();
 #ifndef VSYNC
