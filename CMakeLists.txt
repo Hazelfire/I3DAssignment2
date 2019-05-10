@@ -9,6 +9,8 @@ set(GAME_SRC
 	src/camera/camera.cpp
   src/vector/vector.cpp
   src/time/time.cpp
+  src/keyboard/keyboard.c
+  src/keyboard/keyboard.cpp
 	)
 
 set(GAME_HEADERS
