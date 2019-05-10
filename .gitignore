@@ -2,7 +2,7 @@
 *.d
 
 # we should remove this before we remove cmake
-directories.h
+generated_directories.h
 
 build/*
 # should un-comment this before we remove cmake

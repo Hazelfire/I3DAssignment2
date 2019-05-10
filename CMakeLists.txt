@@ -5,15 +5,19 @@ set(GAME_MAIN
   src/main.cpp)
 
 #source & headers
-file(GLOB_RECURSE GAME_SRC
-	src/camera.cpp
-  src/vector.cpp
+set(GAME_SRC
+	src/camera/camera.cpp
+  src/vector/vector.cpp
+  src/time/time.cpp
 	)
 
-file(GLOB_RECURSE GAME_HEADERS
+set(GAME_HEADERS
   src/main.h
   src/camera/camera.h
   src/vector/vector.h
+  src/time/time.h
+  src/keyboard/keyboard.hpp
+  src/keyboard/keyboard.h
 	)
 
 set(GAME_TESTS

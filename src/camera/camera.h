@@ -9,4 +9,7 @@ class camera {
 		camera(void);
 
 		void move_to() const;
+
+		v3d get_forward() const;
+		v3d get_forward_xz() const;
 };

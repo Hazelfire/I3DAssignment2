@@ -15,5 +15,12 @@ void glutBitmapString(void *font, char *str);
 
 #include "vector/vector.h"
 #include "camera/camera.h"
+#include "time/time.h"
+#include "keyboard/keyboard.hpp"
+#include "keyboard/keyboard.h"
+#define UNIT_TESTS 0
 
 camera player_camera;
+
+
+void handle_keys();
