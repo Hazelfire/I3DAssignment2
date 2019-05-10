@@ -13,8 +13,7 @@
 void glutBitmapString(void *font, char *str);
 #endif
 
-#include "generated_directories.h"
-#include VECTOR_H
-#include CAMERA_H
+#include "vector/vector.h"
+#include "camera/camera.h"
 
 camera player_camera;

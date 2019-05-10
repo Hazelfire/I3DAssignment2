@@ -1,5 +1,4 @@
-#include "../generated_directories.h"
-#include VECTOR_H
+#include "../vector/vector.h"
 
 
 class camera {

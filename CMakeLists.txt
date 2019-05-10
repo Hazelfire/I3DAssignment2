@@ -1,26 +1,49 @@
 cmake_minimum_required (VERSION 2.6)
 project (I3DAssignment2)
 
+set(GAME_MAIN
+  src/main.cpp)
+
 #source & headers
 file(GLOB_RECURSE GAME_SRC
-	${CMAKE_SOURCE_DIR}/src/*.cpp
-	${CMAKE_SOURCE_DIR}/src/*.c
+	src/camera.cpp
+  src/vector.cpp
 	)
 
 file(GLOB_RECURSE GAME_HEADERS
-	${CMAKE_SOURCE_DIR}/src/*.hpp
-	${CMAKE_SOURCE_DIR}/src/*.h
+  src/main.h
+  src/camera/camera.h
+  src/vector/vector.h
 	)
+
+set(GAME_TESTS
+  src/vector/vector.test.cpp
+  src/testmain.cpp)
+
 
 set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/")
 
-configure_file(${SOURCE_DIR}/_directories.h ${SOURCE_DIR}/generated_directories.h)
+add_executable(Frogger ${GAME_SRC} ${GAME_HEADERS} ${GAME_MAIN})
 
-add_executable(Frogger ${GAME_SRC} ${GAME_HEADERS})
+find_package( Boost 1.40 COMPONENTS unit_test_framework REQUIRED )
+
+
+add_executable(test_executable ${GAME_TESTS} ${GAME_SRC} ${GAME_HEADERS})
+
+target_include_directories(test_executable PRIVATE ${Boost_INCLUDE_DIR} )
+
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
-include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+target_include_directories(Frogger PRIVATE ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+target_include_directories(test_executable PRIVATE ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+
+target_link_libraries(test_executable
+	m
+	${OPENGL_LIBRARIES}
+	${GLUT_LIBRARY}
+  ${Boost_LIBRARIES}
+	)
 
 target_link_libraries(Frogger
 	m
