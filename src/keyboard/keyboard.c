@@ -26,22 +26,22 @@ void c_hold(char key, enum keys *held) {
 void c_release(char key, enum keys *held) {
 	switch(key) {
 		case 'w':
-			*held &= kb_w ^ kb_w;
+			*held &= kb_w ^ 0xFFFFF;
 			break;
 		case 's':
-			*held &= kb_s ^ kb_s;
+			*held &= kb_s ^ 0xFFFFF;
 			break;
 		case 'a':
-			*held &= kb_a ^ kb_a;
+			*held &= kb_a ^ 0xFFFFF;
 			break;
 		case 'd':
-			*held &= kb_d ^ kb_d;
+			*held &= kb_d ^ 0xFFFFF;
 			break;
 		case ' ':
-			*held &= kb_space ^ kb_space;
+			*held &= kb_space ^ 0xFFFFF;
 			break;
 		case 'c':
-			*held &= kb_c ^ kb_c;
+			*held &= kb_c ^ 0xFFFFF;
 			break;
 	}
 }
