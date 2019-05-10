@@ -176,16 +176,16 @@ void handle_keys() {
 	  player_camera.position -= forward * movement * time.delta;
   }
   if(*keys & kb_d) {
-	  player_camera.position += right * movement * time.delta;
-  }
-  if(*keys & kb_a) {
 	  player_camera.position -= right * movement * time.delta;
   }
+  if(*keys & kb_a) {
+	  player_camera.position += right * movement * time.delta;
+  }
   if(*keys & kb_space) {
-	  player_camera.position += v3d::Y * movement * time.delta;
+	  player_camera.position -= v3d::Y * movement * time.delta;
   }
   if(*keys & kb_c) {
-	  player_camera.position -= v3d::Y * movement * time.delta;
+	  player_camera.position += v3d::Y * movement * time.delta;
   }
 }
 
