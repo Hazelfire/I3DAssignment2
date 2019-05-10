@@ -105,6 +105,9 @@ void reshape(int x, int y) {
   glLoadIdentity();			// Overwrite the contents with the identity
   gluPerspective(75, (double)x / y, 0.01, 100);		// Multiply the current matrix with a generated perspective matrix
   glMatrixMode(GL_MODELVIEW);	// Change back to the modelview matrix
+
+  // update the viewport with the new width and height
+  glViewport(0,0, x, y);
 }
 
 void mouse(int x, int y) {
