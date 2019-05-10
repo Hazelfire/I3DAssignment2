@@ -32,6 +32,8 @@ void display() {
 
   glColor3f(1,1,1);
 
+#define DRAW_3_SQUARES 0
+#if DRAW_3_SQUARES
   glBegin(GL_QUADS);
   glVertex3f(0,0,5);
   glVertex3f(0,0.5,5);
@@ -50,6 +52,7 @@ void display() {
   glVertex3f(0.5,1.5,5);
   glVertex3f(0.5,1,5);
   glEnd();
+#endif
 
   //X axis
   glBegin(GL_LINES);
@@ -70,6 +73,39 @@ void display() {
   glVertex3f(0,0,1);
   glEnd();
 
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  //glPolygonMode(GL_BACK, GL_LINE);
+  int numverts = 20;
+  double x_max = 2*PI;
+  double tangent_diff = 0.001;
+
+  glColor3f(1, 1, 0);
+  glBegin(GL_LINES);
+  for(int row = 0; row < numverts; row++) {
+	  for(int col = 0; col < numverts; col++) {
+	  v3d current = v3d(row, sinf(col * x_max/numverts), col);
+	  v3d next = v3d(row+1, sinf(col * x_max/numverts), col);
+	  v3d current_beside = v3d(row, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
+	  v3d tangent = current - current_beside;
+	  v3d normal = v3d::cross(tangent, current - next).normalise()*0.3;
+	  if(normal.dot(v3d::Y) < 0)
+	  normal *= -1;
+	  normal += current;
+	  glVertex3f(current.x, current.y, current.z);
+	  glVertex3f(normal.x, normal.y, normal.z);
+	  }
+  }
+  glEnd();
+  
+  for(int row = 0; row < numverts; row++) {
+	  glColor3f((row+1) / (double)numverts, 1, 1);
+	  glBegin(GL_QUAD_STRIP);
+	  for(int col = 0; col < numverts; col++) {
+	  glVertex3f(row, sinf(col * x_max/numverts), col);
+	  glVertex3f(row+1, sinf(col * x_max/numverts), col);
+	  }
+	  glEnd();
+  }
 
 
   glPopMatrix();
@@ -101,11 +137,11 @@ void reshape(int x, int y) {
   glMatrixMode(GL_MODELVIEW);
   */
 
-  glMatrixMode(GL_PROJECTION);	// Set the matrix we want to manipulate
-  glLoadIdentity();			// Overwrite the contents with the identity
-  gluPerspective(75, (double)x / y, 0.01, 100);		// Multiply the current matrix with a generated perspective matrix
-  glMatrixMode(GL_MODELVIEW);	// Change back to the modelview matrix
-
+  glMatrixMode(GL_PROJECTION);                  // Set the matrix we want to manipulate
+  glLoadIdentity();                             // Overwrite the contents with the identity
+  gluPerspective(75, (double)x / y, 0.01, 100); // Multiply the current matrix with a generated perspective matrix
+  glMatrixMode(GL_MODELVIEW);                   // Change back to the modelview matrix
+  
   // update the viewport with the new width and height
   glViewport(0,0, x, y);
 }
