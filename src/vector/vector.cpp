@@ -1,6 +1,34 @@
 #include "vector.h"
 #include <cmath>
 
+
+#define PI 3.14159
+#include <iostream>
+bool test::rotate() {
+	v3d forward;
+
+	// rotate z around y (anti-clockwise)
+	forward = v3d::Z;
+	forward.rotate(90, v3d::Y);
+	std::cout << "forward rot 90 around Y: " << forward << std::endl;
+
+	forward = v3d::Z;
+	forward.rotate(45, v3d::Y);
+	std::cout << "forward rot 45 around Y: " << forward << std::endl;
+
+	// rotate z around x (anti-clockwise)
+	forward = v3d::Z;
+	forward.rotate(90, v3d::X);
+	std::cout << "forward rot 90 around X: " << forward << std::endl;
+
+	forward = v3d::Z;
+	forward.rotate(45, v3d::X);
+	std::cout << "forward rot 45 around X: " << forward << std::endl;
+
+	return true;
+}
+
+
 // ctors
 v3d::v3d(void) {}
 v3d::v3d(double x, double y, double z): x(x), y(y), z(z) {}
@@ -11,7 +39,6 @@ const v3d v3d::X = v3d(1,0,0);
 const v3d v3d::Y = v3d(0,1,0);
 const v3d v3d::Z = v3d(0,0,1);
 
-#include <iostream>
 // rotation
 v3d &v3d::rotate(double angle, const v3d &axis) {
 	v3d perpendicular = v3d::reject(*this, axis);
@@ -24,8 +51,6 @@ v3d &v3d::rotate(double angle, const v3d &axis) {
 	}
 
 	v3d cross = v3d::cross(perpendicular, axis);
-
-#define PI 3.14159
 
 	angle *= PI / 180;
 
@@ -113,7 +138,7 @@ v3d v3d::cross(v3d left, const v3d& right) {
 }
 
 double v3d::dot(const v3d& left, const v3d& right) {
-	return left.x * right.x + left.y * right.y + left.z + right.z;
+	return left.x * right.x + left.y * right.y + left.z * right.z;
 }
 
 // project & reject
@@ -121,7 +146,7 @@ double v3d::dot(const v3d& left, const v3d& right) {
 v3d& v3d::project(const v3d& right) {
 	//a|| = (a . b^) * b^
 	v3d right_norm = v3d::normalise(right);
-	*this = this->dot(right_norm) * right_norm;
+	*this = v3d::dot(*this, right_norm) * right_norm;
 
 	return *this;
 }

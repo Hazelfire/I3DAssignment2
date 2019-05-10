@@ -3,6 +3,8 @@
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
 
+  test::rotate();
+
   handle_keys();
 
   // redraw the screen
@@ -25,6 +27,8 @@ void display() {
   // camera
   glPushMatrix();
   player_camera.move_to();
+
+  glColor3f(1,1,1);
 
   glBegin(GL_QUADS);
   glVertex3f(0,0,5);
@@ -112,6 +116,12 @@ void mouse(int x, int y) {
   player_camera.rotation.x += 0.5 * dx;
   player_camera.rotation.y += 0.5 * dy;
 
+  if(player_camera.rotation.y > 90) {
+	  player_camera.rotation.y = 90;
+  } else if(player_camera.rotation.y < -90) {
+	  player_camera.rotation.y = -90;
+  }
+
   last_x = x;
   last_y = y;
 }
@@ -136,14 +146,14 @@ void special(int key, int x, int y) {
 void handle_keys() {
   double movement = 5;
 
-#define USE_XZ 1
+#define USE_XZ 0
 #if USE_XZ
   v3d forward = player_camera.get_forward_xz();
   // cross is already normalised, since forward is in the x-z plane
-  v3d right = -1*v3d::cross(v3d::Y, forward)/*.normalise()*/;
+  v3d right = v3d::cross(v3d::Y, forward)/*.normalise()*/;
 #else
   v3d forward = player_camera.get_forward();
-  v3d right = -1*v3d::cross(v3d::Y, forward).normalise();
+  v3d right = v3d::cross(v3d::Y, forward).normalise();
 #endif
 
   const _time& time = _time::get_instance();

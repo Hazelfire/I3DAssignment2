@@ -62,4 +62,10 @@ class v3d {
 		v3d& operator/=(double);
 
 		friend std::ostream& operator<<(std::ostream&, const v3d&);
+
 };
+
+
+namespace test {
+	bool rotate();
+}
