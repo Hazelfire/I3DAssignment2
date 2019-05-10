@@ -1,6 +1,11 @@
 #pragma once
 #include <iostream>
 
+#ifndef PI
+// nasa approved 15 digits of PI
+#define PI 3.141592653589793
+#endif
+
 class v3d {
 	public:
 		static const v3d zero;

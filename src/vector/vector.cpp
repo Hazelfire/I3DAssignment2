@@ -2,8 +2,6 @@
 #include <cmath>
 
 
-#define PI 3.14159
-#include <iostream>
 bool test::rotate() {
 	v3d forward;
 

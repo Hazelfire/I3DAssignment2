@@ -3,7 +3,9 @@
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
 
+#if UNIT_TESTS
   test::rotate();
+#endif
 
   handle_keys();
 
@@ -160,7 +162,7 @@ void handle_keys() {
   const enum keys *keys = &keyboard::get_instance().held;
 
 
-#define PRINT_KEYS_INFO 1
+#define PRINT_KEYS_INFO 0
 #if PRINT_KEYS_INFO
   std::cout << "forward: " << forward << std::endl;
   std::cout << "movement: " << movement << std::endl;

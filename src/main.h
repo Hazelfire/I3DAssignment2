@@ -13,6 +13,8 @@
 void glutBitmapString(void *font, char *str);
 #endif
 
+#define UNIT_TESTS 0
+
 #include "generated_directories.h"
 #include VECTOR_H
 #include CAMERA_H
