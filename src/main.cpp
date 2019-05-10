@@ -137,15 +137,20 @@ void specialUp(int key, int x, int y) {
 	  break;
   }
 }
-void keyboardUp(unsigned char key, int x, int y) {
-  keyboard::release(key);
-}
 
 void special(int key, int x, int y) {
   switch(key) {
 	  default:
 	  break;
   }
+}
+
+void keyboardUp(unsigned char key, int x, int y) {
+  keyboard::release(key);
+}
+
+void keyboard(unsigned char key, int x, int y) {
+  keyboard::hold(key);
 }
 
 void handle_keys() {
@@ -192,10 +197,6 @@ void handle_keys() {
   if(*keys & kb_c) {
 	  player_camera.position += v3d::Y * movement * time.delta;
   }
-}
-
-void keyboard(unsigned char key, int x, int y) {
-  keyboard::hold(key);
 }
 
 
