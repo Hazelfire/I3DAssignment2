@@ -5,5 +5,5 @@
 #define TIME_H "${SOURCE_DIR}/time/time.h"
 #define KEYBOARD_H "${SOURCE_DIR}/keyboard/keyboard.hpp"
 #define GAMEOBJECT_H "${SOURCE_DIR}/gameobject/gameobject.h"
-#define GAMEOBJECT_H "${SOURCE_DIR}/gameobject/gameobject.h"
+#define MESH_H "${SOURCE_DIR}/mesh/mesh.h"
 #define DEREFERENCE_IT_H "${SOURCE_DIR}/util/deref_it/dereference_iterator.h"
