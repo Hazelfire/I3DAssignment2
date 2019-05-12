@@ -47,12 +47,6 @@ class mesh {
 			return left.vertices[2] < right.vertices[2];
 		}
 	};
-// i don't think mesh should be an array of smart-pointers any more
-// arrays are good for caching, pointers nullify that effect
-#define USE_VEC_SMRT_PTR 0
-#if USE_VEC_SMRT_PTR
-	std::vector<std::unique_ptr<struct vertex>> vertices;
-#endif
 	// http://eel.is/c++draft/associative.reqmts#9
 	// "The insert and emplace members shall not affect the validity of iterators 
 	//   and references to the container, and the erase members shall invalidate 
@@ -65,9 +59,4 @@ class mesh {
 	public:
 		mesh(void);
 
-#if USE_VEC_SMRT_PTR
-		using DI = DereferenceIterator<std::vector<std::unique_ptr<struct vertex>>::iterator>;
-		DI begin();
-		DI end();
-#endif
 };
