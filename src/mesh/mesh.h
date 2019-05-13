@@ -79,7 +79,6 @@ class mesh {
 		using vert_cit = std::set<struct vertex>::const_iterator;
 		using vert_size_type = std::set<struct vertex>::size_type;
 
-		// NYI
 		std::pair<vert_cit,bool> insert_vertex( const struct vertex& value );
 		void insert_vertex(std::initializer_list<struct vertex> ilist);
 

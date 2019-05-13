@@ -3,10 +3,14 @@
 
 mesh::mesh(void): vertices() {}
 
-void mesh::test(void) {
-	std::set<struct vertex>::iterator asdf = vertices.begin();
-}
 
+// insert vertex
+std::pair<mesh::vert_cit,bool> mesh::insert_vertex(const struct vertex& value) {
+	return vertices.insert(value);
+}
+void mesh::insert_vertex(std::initializer_list<struct vertex> ilist) {
+	vertices.insert(ilist);
+}
 
 
 // get vertex iterator
