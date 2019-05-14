@@ -2,7 +2,7 @@
 # git config filter.indent.smudge "sed -s 's/^\(  \|\t\)*  /\1\t/g'"
 # git config filter.indent.clean "sed -s 's/^\(  \|\t\)*\t/\1  /g'"
 
-src/*.c filter=indent
-src/*.cpp filter=indent
-src/*.h filter=indent
-src/*.hpp filter=indent
+src/*/*.c filter=indent
+src/*/*.cpp filter=indent
+src/*/*.h filter=indent
+src/*/*.hpp filter=indent
