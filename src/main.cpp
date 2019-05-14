@@ -32,6 +32,9 @@ void display() {
 
   glColor3f(1,1,1);
 
+  Cube test(v3d(-0.5,1,-0.5), v3d(1,2,1));
+  test.draw();
+
   glBegin(GL_QUADS);
   glVertex3f(0,0,5);
   glVertex3f(0,0.5,5);

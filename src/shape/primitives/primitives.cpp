@@ -1,5 +1,6 @@
 #include "primitives.hpp"
 #include <cmath>
+#include <GL/gl.h>
 
 // Sphere
 Sphere::Sphere(v3d position, double radius): position(position), radius(radius) {};
@@ -62,8 +63,67 @@ bool Cube::collidesWith(Cylinder other){
 }
 
 void Cube::draw() const {
-	//NYI
-	position.draw();
+	//                                 |
+	//       2---------6               |
+	//      /|        /|               |
+	//     / |       / |    Y          |
+	//    /  |      /  |    |          |
+	//   3---------7   |    |          |
+	//   |   |     |   |    |          |
+	//   |   0-----|---4    *---X      |
+	//   |  /      |  /    /           |
+	//   | /       | /    /            |
+	//   |/        |/    Z             |
+	//   1---------5                   |
+	//                                 |
+	//                                 |
+	//     0---4---6---2               |
+	//     |   |   |   |               |
+	//     |   |   |   |               |
+	//     1---5---7---3---2---6       |
+	//             |   |   |   |       |
+	//             |   |   |   |       |
+	//             5---1---0---4       |
+	//                                 |
+
+	v3d points[8] = {
+		v3d(0,0,0),
+		v3d(0,0,1),
+		v3d(0,1,0),
+		v3d(0,1,1),
+		v3d(1,0,0),
+		v3d(1,0,1),
+		v3d(1,1,0),
+		v3d(1,1,1),
+	};
+	for(int i = 0; i < 8; i++) {
+		points[i] -= v3d::unit / 2;
+	}
+
+	glPushMatrix();
+	glTranslated(position.x, position.y, position.z);
+	glScaled(size.x, size.y, size.z);
+	glBegin(GL_QUAD_STRIP);
+	points[0].draw();
+	points[1].draw();
+	points[4].draw();
+	points[5].draw();
+	points[6].draw();
+	points[7].draw();
+	points[2].draw();
+	points[3].draw();
+	glEnd();
+	glBegin(GL_QUAD_STRIP);
+	points[7].draw();
+	points[5].draw();
+	points[3].draw();
+	points[1].draw();
+	points[2].draw();
+	points[0].draw();
+	points[6].draw();
+	points[4].draw();
+	glEnd();
+	glPopMatrix();
 }
 
 // Plane
