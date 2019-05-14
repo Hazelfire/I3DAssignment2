@@ -37,6 +37,15 @@ const v3d v3d::X = v3d(1,0,0);
 const v3d v3d::Y = v3d(0,1,0);
 const v3d v3d::Z = v3d(0,0,1);
 
+// distance
+double v3d::distance(const v3d& other) const{
+  return v3d::distance(*this, other);
+}
+
+double v3d::distance(const v3d& v1, const v3d& v2){
+  return sqrt ((v1.x - v2.x) *(v1.x - v2.x) + (v1.y - v2.y) *(v1.y - v2.y) + (v1.z - v2.z) *(v1.z - v2.z) );
+}
+
 // rotation
 v3d &v3d::rotate(double angle, const v3d &axis) {
   v3d perpendicular = v3d::reject(*this, axis);
