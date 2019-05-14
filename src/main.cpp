@@ -16,7 +16,7 @@ void update(void) {
 #if !USE_FREEGLUT
 void glutBitmapString(void *font, char *str) {
   for(int i = 0; str[i] != '\0'; i++) {
-	  glutBitmapCharacter(font, str[i]);
+    glutBitmapCharacter(font, str[i]);
   }
 }
 #endif
@@ -87,7 +87,7 @@ void display() {
   // print out errors
   int err;
   while ((err = glGetError()) != GL_NO_ERROR) {
-	  printf("display: %s\n", gluErrorString(err));
+    printf("display: %s\n", gluErrorString(err));
   }
 
 }
@@ -119,9 +119,9 @@ void mouse(int x, int y) {
   player_camera.rotation.y += 0.5 * dy;
 
   if(player_camera.rotation.y > 90) {
-	  player_camera.rotation.y = 90;
+    player_camera.rotation.y = 90;
   } else if(player_camera.rotation.y < -90) {
-	  player_camera.rotation.y = -90;
+    player_camera.rotation.y = -90;
   }
 
   last_x = x;
@@ -130,8 +130,8 @@ void mouse(int x, int y) {
 
 void specialUp(int key, int x, int y) {
   switch(key) {
-	  default:
-	  break;
+    default:
+    break;
   }
 }
 void keyboardUp(unsigned char key, int x, int y) {
@@ -140,8 +140,8 @@ void keyboardUp(unsigned char key, int x, int y) {
 
 void special(int key, int x, int y) {
   switch(key) {
-	  default:
-	  break;
+    default:
+    break;
   }
 }
 
@@ -172,22 +172,22 @@ void handle_keys() {
 #endif
 
   if(*keys & kb_w) {
-	  player_camera.position += forward * movement * time.delta;
+    player_camera.position += forward * movement * time.delta;
   }
   if(*keys & kb_s) {
-	  player_camera.position -= forward * movement * time.delta;
+    player_camera.position -= forward * movement * time.delta;
   }
   if(*keys & kb_d) {
-	  player_camera.position -= right * movement * time.delta;
+    player_camera.position -= right * movement * time.delta;
   }
   if(*keys & kb_a) {
-	  player_camera.position += right * movement * time.delta;
+    player_camera.position += right * movement * time.delta;
   }
   if(*keys & kb_space) {
-	  player_camera.position -= v3d::Y * movement * time.delta;
+    player_camera.position -= v3d::Y * movement * time.delta;
   }
   if(*keys & kb_c) {
-	  player_camera.position += v3d::Y * movement * time.delta;
+    player_camera.position += v3d::Y * movement * time.delta;
   }
 }
 
