@@ -12,7 +12,7 @@ set(GAME_SRC
   src/keyboard/keyboard.c
   src/keyboard/keyboard.cpp
 
-  src/primitives/primitives.cpp
+  src/shape/primitives/primitives.cpp
 	)
 
 set(GAME_HEADERS
@@ -23,13 +23,14 @@ set(GAME_HEADERS
   src/keyboard/keyboard.hpp
   src/keyboard/keyboard.h
 
-  src/primitives/primitives.hpp
+  src/shape/primitives/primitives.hpp
+  src/shape/shape.hpp
 	)
 
 set(GAME_TESTS
   src/vector/vector.test.cpp
 
-  src/primitives/primitives.test.cpp
+  src/shape/primitives/primitives.test.cpp
   src/testmain.cpp)
 
 
