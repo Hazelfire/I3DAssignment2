@@ -36,6 +36,50 @@ bool Sphere::collidesWith(Cylinder other){
 void Sphere::draw() const {
 	//NYI
 	position.draw();
+
+	//TODO use global tesselation value to determine slices and stacks
+	int stack_height = 4;
+	int slices = 4;
+
+	//                                 |
+	//                    ____z_____v1 |
+	//            /|     |         _/  |
+	//           / |     |       _/    |
+	//          /  |     |     _/      |
+	//       h1/   |   h1|   _/h2      |
+	//        /    |y    | _/          |
+	//       /     |     |/            |
+	//     v0______|    v0             |
+	//          x                      |
+	//                                 |
+	//                                 |
+	//                                 |
+	//                                 |
+	//                                 |
+	//                                 |
+	//                                 |
+
+	glPushMatrix();
+	glTranslated(position.x, position.y, position.z);
+	glScaled(size.x, size.y, size.z);
+	for(int slice = 0; slice < slices; slice++) {
+		glBegin(GL_TRIANGLE_FAN);
+		glVertex3f(0,0,radius);
+		
+		glEnd();
+	}
+	for(int stack = 0; stack < stack_height-2; stack++) {
+		for(int slice = 0; slice < 2; slice++) {
+			glBegin(GL_QUAD_STRIP);
+			glEnd();
+		}
+	}
+	for(int slice = 0; slice < slices; slice++) {
+		glBegin(GL_TRIANGLE_FAN);
+		glVertex3f(0,0,-1*radius);
+		glEnd();
+	}
+	glPopMatrix();
 }
 
 // Cube
