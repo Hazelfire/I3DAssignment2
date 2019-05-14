@@ -11,6 +11,7 @@ class Cube : public Shape{
 		bool collidesWith(Plane);
 		bool collidesWith(Cylinder);
 		bool collidesWith(Sphere);
+		void draw() const;
 };
 
 class Sphere : public Shape{
@@ -23,6 +24,7 @@ class Sphere : public Shape{
 		bool collidesWith(Cylinder);
 		bool collidesWith(Sphere);
 		double distance(Sphere);
+		void draw() const;
 };
 
 class Plane : public Shape{
@@ -33,6 +35,7 @@ class Plane : public Shape{
 		bool collidesWith(Plane);
 		bool collidesWith(Cylinder);
 		bool collidesWith(Sphere);
+		void draw() const;
 };
 
 class Cylinder : public Shape{
@@ -45,4 +48,5 @@ class Cylinder : public Shape{
 		bool collidesWith(Plane);
 		bool collidesWith(Cylinder);
 		bool collidesWith(Sphere);
+		void draw() const;
 };

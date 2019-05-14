@@ -1,6 +1,10 @@
 #include "vector.h"
 #include <cmath>
+#include <GL/gl.h>
 
+void v3d::draw() const {
+  glVertex3f(x,y,z);
+}
 
 bool test::rotate() {
   v3d forward;

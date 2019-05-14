@@ -32,6 +32,10 @@ bool Sphere::collidesWith(Cylinder other){
 	return insideX && insideLength;
 }
 
+void Sphere::draw() const {
+	//NYI
+	position.draw();
+}
 
 // Cube
 bool Cube::collidesWith(Sphere other){
@@ -57,6 +61,10 @@ bool Cube::collidesWith(Cylinder other){
 	return insideX && insideY && insideZ;
 }
 
+void Cube::draw() const {
+	//NYI
+	position.draw();
+}
 
 // Plane
 bool Plane::collidesWith(Sphere other){
@@ -73,6 +81,10 @@ bool Plane::collidesWith(Plane other){
 
 bool Plane::collidesWith(Cylinder other){
 	return other.position.y + other.radius > height && other.position.y - other.radius < height;
+}
+
+void Plane::draw() const {
+	//NYI
 }
 
 // Cylinder
@@ -96,4 +108,8 @@ bool Cylinder::collidesWith(Cylinder other){
 	bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
 	bool insideX = position.x + length / 2 > other.position.x - (other.length / 2) && position.x - length / 2 < other.position.x + (other.length / 2);
 	return insideX && insideLength;
+}
+
+void Cylinder::draw() const {
+	position.draw();//NYI
 }

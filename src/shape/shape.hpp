@@ -13,5 +13,7 @@ class Shape {
     virtual bool collidesWith(Cylinder) = 0;
     virtual bool collidesWith(Sphere) = 0;
     //virtual bool collidesWith(Mesh) = 0; NYI
+
+    virtual void draw() const = 0;
 };
 

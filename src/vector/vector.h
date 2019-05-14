@@ -21,6 +21,8 @@ class v3d {
     v3d(void);
     v3d(double x, double y, double z);
 
+    void draw() const;
+
     // static methods here do not modify the inputs
     // non-static versions modify the class its called on
 
