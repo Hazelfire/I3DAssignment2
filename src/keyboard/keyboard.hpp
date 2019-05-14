@@ -7,14 +7,14 @@ extern "C" {
 }
 
 class keyboard {
-	keyboard(void);
-	static std::unique_ptr<keyboard> instance;
+  keyboard(void);
+  static std::unique_ptr<keyboard> instance;
 
-	public:
-	enum keys held;
+  public:
+  enum keys held;
 
-	static const keyboard& get_instance();
+  static const keyboard& get_instance();
 
-	static void hold(char key);
-	static void release(char key);
+  static void hold(char key);
+  static void release(char key);
 };
