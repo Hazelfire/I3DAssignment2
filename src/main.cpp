@@ -32,8 +32,18 @@ void display() {
 
   glColor3f(1,1,1);
 
-  Cube test(v3d(-0.5,1,-0.5), v3d(1,2,1));
-  test.draw();
+#define DRAW_FILL 0
+#if DRAW_FILL
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#else
+  glPolygonMode(GL_BACK, GL_LINE);
+  glPolygonMode(GL_FRONT, GL_POINT);
+  glPointSize(10);
+#endif
+  Cube test_cube(v3d(-0.5,1,-0.5), v3d(1,2,1));
+  test_cube.draw();
+  Sphere test_sphere(v3d(2,2,2), 1);
+  test_sphere.draw();
 
   glBegin(GL_QUADS);
   glVertex3f(0,0,5);
