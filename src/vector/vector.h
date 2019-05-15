@@ -30,11 +30,11 @@ class v3d {
     v3d& cross(const v3d&);
     static v3d cross(v3d, const v3d&);
 
-    double length_squared();
-    static double length_squared(const v3d&);
+    double distance(const v3d&) const;
+    static double distance(const v3d&, const v3d&);
 
-    double length();
-    static double length(const v3d&);
+		double length_squared();
+		static double length_squared(const v3d&);
 
     v3d& normalise();
     static v3d normalise(v3d);

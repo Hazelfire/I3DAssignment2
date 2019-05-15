@@ -11,6 +11,8 @@ set(GAME_SRC
   src/time/time.cpp
   src/keyboard/keyboard.c
   src/keyboard/keyboard.cpp
+
+  src/primitives/primitives.cpp
 	)
 
 set(GAME_HEADERS
@@ -20,10 +22,14 @@ set(GAME_HEADERS
   src/time/time.h
   src/keyboard/keyboard.hpp
   src/keyboard/keyboard.h
+
+  src/primitives/primitives.hpp
 	)
 
 set(GAME_TESTS
   src/vector/vector.test.cpp
+
+  src/primitives/primitives.test.cpp
   src/testmain.cpp)
 
 
