@@ -35,7 +35,7 @@ class Plane : public Shape{
 		bool collidesWith(Plane);
 		bool collidesWith(Cylinder);
 		bool collidesWith(Sphere);
-		void draw() const;
+		void draw() const;//NYI
 };
 
 class Cylinder : public Shape{

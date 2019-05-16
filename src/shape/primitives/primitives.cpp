@@ -41,12 +41,12 @@ void Sphere::draw() const {
 	// TODO set n from global tessalation value
 	const int n = 8;
 	const int slices=n, stacks=n;
-	float step_phi = M_PI / stacks;
+	double step_phi = M_PI / stacks;
 
 
 	// start of sphere...
 	// simplified case, since the pole stays the same
-	if(1) {
+	{
 		glBegin(GL_TRIANGLE_FAN);
 		double sin_phi_step = sinf(step_phi);
 		double cos_phi_step = cosf(step_phi);
@@ -55,8 +55,8 @@ void Sphere::draw() const {
 
 		// end point is the same as the start point...
 		// needs to be drawn twice
-		for (int i = 0; i <= slices; i++) {
-			double theta = i / (float)slices * 2.0 * M_PI;
+		for(int i = 0; i <= slices; i++) {
+			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
 			v3d(sin_phi_step * cos_theta,
@@ -70,7 +70,7 @@ void Sphere::draw() const {
 #if 1
 	// middle of sphere
 	for (int j = 1; j < stacks-1; j++) {
-		double phi = j / (float)stacks * M_PI;
+		double phi = j / (double)stacks * M_PI;
 		glBegin(GL_QUAD_STRIP);
 		double sin_phi = sinf(phi);
 		double sin_phi_step = sinf(phi+step_phi);
@@ -78,7 +78,7 @@ void Sphere::draw() const {
 		double cos_phi_step = cosf(phi+step_phi);
 
 		for (int i = 0; i <= slices; i++) {
-			double theta = i / (float)slices * 2.0 * M_PI;
+			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
 			v3d(sin_phi * cos_theta,
@@ -95,8 +95,8 @@ void Sphere::draw() const {
 
 	// end of sphere...
 	// simplified case, since the pole stays the same
-	if(1) {
-		double phi = (stacks-1) / (float)stacks * M_PI;
+	{
+		double phi = (stacks-1) / (double)stacks * M_PI;
 		glBegin(GL_TRIANGLE_FAN);
 		double sin_phi = sinf(phi);
 		double cos_phi = cosf(phi);
@@ -105,7 +105,7 @@ void Sphere::draw() const {
 		// end point is the same as the start point...
 		// needs to be drawn twice
 		for (int i = slices; i >= 0; i--) {
-			double theta = i / (float)slices * 2.0 * M_PI;
+			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
 			v3d(sin_phi * cos_theta,
@@ -250,5 +250,87 @@ bool Cylinder::collidesWith(Cylinder other){
 }
 
 void Cylinder::draw() const {
-	position.draw();//NYI
+	glPushMatrix();
+	glTranslated(position.x, position.y, position.z);
+	glScaled(radius, radius, length);
+
+	// TODO set n from global tessalation value
+	const int n = 8;
+	const int slices=n, stacks=n;
+
+	// for some reason, there is an artifact on the inside of the cylinder
+	// in the non-stack mode.
+	// not quite sure why. since turning on CYLINDER_COLOUR makes the
+	// artifact go away
+#define CYLINDER_COLOUR 0
+#if CYLINDER_COLOUR
+	glColor3f(0,1,1);
+#endif
+
+	// start of cylinder...
+	// simplified case, since the pole stays the same
+	{
+		glBegin(GL_POLYGON);
+
+		for(int i = 0; i < slices; i++) {
+			double theta = i / (double)slices * 2.0 * M_PI;
+			double cos_theta = cosf(theta);
+			double sin_theta = sinf(theta);
+			v3d(cos_theta, sin_theta, 0.5).draw();
+		}
+		glEnd();
+	}
+
+#if CYLINDER_COLOUR
+	glColor3f(1, 1,1);
+#endif
+
+#define CYLINDER_USE_STACKS 0
+#if CYLINDER_USE_STACKS
+	// middle of cylinder
+	for(int j = 0; j < stacks; j++) {
+		double zpos = (double)j / stacks - 0.5;
+		double step = 1.0 / stacks;
+		glBegin(GL_QUAD_STRIP);
+
+		for(int i = 0; i <= slices; i++) {
+			double theta = i / (double)slices * 2.0 * M_PI;
+			double cos_theta = cosf(theta);
+			double sin_theta = sinf(theta);
+			v3d(cos_theta, sin_theta, zpos+step).draw();
+			v3d(cos_theta, sin_theta, zpos).draw();
+		}
+		glEnd();
+	}
+#else
+	glBegin(GL_QUAD_STRIP);
+	for(int i = 0; i <= slices; i++) {
+		double theta = i / (double)slices * 2.0 * M_PI;
+		double cos_theta = cosf(theta);
+		double sin_theta = sinf(theta);
+		v3d(cos_theta, sin_theta, 0.5).draw();
+		v3d(cos_theta, sin_theta, -0.5).draw();
+	}
+	glEnd();
+#endif
+
+#if CYLINDER_COLOUR
+	glColor3f(1, 0.1,0.1);
+#endif
+
+	// end of cylinder...
+	// simplified case, since the pole stays the same
+	if(1) {
+		glBegin(GL_POLYGON);
+
+		// reverse order, so that the end is facing outwards
+		for (int i = slices; i > 0; i--) {
+			double theta = i / (double)slices * 2.0 * M_PI;
+			double cos_theta = cosf(theta);
+			double sin_theta = sinf(theta);
+			v3d(cos_theta, sin_theta, -0.5).draw();
+		}
+		glEnd();
+	}
+	glPopMatrix();
 }

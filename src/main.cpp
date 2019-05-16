@@ -40,10 +40,12 @@ void display() {
   glPolygonMode(GL_FRONT, GL_POINT);
   glPointSize(10);
 #endif
-  Cube test_cube(v3d(-0.5,1,-0.5), v3d(1,2,1));
+  Cube test_cube(v3d(-0.5,3,-0.5), v3d(1,2,1));
   test_cube.draw();
-  Sphere test_sphere(v3d(2,2,2), 1);
+  Sphere test_sphere(v3d(0,2,1), 1);
   test_sphere.draw();
+  Cylinder test_cylinder(v3d(0.5,0.5,1), 0.5, 2);
+  test_cylinder.draw();
 
   glBegin(GL_QUADS);
   glVertex3f(0,0,5);
