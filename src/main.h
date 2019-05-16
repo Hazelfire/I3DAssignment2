@@ -19,6 +19,8 @@ void glutBitmapString(void *font, char *str);
 #include "keyboard/keyboard.hpp"
 #include "keyboard/keyboard.h"
 #include "shape/primitives/primitives.hpp"
+#include <cmath>
+
 #define UNIT_TESTS 0
 
 camera player_camera;
