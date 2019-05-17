@@ -101,6 +101,7 @@ void display() {
   glEnd();
 #endif
 
+  glDisable(GL_LIGHTING);
   //X axis
   glBegin(GL_LINES);
   glColor3f(1,0,0);
@@ -119,6 +120,7 @@ void display() {
   glVertex3f(0,0,0);
   glVertex3f(0,0,1);
   glEnd();
+  glEnable(GL_LIGHTING);
 
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   //glPolygonMode(GL_BACK, GL_LINE);
@@ -127,6 +129,8 @@ void display() {
   double tangent_diff = 0.001;
 
   glColor3f(1, 1, 0);
+#define DRAW_SIN_NORMALS 0
+#if DRAW_SIN_NORMALS
   glBegin(GL_LINES);
   for(int row = 0; row < numverts; row++) {
     for(int col = 0; col < numverts; col++) {
@@ -143,6 +147,7 @@ void display() {
     }
   }
   glEnd();
+#endif
   
   for(int row = 0; row < numverts; row++) {
     glColor3f((row+1) / (double)numverts, 1, 1);
