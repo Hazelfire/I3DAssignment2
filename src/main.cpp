@@ -25,18 +25,39 @@ void glutBitmapString(void *font, char *str) {
 void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
+  glPushMatrix();
 
-  /*
+
   glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glLightf(GL_LIGHT0, GL_POSITION, 1,1,1,0);
-  */
+
+  float shininess = 0;
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 
   // camera
-  glPushMatrix();
+  // anything before here is relative to the camera
   player_camera.move_to();
+  // anything after here is relative to the world
 
   glColor3f(1,1,1);
+
+  glEnable(GL_LIGHT0);
+  float light_pos[] = {5,3,5,0};
+  glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
+  Sphere sun(v3d(light_pos[0],light_pos[1],light_pos[2]), 0.2);
+
+  glDisable(GL_LIGHTING);
+  sun.draw();
+  glEnable(GL_LIGHTING);
+
+
+
+#if 0
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, 1/*index of texture, returned by loading function*/);
+  // give this for every vertex
+  // normal and tex coord should be before the glvert call
+  glTexCoord2d(/*u[0,1]*/0, /*v[0,1]*/0);
+#endif
 
 #define DRAW_FILL 1
 #if DRAW_FILL
@@ -99,7 +120,7 @@ void display() {
   glVertex3f(0,0,1);
   glEnd();
 
-  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   //glPolygonMode(GL_BACK, GL_LINE);
   int numverts = 20;
   double x_max = 2*PI;
@@ -127,8 +148,27 @@ void display() {
     glColor3f((row+1) / (double)numverts, 1, 1);
     glBegin(GL_QUAD_STRIP);
     for(int col = 0; col < numverts; col++) {
-      glVertex3f(row, sinf(col * x_max/numverts), col);
-      glVertex3f(row+1, sinf(col * x_max/numverts), col);
+      v3d current = v3d(row, sinf(col * x_max/numverts), col);
+      v3d next = v3d(row+1, sinf(col * x_max/numverts), col);
+
+      //normals
+      v3d current_beside = v3d(row, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
+      v3d tangent = current - current_beside;
+      v3d normal = v3d::cross(tangent, current - next).normalise()*0.3;
+      if(normal.dot(v3d::Y) < 0)
+        normal *= -1;
+
+      // normals 2
+      v3d current_beside2 = v3d(row+1, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
+      v3d tangent2 = next - current_beside2;
+      v3d normal2 = v3d::cross(tangent, current - next).normalise()*0.3;
+      if(normal2.dot(v3d::Y) < 0)
+        normal2 *= -1;
+
+      glNormal3f(normal.x, normal.y, normal.z);
+      current.draw();
+      glNormal3f(normal2.x, normal2.y, normal2.z);
+      next.draw();
     }
     glEnd();
   }
@@ -275,6 +315,7 @@ void init() {
 
 int main(int argc, char **argv) {
   glutInit(&argc, argv);
+  // load textures here
 #if VSYNC
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 #else
