@@ -202,6 +202,9 @@ void Cube::draw() const {
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
+#define CUBE_USE_STRIPS 0
+	// can't use strips for cube lighting, since the 
+#if CUBE_USE_STRIPS
 	glBegin(GL_QUAD_STRIP);
 	points[1].draw();
 	points[0].draw();
@@ -222,6 +225,71 @@ void Cube::draw() const {
 	points[4].draw();
 	points[6].draw();
 	glEnd();
+#else
+	glBegin(GL_QUADS);
+	{
+		//+x
+		v3d::X.glNormal();
+		points[4].glVertex();
+		v3d::X.glNormal();
+		points[5].glVertex();
+		v3d::X.glNormal();
+		points[7].glVertex();
+		v3d::X.glNormal();
+		points[6].glVertex();
+		
+		//-x
+		(-1*v3d::X).glNormal();
+		points[0].glVertex();
+		(-1*v3d::X).glNormal();
+		points[1].glVertex();
+		(-1*v3d::X).glNormal();
+		points[3].glVertex();
+		(-1*v3d::X).glNormal();
+		points[2].glVertex();
+	}
+	{
+		//+y
+		v3d::Y.glNormal();
+		points[2].glVertex();
+		v3d::Y.glNormal();
+		points[3].glVertex();
+		v3d::Y.glNormal();
+		points[7].glVertex();
+		v3d::Y.glNormal();
+		points[6].glVertex();
+		//-y
+		(-1*v3d::Y).glNormal();
+		points[0].glVertex();
+		(-1*v3d::Y).glNormal();
+		points[1].glVertex();
+		(-1*v3d::Y).glNormal();
+		points[5].glVertex();
+		(-1*v3d::Y).glNormal();
+		points[4].glVertex();
+	}
+	{
+		//+z
+		v3d::Z.glNormal();
+		points[1].glVertex();
+		v3d::Z.glNormal();
+		points[3].glVertex();
+		v3d::Z.glNormal();
+		points[7].glVertex();
+		v3d::Z.glNormal();
+		points[5].glVertex();
+		//-z
+		(-1*v3d::Z).glNormal();
+		points[0].glVertex();
+		(-1*v3d::Z).glNormal();
+		points[2].glVertex();
+		(-1*v3d::Z).glNormal();
+		points[6].glVertex();
+		(-1*v3d::Z).glNormal();
+		points[4].glVertex();
+	}
+	glEnd();
+#endif
 	glPopMatrix();
 }
 

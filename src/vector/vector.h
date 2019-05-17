@@ -21,7 +21,9 @@ class v3d {
     v3d(void);
     v3d(double x, double y, double z);
 
-    void draw() const;
+    void draw() const; //deprecated
+    void glVertex() const;
+    void glNormal() const;
 
     // static methods here do not modify the inputs
     // non-static versions modify the class its called on

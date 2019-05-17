@@ -5,6 +5,12 @@
 void v3d::draw() const {
   glVertex3f(x,y,z);
 }
+void v3d::glVertex() const {
+  glVertex3f(x,y,z);
+}
+void v3d::glNormal() const {
+  glNormal3f(x,y,z);
+}
 
 bool test::rotate() {
   v3d forward;
