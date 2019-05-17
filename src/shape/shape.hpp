@@ -5,6 +5,7 @@ class Sphere;
 class Cylinder;
 class Plane;
 class Mesh;
+class Function;
 
 class Shape {
   public:
@@ -13,6 +14,7 @@ class Shape {
     virtual bool collidesWith(Cylinder) = 0;
     virtual bool collidesWith(Sphere) = 0;
     //virtual bool collidesWith(Mesh) = 0; NYI
+    //virtual bool collidesWith(Function) = 0; NYI
 
     virtual void draw() const = 0;
 };

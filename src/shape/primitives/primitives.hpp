@@ -14,6 +14,19 @@ class Cube : public Shape{
 		void draw() const;
 };
 
+class function : public Shape {
+	public:
+		function(v3d position, v3d size): position(position), size(size){};
+		v3d position;
+		v3d size;
+		virtual double f(double x, double y) const = 0;
+		bool collidesWith(Cube);
+		bool collidesWith(Plane);
+		bool collidesWith(Cylinder);
+		bool collidesWith(Sphere);
+		void draw() const;
+};
+
 class Sphere : public Shape{
 	public:
 		Sphere(v3d, double);
