@@ -117,7 +117,27 @@ void Sphere::draw() const {
 	glPopMatrix();
 }
 
+// Function
+//Function::Function(v3d position, v3d size): position(position), size(size) {};
+
+void Function::draw() const {
+	glPushMatrix();
+	glTranslated(position.x, position.y, position.z);
+	glScaled(size.x, size.y, size.z);
+
+	// TODO set n from global tessalation value
+	const int n = 8;
+
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++) {
+		}
+	}
+	glPopMatrix();
+}
+
+
 // Cube
+Cube::Cube(v3d position, v3d size): position(position), size(size){};
 bool Cube::collidesWith(Sphere other){
 	return other.collidesWith(*this);
 }
@@ -227,7 +247,7 @@ void Plane::draw() const {
 }
 
 // Cylinder
-
+Cylinder::Cylinder(v3d position, double radius, double length): position(position), radius(radius), length(length) {};
 
 bool Cylinder::collidesWith(Sphere other){
 	return other.collidesWith(*this);

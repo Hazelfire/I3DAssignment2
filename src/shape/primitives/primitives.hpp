@@ -4,7 +4,7 @@
 
 class Cube : public Shape{
 	public:
-		Cube(v3d position, v3d size): position(position), size(size){};
+		Cube(v3d position, v3d size);
 		v3d position;
 		v3d size;
 		bool collidesWith(Cube);
@@ -14,16 +14,19 @@ class Cube : public Shape{
 		void draw() const;
 };
 
-class function : public Shape {
+class Function : public Shape {
 	public:
-		function(v3d position, v3d size): position(position), size(size){};
+		// is is possible to put the implemmentation in the cpp file?
+		Function(v3d position, v3d size): position(position), size(size) {};
+		//Function(v3d position, v3d size);
 		v3d position;
 		v3d size;
-		virtual double f(double x, double y) const = 0;
-		bool collidesWith(Cube);
-		bool collidesWith(Plane);
-		bool collidesWith(Cylinder);
-		bool collidesWith(Sphere);
+		virtual double f(double x, double z) const = 0;
+		virtual double df(double x, double z) const = 0;
+		bool collidesWith(Cube);//NYI
+		bool collidesWith(Plane);//NYI
+		bool collidesWith(Cylinder);//NYI
+		bool collidesWith(Sphere);//NYI
 		void draw() const;
 };
 
@@ -53,7 +56,7 @@ class Plane : public Shape{
 
 class Cylinder : public Shape{
 	public:
-		Cylinder(v3d position, double radius, double length): position(position), radius(radius), length(length) {};
+		Cylinder(v3d position, double radius, double length);
 		v3d position;
 		double radius;
 		double length;

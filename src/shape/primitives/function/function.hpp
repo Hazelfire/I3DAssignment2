@@ -1,5 +1,6 @@
 #include "../primitives.hpp"
 
-class simple_sin : public function {
-	double f(double x, double y);
+class Simple_Sin : public Function {
+	double f(double x, double z);
+	double df(double x, double z);
 }

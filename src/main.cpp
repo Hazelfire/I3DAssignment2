@@ -26,19 +26,30 @@ void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
 
+  /*
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightf(GL_LIGHT0, GL_POSITION, 1,1,1,0);
+  */
+
   // camera
   glPushMatrix();
   player_camera.move_to();
 
   glColor3f(1,1,1);
 
-#define DRAW_FILL 0
+#define DRAW_FILL 1
 #if DRAW_FILL
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#else
+#define WIREFRAME 1
+#if WIREFRAME
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #else
   glPolygonMode(GL_BACK, GL_LINE);
   glPolygonMode(GL_FRONT, GL_POINT);
   glPointSize(10);
+#endif
 #endif
   Cube test_cube(v3d(-0.5,3,-0.5), v3d(1,2,1));
   test_cube.draw();
@@ -98,16 +109,16 @@ void display() {
   glBegin(GL_LINES);
   for(int row = 0; row < numverts; row++) {
     for(int col = 0; col < numverts; col++) {
-    v3d current = v3d(row, sinf(col * x_max/numverts), col);
-    v3d next = v3d(row+1, sinf(col * x_max/numverts), col);
-    v3d current_beside = v3d(row, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
-    v3d tangent = current - current_beside;
-    v3d normal = v3d::cross(tangent, current - next).normalise()*0.3;
-    if(normal.dot(v3d::Y) < 0)
-    normal *= -1;
-    normal += current;
-    glVertex3f(current.x, current.y, current.z);
-    glVertex3f(normal.x, normal.y, normal.z);
+      v3d current = v3d(row, sinf(col * x_max/numverts), col);
+      v3d next = v3d(row+1, sinf(col * x_max/numverts), col);
+      v3d current_beside = v3d(row, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
+      v3d tangent = current - current_beside;
+      v3d normal = v3d::cross(tangent, current - next).normalise()*0.3;
+      if(normal.dot(v3d::Y) < 0)
+        normal *= -1;
+      normal += current;
+      glVertex3f(current.x, current.y, current.z);
+      glVertex3f(normal.x, normal.y, normal.z);
     }
   }
   glEnd();
@@ -116,8 +127,8 @@ void display() {
     glColor3f((row+1) / (double)numverts, 1, 1);
     glBegin(GL_QUAD_STRIP);
     for(int col = 0; col < numverts; col++) {
-    glVertex3f(row, sinf(col * x_max/numverts), col);
-    glVertex3f(row+1, sinf(col * x_max/numverts), col);
+      glVertex3f(row, sinf(col * x_max/numverts), col);
+      glVertex3f(row+1, sinf(col * x_max/numverts), col);
     }
     glEnd();
   }
