@@ -13,8 +13,17 @@
 void glutBitmapString(void *font, char *str);
 #endif
 
-#include "generated_directories.h"
-#include VECTOR_H
-#include CAMERA_H
+#include "vector/vector.h"
+#include "camera/camera.h"
+#include "time/time.h"
+#include "keyboard/keyboard.hpp"
+#include "keyboard/keyboard.h"
+#include "shape/primitives/primitives.hpp"
+#include <cmath>
+
+#define UNIT_TESTS 0
 
 camera player_camera;
+
+
+void handle_keys();

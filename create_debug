@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mkdir build
+rm -rf build/*
+cd build
+# add debugging symbols in gcc
+cmake -DCMAKE_BUILD_TYPE=Debug ..
