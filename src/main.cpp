@@ -10,7 +10,7 @@ void update(void) {
 #if !USE_FREEGLUT
 void glutBitmapString(void *font, char *str) {
   for(int i = 0; str[i] != '\0'; i++) {
-	  glutBitmapCharacter(font, str[i]);
+    glutBitmapCharacter(font, str[i]);
   }
 }
 #endif
@@ -46,7 +46,7 @@ void display() {
   // print out errors
   int err;
   while ((err = glGetError()) != GL_NO_ERROR) {
-	  printf("display: %s\n", gluErrorString(err));
+    printf("display: %s\n", gluErrorString(err));
   }
 
 }
@@ -68,28 +68,28 @@ void mouseMotion(int x, int y) {
 
 void specialUp(int key, int x, int y) {
   switch(key) {
-	  default:
-	  break;
+    default:
+    break;
   }
 }
 void keyboardUp(unsigned char key, int x, int y) {
   switch(key) {
-	  default:
-	  break;
+    default:
+    break;
   }
 }
 
 void special(int key, int x, int y) {
   switch(key) {
-	  default:
-	  break;
+    default:
+    break;
   }
 }
 
 void keyboard(unsigned char key, int x, int y) {
   switch(key) {
-	  default:
-	  break;
+    default:
+    break;
   }
 }
 
