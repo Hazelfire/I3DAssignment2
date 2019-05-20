@@ -2,11 +2,21 @@
 #include <cmath>
 #include <GL/gl.h>
 
-/*
 void v3d::draw() const {
+  glBegin(GL_LINES);
+  glVertex3f(0,0,0);
   glVertex3f(x,y,z);
+  glEnd();
 }
-*/
+
+void v3d::draw(double x, double y, double z) const {
+  glBegin(GL_LINES);
+  glTranslated(x, y, z);
+  glVertex3f(0,0,0);
+  glVertex3f(this->x,this->y,this->z);
+  glEnd();
+}
+
 void v3d::glVertex() const {
   glVertex3f(x,y,z);
 }
