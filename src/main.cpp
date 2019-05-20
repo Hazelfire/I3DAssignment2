@@ -88,7 +88,7 @@ void display() {
 
   glDisable(GL_LIGHTING);
   glColor3f(1,1,1);
-  Simple_Sin test_func(v3d(0,0,0), v3d(1,1,1));
+  Sin_and_Cos test_func(v3d(0,0,0), v3d(1,1,1));
   test_func.draw();
 #if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);

@@ -152,10 +152,9 @@ void Function::draw() const {
 		double x = (double)i / n - 0.5;
 		for(int j = 0; j < n; j++) {
 			double z = (double)j / n - 0.5;
-			v3d(x, f(x*5, z), z).glVertex();
-			y_vals[i][j] = f(x*5, z);
-			dy_x_vals[i][j] = df_x(x*5, z);
-			dy_z_vals[i][j] = df_z(x*5, z);
+			y_vals[i][j] = f(x, z);
+			dy_x_vals[i][j] = df_x(x, z);
+			dy_z_vals[i][j] = df_z(x, z);
 		}
 	}
 
@@ -168,29 +167,29 @@ void Function::draw() const {
 		for(int j = 0; j < n; j++) {
 			double z = (double)j / n - 0.5;
 
-			/*
 			glColor3f(1,0,0);
 			v3d(x, 0, z).glVertex();
 			v3d(x, y_vals[i][j], z).glVertex();
-			*/
+
+			/*
+			 * tangent of f(x) at x=a
+			 * f(x)
+			 * g(x) = d/dx f(x)
+			 * b = f(a)
+			 *
+			 * tangent equation:
+			 *   y = g(a)x + (b - g(a) * a)
+			 */
 
 			glColor3f(0,1,0);
 			v3d(x, y_vals[i][j], z).glVertex();
-			/*
-			v3d(x, dy_x_vals[i][j], z).glVertex();
-			y = mx+b;
-			y = dy_x_vals[i][j] * x + b;
-			b = y - dy_x_vals[i][j] * x;
-			*/
-			(v3d(x + 1, dy_x_vals[i][j] * x + (y_vals[i][j] - dy_x_vals[i][j] * x), z)).glVertex();
+			double new_x = x + 1.0/n;
+			v3d(new_x, dy_x_vals[i][j] * new_x + (y_vals[i][j] - dy_x_vals[i][j] * x), z).glVertex();
 
-			
 			glColor3f(0,0,1);
 			v3d(x, y_vals[i][j], z).glVertex();
-			/*
-			v3d(x, dy_z_vals[i][j], z).glVertex();
-			*/
-			(v3d(x, dy_z_vals[i][j] * z + (y_vals[i][j] - dy_z_vals[i][j] * z), z + 1)).glVertex();
+			double new_z = z + 1.0/n;
+			v3d(x, dy_z_vals[i][j] * new_z + (y_vals[i][j] - dy_z_vals[i][j] * z), new_z).glVertex();
 		}
 	}
 	glEnd();
