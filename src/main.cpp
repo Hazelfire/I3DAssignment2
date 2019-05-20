@@ -27,7 +27,7 @@ void display() {
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
 
-#define ENABLE_LIGHTING 0
+#define ENABLE_LIGHTING 1
 
 #if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
@@ -44,7 +44,7 @@ void display() {
   glColor3f(1,1,1);
 
   glEnable(GL_LIGHT0);
-  float light_pos[] = {5,3,5,0};
+  float light_pos[] = {-1,2,1,0};
   glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
   Sphere sun(v3d(light_pos[0],light_pos[1],light_pos[2]), 0.2);
 
@@ -88,11 +88,11 @@ void display() {
 
   glDisable(GL_LIGHTING);
   glColor3f(1,1,1);
-  Sin_and_Cos test_func(v3d(0,0,0), v3d(1,1,1));
-  test_func.draw();
 #if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
 #endif
+  Sin_and_Cos test_func(v3d(0,0,0), v3d(1,1,1));
+  test_func.draw();
 
 #define DRAW_3_SQUARES 0
 #if DRAW_3_SQUARES

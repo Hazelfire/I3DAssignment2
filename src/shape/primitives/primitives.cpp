@@ -145,31 +145,20 @@ void Function::draw() const {
 	// TODO set n from global tessalation value
 	const int n = 20;
 	double y_vals[n][n];
-	double dy_x_vals[n][n];
-	double dy_z_vals[n][n];
+	v3d normals[n][n];
+	v3d x_tan[n][n];
+	v3d z_tan[n][n];
 
 	for(int i = 0; i < n; i++) {
 		double x = (double)i / n - 0.5;
 		for(int j = 0; j < n; j++) {
 			double z = (double)j / n - 0.5;
 			y_vals[i][j] = f(x, z);
-			dy_x_vals[i][j] = df_x(x, z);
-			dy_z_vals[i][j] = df_z(x, z);
-		}
-	}
+			double dy_x = df_x(x, z);
+			double dy_z = df_z(x, z);
 
 
-	//glBegin(GL_QUAD_STRIP);
-	glBegin(GL_LINES);
-	//glBegin(GL_POINTS);
-	for(int i = 0; i < n; i++) {
-		double x = (double)i / n - 0.5;
-		for(int j = 0; j < n; j++) {
-			double z = (double)j / n - 0.5;
-
-			glColor3f(1,0,0);
-			v3d(x, 0, z).glVertex();
-			v3d(x, y_vals[i][j], z).glVertex();
+			v3d current(x, y_vals[i][j], z);
 
 			/*
 			 * tangent of f(x) at x=a
@@ -181,18 +170,64 @@ void Function::draw() const {
 			 *   y = g(a)x + (b - g(a) * a)
 			 */
 
-			glColor3f(0,1,0);
-			v3d(x, y_vals[i][j], z).glVertex();
 			double new_x = x + 1.0/n;
-			v3d(new_x, dy_x_vals[i][j] * new_x + (y_vals[i][j] - dy_x_vals[i][j] * x), z).glVertex();
+			v3d x_next = v3d(new_x, dy_x * new_x + (y_vals[i][j] - dy_x * x), z) - current;
+			x_tan[i][j] = x_next + current;
 
-			glColor3f(0,0,1);
-			v3d(x, y_vals[i][j], z).glVertex();
 			double new_z = z + 1.0/n;
-			v3d(x, dy_z_vals[i][j] * new_z + (y_vals[i][j] - dy_z_vals[i][j] * z), new_z).glVertex();
+			v3d z_next = v3d(x, dy_z * new_z + (y_vals[i][j] - dy_z * z), new_z) - current;
+			z_tan[i][j] = z_next + current;
+
+			// TODO: check if the 2 vectors are already the same length, and if they can be easily normalised
+			v3d normal = v3d::cross(v3d::normalise(z_next), v3d::normalise(x_next)).normalise();
+			normals[i][j] = normal;
+		}
+	}
+
+
+	//glBegin(GL_POINTS);
+	for(int i = 0; i < n-1; i++) {
+		glBegin(GL_QUAD_STRIP);
+		double x = (double)i / n - 0.5;
+		for(int j = 0; j < n; j++) {
+			double z = (double)j / n - 0.5;
+
+			normals[i][j].glNormal();
+			v3d(x, y_vals[i][j], z).glVertex();
+
+			normals[i+1][j].glNormal();
+			v3d(x + 1.0/n, y_vals[i+1][j], z).glVertex();
+		}
+		glEnd();
+	}
+
+#if DRAW_FUNCTION_NORMALS
+	glDisable(GL_LIGHTING);
+	glBegin(GL_LINES);
+	for(int i = 0; i < n; i++) {
+		double x = (double)i / n - 0.5;
+		for(int j = 0; j < n; j++) {
+			double z = (double)j / n - 0.5;
+
+			// draw normals
+			glColor3f(0,1,0);
+			v3d current(x, y_vals[i][j], z);
+			current.glVertex();
+			(current + normals[i][j] * 1.0/n).glVertex();
+
+			// draw x tangents
+			glColor3f(1,0,0);
+			current.glVertex();
+			x_tan[i][j].glVertex();
+
+			// draw z tangents
+			glColor3f(0,0,1);
+			current.glVertex();
+			z_tan[i][j].glVertex();
 		}
 	}
 	glEnd();
+#endif
 	glPopMatrix();
 }
 
