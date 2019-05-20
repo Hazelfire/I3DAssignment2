@@ -22,7 +22,8 @@ class Function : public Shape {
 		v3d position;
 		v3d size;
 		virtual double f(double x, double z) const = 0;
-		virtual double df(double x, double z) const = 0;
+		virtual double df_x(double x, double z) const = 0;//dy/dx
+		virtual double df_z(double x, double z) const = 0;//dy/dz
 		bool collidesWith(Cube);//NYI
 		bool collidesWith(Plane);//NYI
 		bool collidesWith(Cylinder);//NYI

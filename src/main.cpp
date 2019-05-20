@@ -27,8 +27,11 @@ void display() {
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
 
+#define ENABLE_LIGHTING 0
 
+#if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
+#endif
 
   float shininess = 0;
   glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
@@ -47,7 +50,9 @@ void display() {
 
   glDisable(GL_LIGHTING);
   sun.draw();
+#if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
+#endif
 
 
 
@@ -72,12 +77,22 @@ void display() {
   glPointSize(10);
 #endif
 #endif
+  /*
   Cube test_cube(v3d(-0.5,3,-0.5), v3d(1,2,1));
   test_cube.draw();
   Sphere test_sphere(v3d(0,2,1), 1);
   test_sphere.draw();
   Cylinder test_cylinder(v3d(0.5,0.5,1), 0.5, 2);
   test_cylinder.draw();
+  */
+
+  glDisable(GL_LIGHTING);
+  glColor3f(1,1,1);
+  Simple_Sin test_func(v3d(0,0,0), v3d(1,1,1));
+  test_func.draw();
+#if ENABLE_LIGHTING
+  glEnable(GL_LIGHTING);
+#endif
 
 #define DRAW_3_SQUARES 0
 #if DRAW_3_SQUARES
@@ -120,7 +135,9 @@ void display() {
   glVertex3f(0,0,0);
   glVertex3f(0,0,1);
   glEnd();
+#if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
+#endif
 
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   //glPolygonMode(GL_BACK, GL_LINE);
@@ -129,6 +146,9 @@ void display() {
   double tangent_diff = 0.001;
 
   glColor3f(1, 1, 0);
+
+#define DRAW_SIN 0
+#if DRAW_SIN
 #define DRAW_SIN_NORMALS 0
 #if DRAW_SIN_NORMALS
   glBegin(GL_LINES);
@@ -177,6 +197,7 @@ void display() {
     }
     glEnd();
   }
+#endif
 
 
   glPopMatrix();

@@ -119,19 +119,81 @@ void Sphere::draw() const {
 
 // Function
 //Function::Function(v3d position, v3d size): position(position), size(size) {};
+bool Function::collidesWith(Cube other){
+	return false;
+}
+
+bool Function::collidesWith(Plane other){
+	return false;
+}
+
+bool Function::collidesWith(Cylinder other){
+	return false;
+}
+
+bool Function::collidesWith(Sphere other){
+	return false;
+}
 
 void Function::draw() const {
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
 
+	//glBegin(GL_POINTS);
+
 	// TODO set n from global tessalation value
-	const int n = 8;
+	const int n = 20;
+	double y_vals[n][n];
+	double dy_x_vals[n][n];
+	double dy_z_vals[n][n];
 
 	for(int i = 0; i < n; i++) {
+		double x = (double)i / n - 0.5;
 		for(int j = 0; j < n; j++) {
+			double z = (double)j / n - 0.5;
+			v3d(x, f(x*5, z), z).glVertex();
+			y_vals[i][j] = f(x*5, z);
+			dy_x_vals[i][j] = df_x(x*5, z);
+			dy_z_vals[i][j] = df_z(x*5, z);
 		}
 	}
+
+
+	//glBegin(GL_QUAD_STRIP);
+	glBegin(GL_LINES);
+	//glBegin(GL_POINTS);
+	for(int i = 0; i < n; i++) {
+		double x = (double)i / n - 0.5;
+		for(int j = 0; j < n; j++) {
+			double z = (double)j / n - 0.5;
+
+			/*
+			glColor3f(1,0,0);
+			v3d(x, 0, z).glVertex();
+			v3d(x, y_vals[i][j], z).glVertex();
+			*/
+
+			glColor3f(0,1,0);
+			v3d(x, y_vals[i][j], z).glVertex();
+			/*
+			v3d(x, dy_x_vals[i][j], z).glVertex();
+			y = mx+b;
+			y = dy_x_vals[i][j] * x + b;
+			b = y - dy_x_vals[i][j] * x;
+			*/
+			(v3d(x + 1, dy_x_vals[i][j] * x + (y_vals[i][j] - dy_x_vals[i][j] * x), z)).glVertex();
+
+			
+			glColor3f(0,0,1);
+			v3d(x, y_vals[i][j], z).glVertex();
+			/*
+			v3d(x, dy_z_vals[i][j], z).glVertex();
+			*/
+			(v3d(x, dy_z_vals[i][j] * z + (y_vals[i][j] - dy_z_vals[i][j] * z), z + 1)).glVertex();
+		}
+	}
+	glEnd();
 	glPopMatrix();
 }
 

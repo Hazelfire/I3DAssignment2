@@ -13,6 +13,7 @@ set(GAME_SRC
   src/keyboard/keyboard.cpp
 
   src/shape/primitives/primitives.cpp
+  src/shape/primitives/function/function.cpp
 	)
 
 set(GAME_HEADERS
@@ -24,6 +25,7 @@ set(GAME_HEADERS
   src/keyboard/keyboard.h
 
   src/shape/primitives/primitives.hpp
+  src/shape/primitives/function/function.hpp
   src/shape/shape.hpp
 	)
 
