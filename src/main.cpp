@@ -105,20 +105,17 @@ void display() {
   //X axis
   glBegin(GL_LINES);
   glColor3f(1,0,0);
-  glVertex3f(0,0,0);
-  glVertex3f(1,0,0);
+  v3d::X.draw();
   glEnd();
   //Y axis
   glBegin(GL_LINES);
   glColor3f(0,1,0);
-  glVertex3f(0,0,0);
-  glVertex3f(0,1,0);
+  v3d::Y.draw();
   glEnd();
   //Z axis
   glBegin(GL_LINES);
   glColor3f(0,0,1);
-  glVertex3f(0,0,0);
-  glVertex3f(0,0,1);
+  v3d::Z.draw();
   glEnd();
   glEnable(GL_LIGHTING);
 
