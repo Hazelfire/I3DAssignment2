@@ -191,9 +191,9 @@ void display() {
         normal2 *= -1;
 
       glNormal3f(normal.x, normal.y, normal.z);
-      current.draw();
+      current.glVertex();
       glNormal3f(normal2.x, normal2.y, normal2.z);
-      next.draw();
+      next.glVertex();
     }
     glEnd();
   }

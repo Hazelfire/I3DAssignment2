@@ -2,9 +2,11 @@
 #include <cmath>
 #include <GL/gl.h>
 
+/*
 void v3d::draw() const {
   glVertex3f(x,y,z);
 }
+*/
 void v3d::glVertex() const {
   glVertex3f(x,y,z);
 }
