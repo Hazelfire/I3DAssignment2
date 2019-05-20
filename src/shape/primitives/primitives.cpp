@@ -51,7 +51,7 @@ void Sphere::draw() const {
 		double sin_phi_step = sinf(step_phi);
 		double cos_phi_step = cosf(step_phi);
 
-		v3d(0, 0, 1).draw();
+		v3d(0, 0, 1).glVertex();
 
 		// end point is the same as the start point...
 		// needs to be drawn twice
@@ -61,7 +61,7 @@ void Sphere::draw() const {
 			double sin_theta = sinf(theta);
 			v3d(sin_phi_step * cos_theta,
 					sin_phi_step * sin_theta,
-					cos_phi_step).draw();
+					cos_phi_step).glVertex();
 		}
 		glEnd();
 	}
@@ -83,10 +83,10 @@ void Sphere::draw() const {
 			double sin_theta = sinf(theta);
 			v3d(sin_phi * cos_theta,
 					sin_phi * sin_theta,
-					cos_phi).draw();
+					cos_phi).glVertex();
 			v3d(sin_phi_step * cos_theta,
 					sin_phi_step * sin_theta,
-					cos_phi_step).draw();
+					cos_phi_step).glVertex();
 		}
 		glEnd();
 	}
@@ -100,7 +100,7 @@ void Sphere::draw() const {
 		glBegin(GL_TRIANGLE_FAN);
 		double sin_phi = sinf(phi);
 		double cos_phi = cosf(phi);
-		v3d(0, 0, -1).draw();
+		v3d(0, 0, -1).glVertex();
 
 		// end point is the same as the start point...
 		// needs to be drawn twice
@@ -110,7 +110,7 @@ void Sphere::draw() const {
 			double sin_theta = sinf(theta);
 			v3d(sin_phi * cos_theta,
 					sin_phi * sin_theta,
-					cos_phi).draw();
+					cos_phi).glVertex();
 		}
 		glEnd();
 	}
@@ -364,7 +364,7 @@ void Cylinder::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
-			v3d(cos_theta, sin_theta, 0.5).draw();
+			v3d(cos_theta, sin_theta, 0.5).glVertex();
 		}
 		glEnd();
 	}
@@ -385,8 +385,8 @@ void Cylinder::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
-			v3d(cos_theta, sin_theta, zpos+step).draw();
-			v3d(cos_theta, sin_theta, zpos).draw();
+			v3d(cos_theta, sin_theta, zpos+step).glVertex();
+			v3d(cos_theta, sin_theta, zpos).glVertex();
 		}
 		glEnd();
 	}
@@ -396,8 +396,8 @@ void Cylinder::draw() const {
 		double theta = i / (double)slices * 2.0 * M_PI;
 		double cos_theta = cosf(theta);
 		double sin_theta = sinf(theta);
-		v3d(cos_theta, sin_theta, 0.5).draw();
-		v3d(cos_theta, sin_theta, -0.5).draw();
+		v3d(cos_theta, sin_theta, 0.5).glVertex();
+		v3d(cos_theta, sin_theta, -0.5).glVertex();
 	}
 	glEnd();
 #endif
@@ -416,7 +416,7 @@ void Cylinder::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
-			v3d(cos_theta, sin_theta, -0.5).draw();
+			v3d(cos_theta, sin_theta, -0.5).glVertex();
 		}
 		glEnd();
 	}
