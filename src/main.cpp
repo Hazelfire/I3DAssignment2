@@ -66,7 +66,8 @@ void display() {
 
 #define DRAW_FILL 1
 #if DRAW_FILL
-  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  glPolygonMode(GL_FRONT, GL_FILL);
+  glPolygonMode(GL_BACK, GL_LINE);
 #else
 #define WIREFRAME 1
 #if WIREFRAME

@@ -185,18 +185,17 @@ void Function::draw() const {
 	}
 
 
-	//glBegin(GL_POINTS);
 	for(int i = 0; i < n-1; i++) {
-		glBegin(GL_QUAD_STRIP);
+		glBegin(GL_TRIANGLE_STRIP);
 		double x = (double)i / n - 0.5;
 		for(int j = 0; j < n; j++) {
 			double z = (double)j / n - 0.5;
 
-			normals[i][j].glNormal();
-			v3d(x, y_vals[i][j], z).glVertex();
-
 			normals[i+1][j].glNormal();
 			v3d(x + 1.0/n, y_vals[i+1][j], z).glVertex();
+
+			normals[i][j].glNormal();
+			v3d(x, y_vals[i][j], z).glVertex();
 		}
 		glEnd();
 	}
