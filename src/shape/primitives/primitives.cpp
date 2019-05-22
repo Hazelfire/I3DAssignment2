@@ -39,7 +39,7 @@ void Sphere::draw() const {
 	glScaled(radius, radius, radius);
 
 	// TODO set n from global tessalation value
-	const int n = 8;
+	const int n = 200;
 	const int slices=n, stacks=n;
 	double step_phi = M_PI / stacks;
 
@@ -449,10 +449,10 @@ bool Cylinder::collidesWith(Cylinder other){
 void Cylinder::draw() const {
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
-	glScaled(radius, radius, length);
+	glScaled(1, 1, length);
 
 	// TODO set n from global tessalation value
-	const int n = 8;
+	const int n = 200;
 	const int slices=n, stacks=n;
 
 	// for some reason, there is an artifact on the inside of the cylinder
@@ -475,7 +475,7 @@ void Cylinder::draw() const {
 			double sin_theta = sinf(theta);
 
 			glNormal3f(0,0,1);
-			v3d(cos_theta, sin_theta, 0.5).glVertex();
+			v3d(cos_theta * radius, sin_theta * radius, 0.5).glVertex();
 		}
 		glEnd();
 	}
@@ -487,19 +487,23 @@ void Cylinder::draw() const {
 #define CYLINDER_USE_STACKS 0
 #if CYLINDER_USE_STACKS
 	// middle of cylinder
-	for(int j = 0; j < stacks; j++) {
-		double zpos = (double)j / stacks - 0.5;
-		double step = 1.0 / stacks;
+	for(int i = 0; i <= slices; i++) {
+		double theta = i / (double)slices * 2.0 * M_PI;
+		double cos_theta = cosf(theta);
+		double sin_theta = sinf(theta);
+
+		v3d normal(cos_theta, sin_theta, 0);
 		glBegin(GL_QUAD_STRIP);
 
-		for(int i = 0; i <= slices; i++) {
-			double theta = i / (double)slices * 2.0 * M_PI;
-			double cos_theta = cosf(theta);
-			double sin_theta = sinf(theta);
+		for(int j = 0; j < stacks; j++) {
+			double zpos = (double)j / stacks - 0.5;
+			double step = 1.0 / stacks;
+
 			glNormal3f(cos_theta, sin_theta, 0);
-			v3d(cos_theta, sin_theta, zpos+step).glVertex();
+			glVertex3f(cos_theta * radius, sin_theta * radius, zpos+step);
+
 			glNormal3f(cos_theta, sin_theta, 0);
-			v3d(cos_theta, sin_theta, zpos).glVertex();
+			glVertex3f(cos_theta * radius, sin_theta * radius, zpos);
 		}
 		glEnd();
 	}
@@ -509,10 +513,11 @@ void Cylinder::draw() const {
 		double theta = i / (double)slices * 2.0 * M_PI;
 		double cos_theta = cosf(theta);
 		double sin_theta = sinf(theta);
+
 		glNormal3f(cos_theta, sin_theta, 0);
-		v3d(cos_theta, sin_theta, 0.5).glVertex();
+		v3d(cos_theta * radius, sin_theta * radius, 0.5).glVertex();
 		glNormal3f(cos_theta, sin_theta, 0);
-		v3d(cos_theta, sin_theta, -0.5).glVertex();
+		v3d(cos_theta * radius, sin_theta * radius, -0.5).glVertex();
 	}
 	glEnd();
 #endif
@@ -533,7 +538,7 @@ void Cylinder::draw() const {
 			double sin_theta = sinf(theta);
 
 			glNormal3f(0,0,-1);
-			v3d(cos_theta, sin_theta, -0.5).glVertex();
+			v3d(cos_theta * radius, sin_theta * radius, -0.5).glVertex();
 		}
 		glEnd();
 	}
