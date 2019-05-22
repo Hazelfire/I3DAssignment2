@@ -1,4 +1,5 @@
 #include "main.hpp"
+#include "player/player.hpp"
 
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
@@ -80,10 +81,15 @@ void display() {
 #endif
 #endif
 
+
+#define DRAW_OBJECTS 0
+#if DRAW_OBJECTS
   scene.add(GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
   scene.add(GameObject(new Sphere(v3d(0,2,1), 1)), "object");
   scene.add(GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
   scene.add(GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
+#endif
+  scene.add(Player(), "player");
   scene.draw();
 
   glDisable(GL_LIGHTING);

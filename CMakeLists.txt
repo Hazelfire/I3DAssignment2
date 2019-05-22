@@ -16,6 +16,8 @@ set(GAME_SRC
   
   src/scene/scene.cpp
 
+  src/player/player.cpp
+
   src/shape/primitives/primitives.cpp
   src/shape/primitives/function/function.cpp
 	)
@@ -31,6 +33,8 @@ set(GAME_HEADERS
   src/gameobject/gameobject.hpp
 
   src/scene/scene.hpp
+
+  src/player/player.hpp
 
   src/shape/primitives/primitives.hpp
   src/shape/primitives/function/function.hpp
