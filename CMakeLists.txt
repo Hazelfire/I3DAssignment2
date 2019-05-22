@@ -21,14 +21,14 @@ set(GAME_SRC
 	)
 
 set(GAME_HEADERS
-  src/main.h
+  src/main.hpp
   src/camera/camera.h
   src/vector/vector.h
   src/time/time.h
   src/keyboard/keyboard.hpp
   src/keyboard/keyboard.h
 
-  src/gameobject/gameobject.h
+  src/gameobject/gameobject.hpp
 
   src/scene/scene.hpp
 

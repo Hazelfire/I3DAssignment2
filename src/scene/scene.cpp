@@ -12,7 +12,7 @@ void Scene::add(GameObject obj, std::string tag){
 std::vector<GameObject> Scene::getObjectsByTag(std::string tag){
   std::vector<GameObject> re;
 
-  for(auto pair : gameObjects){
+  for(auto& pair : gameObjects){
     if(pair.second == tag){
       re.push_back(pair.first);
     }
@@ -21,7 +21,7 @@ std::vector<GameObject> Scene::getObjectsByTag(std::string tag){
 }
 
 void Scene::draw(){
-  for(auto pair : gameObjects){
+  for(auto& pair : gameObjects){
     pair.first.draw();
   }
 }

@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "gameobject/gameobject.h"
+#include <memory>
+#include "gameobject/gameobject.hpp"
 
 class Scene {
   private:

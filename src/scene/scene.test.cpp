@@ -9,7 +9,7 @@ class GameObjectMock : public GameObject {
     int drawCountCall = 0;
     Cube cube;
   public:
-    GameObjectMock(): cube(Cube(v3d::zero, v3d::unit)), GameObject(cube){}
+    GameObjectMock(): cube(Cube(v3d::zero, v3d::unit)), GameObject(new Cube(v3d::zero, v3d::unit)){}
     void draw(){ 
       drawCountCall++; 
     }
