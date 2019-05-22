@@ -51,7 +51,9 @@ void Sphere::draw() const {
 		double sin_phi_step = sinf(step_phi);
 		double cos_phi_step = cosf(step_phi);
 
-		v3d(0, 0, 1).glVertex();
+		v3d start(0, 0, 1);
+		start.glNormal();
+		start.glVertex();
 
 		// end point is the same as the start point...
 		// needs to be drawn twice
@@ -59,9 +61,11 @@ void Sphere::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
-			v3d(sin_phi_step * cos_theta,
+			v3d curr(sin_phi_step * cos_theta,
 					sin_phi_step * sin_theta,
-					cos_phi_step).glVertex();
+					cos_phi_step);
+			curr.glNormal();
+			curr.glVertex();
 		}
 		glEnd();
 	}
@@ -81,12 +85,18 @@ void Sphere::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
-			v3d(sin_phi * cos_theta,
+
+			v3d curr(sin_phi * cos_theta,
 					sin_phi * sin_theta,
-					cos_phi).glVertex();
-			v3d(sin_phi_step * cos_theta,
+					cos_phi);
+			curr.glNormal();
+			curr.glVertex();
+
+			v3d step(sin_phi_step * cos_theta,
 					sin_phi_step * sin_theta,
-					cos_phi_step).glVertex();
+					cos_phi_step);
+			step.glNormal();
+			step.glVertex();
 		}
 		glEnd();
 	}
@@ -100,7 +110,9 @@ void Sphere::draw() const {
 		glBegin(GL_TRIANGLE_FAN);
 		double sin_phi = sinf(phi);
 		double cos_phi = cosf(phi);
-		v3d(0, 0, -1).glVertex();
+		v3d start(0, 0, -1);
+		start.glNormal();
+		start.glVertex();
 
 		// end point is the same as the start point...
 		// needs to be drawn twice
@@ -108,9 +120,11 @@ void Sphere::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
-			v3d(sin_phi * cos_theta,
+			v3d curr(sin_phi * cos_theta,
 					sin_phi * sin_theta,
-					cos_phi).glVertex();
+					cos_phi);
+			curr.glNormal();
+			curr.glVertex();
 		}
 		glEnd();
 	}
