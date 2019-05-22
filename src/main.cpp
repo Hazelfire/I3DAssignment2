@@ -44,7 +44,7 @@ void display() {
   glColor3f(1,1,1);
 
   glEnable(GL_LIGHT0);
-  float light_pos[] = {3,2,1,0};
+  float light_pos[] = {3,10,1,0};
   glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
   Sphere sun(v3d(light_pos[0],light_pos[1],light_pos[2]), 0.2);
 

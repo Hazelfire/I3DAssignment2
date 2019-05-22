@@ -473,6 +473,8 @@ void Cylinder::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
+
+			glNormal3f(0,0,1);
 			v3d(cos_theta, sin_theta, 0.5).glVertex();
 		}
 		glEnd();
@@ -494,7 +496,9 @@ void Cylinder::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
+			glNormal3f(cos_theta, sin_theta, 0);
 			v3d(cos_theta, sin_theta, zpos+step).glVertex();
+			glNormal3f(cos_theta, sin_theta, 0);
 			v3d(cos_theta, sin_theta, zpos).glVertex();
 		}
 		glEnd();
@@ -505,7 +509,9 @@ void Cylinder::draw() const {
 		double theta = i / (double)slices * 2.0 * M_PI;
 		double cos_theta = cosf(theta);
 		double sin_theta = sinf(theta);
+		glNormal3f(cos_theta, sin_theta, 0);
 		v3d(cos_theta, sin_theta, 0.5).glVertex();
+		glNormal3f(cos_theta, sin_theta, 0);
 		v3d(cos_theta, sin_theta, -0.5).glVertex();
 	}
 	glEnd();
@@ -525,6 +531,8 @@ void Cylinder::draw() const {
 			double theta = i / (double)slices * 2.0 * M_PI;
 			double cos_theta = cosf(theta);
 			double sin_theta = sinf(theta);
+
+			glNormal3f(0,0,-1);
 			v3d(cos_theta, sin_theta, -0.5).glVertex();
 		}
 		glEnd();
