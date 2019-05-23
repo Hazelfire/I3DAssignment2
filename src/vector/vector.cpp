@@ -118,14 +118,14 @@ bool v3d::is_valid(const v3d& vector) {
 }
 
 // length
-double v3d::length_squared() {
+double v3d::length_squared() const {
   return v3d::length_squared(*this);
 }
 double v3d::length_squared(const v3d& val) {
   return val.x * val.x + val.y * val.y + val.z * val.z;
 }
 
-double v3d::length() {
+double v3d::length() const {
   return sqrt(v3d::length_squared(*this));
 }
 double v3d::length(const v3d& val) {
@@ -155,7 +155,7 @@ v3d& v3d::cross(const v3d& right) {
   return *this;
 }
 
-double v3d::dot(const v3d& right) {
+double v3d::dot(const v3d& right) const {
   return v3d::dot(*this, right);
 }
 
