@@ -13,10 +13,14 @@ enum keys {
   kb_d = 1 << 3,
   kb_space = 1 << 4,
   kb_c = 1 << 5,
+  kb_ctrl = 1 << 6,
 };
 
 void c_hold(char key, enum keys*);
 void c_release(char key, enum keys*);
+
+void c_hold_ctrl(enum keys*);
+void c_release_ctrl(enum keys*);
 
 
 #endif

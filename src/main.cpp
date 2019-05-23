@@ -281,10 +281,20 @@ void special(int key, int x, int y) {
 }
 
 void keyboardUp(unsigned char key, int x, int y) {
+  if(glutGetModifiers() & GLUT_ACTIVE_CTRL) {
+    keyboard::hold_ctrl();
+  } else {
+    keyboard::release_ctrl();
+  }
   keyboard::release(key);
 }
 
 void keyboard(unsigned char key, int x, int y) {
+  if(glutGetModifiers() & GLUT_ACTIVE_CTRL) {
+    keyboard::hold_ctrl();
+  } else {
+    keyboard::release_ctrl();
+  }
   keyboard::hold(key);
 }
 
@@ -313,6 +323,10 @@ void handle_keys() {
   std::cout << "player_camera.position: " << player_camera.position << std::endl;
   std::cout << "right.length: " << right.length() << std::endl;
 #endif
+
+  if(*keys & kb_ctrl) {
+    movement /= 10;
+  }
 
   if(*keys & kb_w) {
     player_camera.position += forward * movement * time.delta;
