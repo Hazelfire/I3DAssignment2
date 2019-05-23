@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -25,7 +26,8 @@ void glutBitmapString(void *font, char *str);
 
 #define UNIT_TESTS 0
 
-camera player_camera;
+std::shared_ptr<GameObject> focus(new GameObject(nullptr));
+std::shared_ptr<Camera> player_camera(new Camera());
 Scene scene;
 
 

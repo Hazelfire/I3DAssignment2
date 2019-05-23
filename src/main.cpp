@@ -39,7 +39,7 @@ void display() {
 
   // camera
   // anything before here is relative to the camera
-  player_camera.move_to();
+  player_camera->move_to();
   // anything after here is relative to the world
 
   glColor3f(1,1,1);
@@ -82,14 +82,6 @@ void display() {
 #endif
 
 
-#define DRAW_OBJECTS 0
-#if DRAW_OBJECTS
-  scene.add(GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
-  scene.add(GameObject(new Sphere(v3d(0,2,1), 1)), "object");
-  scene.add(GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
-  scene.add(GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
-#endif
-  scene.add(Player(), "player");
   scene.draw();
 
   glDisable(GL_LIGHTING);
@@ -241,13 +233,13 @@ void mouse(int x, int y) {
   int dx = x - last_x;
   int dy = y - last_y;
 
-  player_camera.rotation.x += 0.5 * dx;
-  player_camera.rotation.y += 0.5 * dy;
+  focus->rotation.y += 0.5 * dx;
+  focus->rotation.x += 0.5 * dy;
 
-  if(player_camera.rotation.y > 90) {
-    player_camera.rotation.y = 90;
-  } else if(player_camera.rotation.y < -90) {
-    player_camera.rotation.y = -90;
+  if(focus->rotation.x > 90) {
+    focus->rotation.x = 90;
+  } else if(focus->rotation.x < -90) {
+    focus->rotation.x = -90;
   }
 
   last_x = x;
@@ -285,7 +277,7 @@ void handle_keys() {
   // cross is already normalised, since forward is in the x-z plane
   v3d right = v3d::cross(v3d::Y, forward)/*.normalise()*/;
 #else
-  v3d forward = player_camera.get_forward();
+  v3d forward = player_camera->get_forward();
   v3d right = v3d::cross(v3d::Y, forward).normalise();
 #endif
 
@@ -302,6 +294,8 @@ void handle_keys() {
   std::cout << "right.length: " << right.length() << std::endl;
 #endif
 
+#define FLY_MOVEMENT 0
+#if FLY_MOVEMENT
   if(*keys & kb_w) {
     player_camera.position += forward * movement * time.delta;
   }
@@ -320,11 +314,30 @@ void handle_keys() {
   if(*keys & kb_c) {
     player_camera.position += v3d::Y * movement * time.delta;
   }
+#endif
 }
 
 
 void init() {
-  player_camera = camera();
+
+#define DRAW_OBJECTS 0
+#if DRAW_OBJECTS
+  scene.add(GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
+  scene.add(GameObject(new Sphere(v3d(0,2,1), 1)), "object");
+  scene.add(GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
+  scene.add(GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
+#endif
+  scene.add(Player(), "player");
+
+  /*
+   * The camera has a "focus", which is an empty game object that tracks
+   * the position of the player. Rotating and moving this focus makes sure
+   * that the camera is always pointing towards the player
+   */
+
+  player_camera->position.z = -2;
+  player_camera->setParent(focus);
+
 
   // init singletons
   keyboard::get_instance();
