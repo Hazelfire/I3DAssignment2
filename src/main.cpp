@@ -38,6 +38,8 @@ void display() {
   player_camera.move_to();
   // anything after here is relative to the world
 
+  const _time& time = _time::get_instance();
+
   glColor3f(1,1,1);
 
   float shininess = 128;
@@ -107,7 +109,10 @@ void display() {
 #if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
 #endif
-  Sin_and_Cos test_func(v3d(2,2,0), v3d(1,1,1));
+  Tute_Water test_func(v3d(2,2,0), v3d(2,1,1));
+  test_func.x_mul = 10;
+  test_func.z_mul = 5;
+  test_func.t = time.current;
   test_func.draw();
 
 #define DRAW_3_SQUARES 0

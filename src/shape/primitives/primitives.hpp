@@ -28,7 +28,7 @@ class Function : public Shape {
 		bool collidesWith(Plane);//NYI
 		bool collidesWith(Cylinder);//NYI
 		bool collidesWith(Sphere);//NYI
-#define DRAW_FUNCTION_NORMALS 0
+#define DRAW_FUNCTION_NORMALS 1
 		void draw() const;
 };
 
