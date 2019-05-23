@@ -33,9 +33,6 @@ void display() {
   glEnable(GL_LIGHTING);
 #endif
 
-  float shininess = 0;
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
-
   // camera
   // anything before here is relative to the camera
   player_camera.move_to();
@@ -43,8 +40,27 @@ void display() {
 
   glColor3f(1,1,1);
 
+  float shininess = 128;
+  //float shininess = 50;
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
+  float ambient[] = {0,0.15,0.3,1};
+  float diffuse[] = {0,0.5,1,1};
+  float specular[] = {1,1,1,1};
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+
   glEnable(GL_LIGHT0);
   float light_pos[] = {3,10,1,0};
+  float light_colour_a[] = {0.1,0.1,0.1,0.1};
+  float light_colour_d[] = {1,1,1,1};
+  float light_colour_s[] = {1,1,1,1};
+  glLightfv(GL_LIGHT0, GL_AMBIENT, light_colour_a);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_colour_d);
+  glLightfv(GL_LIGHT0, GL_SPECULAR, light_colour_s);
+  //glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.5);
+  //glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.4);
+  //glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.1);
   glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
   Sphere sun(v3d(light_pos[0],light_pos[1],light_pos[2]), 0.2);
 

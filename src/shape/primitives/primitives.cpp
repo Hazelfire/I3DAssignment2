@@ -29,12 +29,14 @@ bool Sphere::collidesWith(Cylinder other){
 	double diffy = position.y - other.position.y;
 	bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
 	bool insideX = position.x + radius > other.position.x - (other.length / 2) && position.x - radius < other.position.x + (other.length / 2);
-	
+
 	return insideX && insideLength;
 }
 
 void Sphere::draw() const {
 	glPushMatrix();
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(radius, radius, radius);
 
@@ -129,6 +131,7 @@ void Sphere::draw() const {
 		glEnd();
 	}
 	glPopMatrix();
+	glPopAttrib();
 }
 
 // Function
@@ -151,13 +154,15 @@ bool Function::collidesWith(Sphere other){
 
 void Function::draw() const {
 	glPushMatrix();
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
 
 	//glBegin(GL_POINTS);
 
 	// TODO set n from global tessalation value
-	const int n = 20;
+	const int n = 80;
 	double y_vals[n][n];
 	v3d normals[n][n];
 	v3d x_tan[n][n];
@@ -193,7 +198,8 @@ void Function::draw() const {
 			z_tan[i][j] = z_next + current;
 
 			// TODO: check if the 2 vectors are already the same length, and if they can be easily normalised
-			v3d normal = v3d::cross(v3d::normalise(z_next), v3d::normalise(x_next)).normalise();
+			v3d normal = v3d::cross(v3d::normalise(z_next), v3d::normalise(x_next));
+			// 2nd normalise doesn't need to be done, because we have opengl normalising for us
 			normals[i][j] = normal;
 		}
 	}
@@ -242,6 +248,7 @@ void Function::draw() const {
 	glEnd();
 #endif
 	glPopMatrix();
+	glPopAttrib();
 }
 
 
@@ -309,6 +316,8 @@ void Cube::draw() const {
 	}
 
 	glPushMatrix();
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
 #define CUBE_USE_STRIPS 0
@@ -346,7 +355,7 @@ void Cube::draw() const {
 		points[7].glVertex();
 		v3d::X.glNormal();
 		points[6].glVertex();
-		
+
 		//-x
 		(-1*v3d::X).glNormal();
 		points[0].glVertex();
@@ -400,6 +409,7 @@ void Cube::draw() const {
 	glEnd();
 #endif
 	glPopMatrix();
+	glPopAttrib();
 }
 
 // Plane
@@ -448,8 +458,10 @@ bool Cylinder::collidesWith(Cylinder other){
 
 void Cylinder::draw() const {
 	glPushMatrix();
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
-	glScaled(1, 1, length);
+	glScaled(radius, radius, length);
 
 	// TODO set n from global tessalation value
 	const int n = 200;
@@ -475,7 +487,7 @@ void Cylinder::draw() const {
 			double sin_theta = sinf(theta);
 
 			glNormal3f(0,0,1);
-			v3d(cos_theta * radius, sin_theta * radius, 0.5).glVertex();
+			v3d(cos_theta, sin_theta, 0.5).glVertex();
 		}
 		glEnd();
 	}
@@ -500,10 +512,10 @@ void Cylinder::draw() const {
 			double step = 1.0 / stacks;
 
 			glNormal3f(cos_theta, sin_theta, 0);
-			glVertex3f(cos_theta * radius, sin_theta * radius, zpos+step);
+			glVertex3f(cos_theta, sin_theta, zpos+step);
 
 			glNormal3f(cos_theta, sin_theta, 0);
-			glVertex3f(cos_theta * radius, sin_theta * radius, zpos);
+			glVertex3f(cos_theta, sin_theta, zpos);
 		}
 		glEnd();
 	}
@@ -515,9 +527,9 @@ void Cylinder::draw() const {
 		double sin_theta = sinf(theta);
 
 		glNormal3f(cos_theta, sin_theta, 0);
-		v3d(cos_theta * radius, sin_theta * radius, 0.5).glVertex();
+		v3d(cos_theta, sin_theta, 0.5).glVertex();
 		glNormal3f(cos_theta, sin_theta, 0);
-		v3d(cos_theta * radius, sin_theta * radius, -0.5).glVertex();
+		v3d(cos_theta, sin_theta, -0.5).glVertex();
 	}
 	glEnd();
 #endif
@@ -538,9 +550,10 @@ void Cylinder::draw() const {
 			double sin_theta = sinf(theta);
 
 			glNormal3f(0,0,-1);
-			v3d(cos_theta * radius, sin_theta * radius, -0.5).glVertex();
+			v3d(cos_theta, sin_theta, -0.5).glVertex();
 		}
 		glEnd();
 	}
 	glPopMatrix();
+	glPopAttrib();
 }
