@@ -9,11 +9,14 @@ set(GAME_SRC
 	src/camera/camera.cpp
   src/vector/vector.cpp
   src/time/time.cpp
+
   src/keyboard/keyboard.c
   src/keyboard/keyboard.cpp
 
   src/shape/primitives/primitives.cpp
   src/shape/primitives/function/function.cpp
+
+  src/material/material.cpp
 	)
 
 set(GAME_HEADERS
@@ -21,12 +24,15 @@ set(GAME_HEADERS
   src/camera/camera.h
   src/vector/vector.h
   src/time/time.h
+
   src/keyboard/keyboard.hpp
   src/keyboard/keyboard.h
 
   src/shape/primitives/primitives.hpp
   src/shape/primitives/function/function.hpp
   src/shape/shape.hpp
+
+  src/material/material.hpp
 	)
 
 set(GAME_TESTS
