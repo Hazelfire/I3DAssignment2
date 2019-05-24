@@ -3,6 +3,9 @@
 
 class Simple_Sin : public Function {
 	public:
+		Simple_Sin(Material material, v3d position, v3d size): Function(material, position, size) {};
+		Simple_Sin(v3d position, v3d size): Function(position, size) {};
+
 		virtual double f(double x, double z) const override;
 		virtual double df_x(double x, double z) const override;
 		virtual double df_z(double x, double z) const override;
@@ -10,6 +13,9 @@ class Simple_Sin : public Function {
 
 class Sin_and_Cos : public Function {
 	public:
+		Sin_and_Cos(Material material, v3d position, v3d size): Function(material, position, size) {};
+		Sin_and_Cos(v3d position, v3d size): Function(position, size) {};
+
 		virtual double f(double x, double z) const override;
 		virtual double df_x(double x, double z) const override;
 		virtual double df_z(double x, double z) const override;

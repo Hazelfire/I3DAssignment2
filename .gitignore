@@ -7,3 +7,4 @@ generated_directories.h
 build/*
 # should un-comment this before we remove cmake
 #!build/Makefile
+tags
