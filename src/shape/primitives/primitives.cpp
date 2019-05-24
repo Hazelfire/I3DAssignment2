@@ -40,6 +40,7 @@ void Sphere::draw() const {
 	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(radius, radius, radius);
+	glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	// TODO set n from global tessalation value
 	const int n = 200;
@@ -159,6 +160,7 @@ void Function::draw() const {
 	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
+	glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	//glBegin(GL_POINTS);
 
@@ -321,6 +323,7 @@ void Cube::draw() const {
 	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
+	glMaterialfv(GL_FRONT_AND_BACK, material);
 #define CUBE_USE_STRIPS 0
 	// can't use strips for cube lighting, since the 
 #if CUBE_USE_STRIPS
@@ -464,6 +467,7 @@ void Cylinder::draw() const {
 	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(radius, radius, length);
+	glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	// TODO set n from global tessalation value
 	const int n = 200;
