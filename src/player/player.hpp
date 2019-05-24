@@ -3,7 +3,11 @@
 #include "shape/primitives/primitives.hpp"
 
 class Player : public GameObject {
+  private:
+    v3d jump = v3d::unit;
+
+    void drawJump();
   public:
     Player();
-    void draw(DrawOptions opts);
+    virtual void draw() override;
 };

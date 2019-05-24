@@ -20,7 +20,7 @@ class GameObject {
     v3d rotation;
     GameObject(Shape* shape);
     GameObject(Shape* shape, std::shared_ptr<GameObject> parent);
-    void draw();
+    virtual void draw();
     Transform getWorldTransform() const;
     void setParent(std::shared_ptr<GameObject> parent);
 };
