@@ -36,3 +36,7 @@ void GameObject::popTransform() const {
 void GameObject::setParent(std::shared_ptr<GameObject> parent){
   this->parent = parent;
 }
+
+void GameObject::update(double dt) {
+  if(shape) shape->update(dt);
+}

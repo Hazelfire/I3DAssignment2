@@ -5,7 +5,6 @@
  * it was either this, or define a bunch
  * of bitwise operator overloads
  */
-
 enum keys {
   kb_w = 1 << 0,
   kb_s = 1 << 1,

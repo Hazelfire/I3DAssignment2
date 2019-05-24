@@ -1,7 +1,9 @@
 #include "log.hpp"
 #include <cmath>
 
-Log::Log(v3d position): GameObject(new Cylinder(v3d::zero, 0.5, 2 )) {
+Colour brown(0.3, 0.3, 0.2, 1);
+
+Log::Log(v3d position): GameObject(new Cylinder(Material(0.6, brown, brown, brown),v3d::zero, 0.5, 2 )) {
   this->position = position;
 };
 

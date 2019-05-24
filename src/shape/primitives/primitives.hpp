@@ -18,8 +18,8 @@ class Cube : public Shape{
 		v3d position;
 		v3d size;
 
-		Cube(const Material &material, v3d position, v3d size): Shape(material), position(position), size(size){};
-		Cube(v3d position, v3d size): Cube(Material(), position, size) {};
+		Cube(const Material &material, v3d position, v3d size): Shape(material), position(position), size(size) {};
+		Cube(v3d position, v3d size): Shape(), position(position), size(size) {};
 		Cube(const Cube &other) : Shape(other.material), position(other.position), size(other.size) {};
 		Cube() : Shape() {}
 
@@ -37,7 +37,7 @@ class Function : public Shape {
 
 		// is is possible to put the implemmentation in the cpp file?
 		Function(const Material &material, v3d position, v3d size): Shape(material), position(position), size(size) {};
-		Function(v3d position, v3d size): Function(Material(), position, size) {};
+		Function(v3d position, v3d size): Shape(), position(position), size(size) {};
 		Function(const Function &other) : Shape(other.material), position(other.position), size(other.size) {};
 		Function() : Shape() {}
 		//Function(v3d position, v3d size);
@@ -61,7 +61,7 @@ class Sphere : public Shape{
 		double radius;
 
 		Sphere(const Material &material, v3d position, double radius): Shape(material), position(position), radius(radius) {};
-		Sphere(v3d position, double radius): Sphere(Material(), position, radius) {};
+		Sphere(v3d position, double radius): Shape(), position(position), radius(radius) {};
 		Sphere(const Sphere &other) : Shape(other.material), position(other.position), radius(other.radius) {};
 		Sphere() : Shape() {}
 
@@ -77,8 +77,8 @@ class Plane : public Shape{
 	public:
 		double height;
 
-		Plane(const Material &material, double height): Shape(material), height(height){};
-		Plane(double height): Plane(Material(), height) {};
+		Plane(const Material &material, double height): Shape(material), height(height) {};
+		Plane(double height): Shape(), height(height) {};
 		Plane(const Plane &other) : Shape(other.material), height(other.height) {};
 		Plane() : Shape() {}
 
@@ -96,7 +96,7 @@ class Cylinder : public Shape{
 		double length;
 
 		Cylinder(const Material &material, v3d position, double radius, double length): Shape(material), position(position), radius(radius), length(length) {};
-		Cylinder(v3d position, double radius, double length): Cylinder(Material(), position, radius, length) {};
+		Cylinder(v3d position, double radius, double length): Shape(), position(position), radius(radius), length(length) {};
 		Cylinder(const Cylinder &other) : Shape(other.material), radius(other.radius), length(other.length) {};
 		Cylinder() : Shape() {}
 

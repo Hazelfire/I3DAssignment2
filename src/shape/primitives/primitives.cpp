@@ -35,11 +35,16 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 }
 
 void Sphere::draw(DrawOptions options) const {
+	// push position
 	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(radius, radius, radius);
+
+	// push settings
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	// TODO set n from global tessalation value
 	const int n = options.tesselations;
@@ -131,6 +136,7 @@ void Sphere::draw(DrawOptions options) const {
 		}
 		glEnd();
 	}
+
 	glPopMatrix();
 	glPopAttrib();
 }
@@ -154,11 +160,16 @@ bool Function::collidesWith(const Sphere &other) const{
 }
 
 void Function::draw(DrawOptions options) const {
+	// push position
 	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
+
+	// push settings
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	//glBegin(GL_POINTS);
 
@@ -279,6 +290,17 @@ bool Cube::collidesWith(const Cylinder &other) const{
 }
 
 void Cube::draw(DrawOptions options) const {
+	// push position
+	glPushMatrix();
+	glTranslated(position.x, position.y, position.z);
+	glScaled(size.x, size.y, size.z);
+
+	// push settings
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
+
 	//                                 |
 	//       2---------6               |
 	//      /|        /|               |
@@ -316,11 +338,8 @@ void Cube::draw(DrawOptions options) const {
 		points[i] -= v3d::unit / 2;
 	}
 
-	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
-	glTranslated(position.x, position.y, position.z);
-	glScaled(size.x, size.y, size.z);
+
+
 #define CUBE_USE_STRIPS 0
 	// can't use strips for cube lighting, since the 
 #if CUBE_USE_STRIPS
@@ -459,12 +478,17 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 }
 
 void Cylinder::draw(DrawOptions options) const {
+	// push position
 	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
   glRotatef(90, 0, 1, 0);
 	glScaled(radius, radius, length);
+
+	// push settings
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	// TODO set n from global tessalation value
 	const int n = options.tesselations;
