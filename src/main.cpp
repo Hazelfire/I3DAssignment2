@@ -1,4 +1,5 @@
 #include "main.hpp"
+#include "terrain.hpp"
 
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
@@ -381,7 +382,8 @@ void init() {
   scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
 #endif
   scene.add(player, "player");
-  scene.add(std::shared_ptr<GameObject>(new GameObject(new Cube(v3d(0, -1.5, 0), v3d(100, 1, 100)))), "floor");
+
+  create_terrain(scene);
 
   /*
    * The camera has a "focus", which is an empty game object that tracks

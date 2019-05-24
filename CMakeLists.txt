@@ -16,6 +16,7 @@ set(GAME_SRC
   src/gameobject/gameobject.cpp
   
   src/scene/scene.cpp
+  src/terrain.cpp
 
   src/player/player.cpp
 
@@ -36,6 +37,7 @@ set(GAME_HEADERS
 
   src/gameobject/gameobject.hpp
 
+  src/terrain.hpp
   src/scene/scene.hpp
 
   src/player/player.hpp

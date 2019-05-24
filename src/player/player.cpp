@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Player::Player(): GameObject(new Sphere(v3d::zero, 1)){};
+Player::Player(): GameObject(new Sphere(v3d::zero, 0.2)){};
 
 void Player::draw(){
   GameObject::draw(); 
