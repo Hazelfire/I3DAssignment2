@@ -41,7 +41,7 @@ void Sphere::draw(DrawOptions options) const {
 	glScaled(radius, radius, radius);
 
 	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_NORMALIZE);
 	glPushAttrib(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
@@ -168,7 +168,7 @@ void Function::draw(DrawOptions options) const {
 	glScaled(size.x, size.y, size.z);
 
 	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_NORMALIZE);
 	glPushAttrib(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
@@ -300,7 +300,7 @@ void Cube::draw(DrawOptions options) const {
 	glScaled(size.x, size.y, size.z);
 
 	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_NORMALIZE);
 	glPushAttrib(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
@@ -492,7 +492,7 @@ void Cylinder::draw(DrawOptions options) const {
 
 	// push settings
 	glPushAttrib(GL_COLOR_MATERIAL);
-	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_NORMALIZE);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
 		glMaterialfv(GL_FRONT_AND_BACK, material);
