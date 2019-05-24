@@ -1,4 +1,5 @@
 #pragma once
+#include "../material/material.hpp"
 
 class Cube;
 class Sphere;
@@ -9,12 +10,19 @@ class Function;
 
 class Shape {
   public:
-    virtual bool collidesWith(Cube) = 0;
-    virtual bool collidesWith(Plane) = 0;
-    virtual bool collidesWith(Cylinder) = 0;
-    virtual bool collidesWith(Sphere) = 0;
-    //virtual bool collidesWith(Mesh) = 0; NYI
-    //virtual bool collidesWith(Function) = 0; NYI
+    Material material;
+
+    virtual bool collidesWith(const Cube&) const = 0;
+    virtual bool collidesWith(const Plane&) const = 0;
+    virtual bool collidesWith(const Cylinder&) const = 0;
+    virtual bool collidesWith(const Sphere&) const = 0;
+    virtual void update(double dt) {};
+    //virtual bool collidesWith(const Mesh&) const = 0; NYI
+    //virtual bool collidesWith(const Function&) const = 0; NYI
+
+    Shape(const Shape &other): material(other.material) {};
+    Shape(const Material &material) : material(material) {};
+    Shape() {};
 
     virtual void draw() const = 0;
 };
