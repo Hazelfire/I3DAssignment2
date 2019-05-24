@@ -6,10 +6,10 @@ GameObject::GameObject(Shape* shape): shape(shape) {};
 
 GameObject::GameObject(Shape* shape, std::shared_ptr<GameObject> parent): shape(shape), parent(parent) {};
 
-void GameObject::draw(){
+void GameObject::draw(DrawOptions ops){
   if(shape){
     this->pushTransform();
-    shape->draw();
+    shape->draw(ops);
     this->popTransform();
   }
 }

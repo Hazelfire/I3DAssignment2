@@ -76,7 +76,7 @@ void display() {
   Sphere sun(v3d(light_pos[0],light_pos[1],light_pos[2]), 0.2);
 
   glDisable(GL_LIGHTING);
-  sun.draw();
+  sun.draw(drawOpts);
 #if ENABLE_LIGHTING
   glEnable(GL_LIGHTING);
 #endif
@@ -107,7 +107,7 @@ void display() {
 #endif
 #endif
 
-  scene.draw();
+  scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
   glColor3f(1,1,1);
@@ -303,6 +303,35 @@ void keyboard(unsigned char key, int x, int y) {
     keyboard::release_ctrl();
   }
   keyboard::hold(key);
+  
+  switch(key){
+    case 'x':
+      drawOpts.drawAxes = !drawOpts.drawAxes;
+      break;
+    case 'n':
+      drawOpts.normals = !drawOpts.normals;
+      break;
+    case 'f':
+      drawOpts.wireframe = !drawOpts.wireframe;
+      break;
+    case 't':
+      drawOpts.textures = !drawOpts.textures;
+      break;
+    case 'g':
+      drawOpts.animation = !drawOpts.animation;
+      break;
+    case 'o':
+      drawOpts.osd = !drawOpts.osd;
+      break;
+    case '+':
+      drawOpts.tesselations *= 2;
+      break;
+    case '-':
+      if(drawOpts.tesselations > 4){
+        drawOpts.tesselations /= 2;
+      }
+      break;
+  }
 }
 
 void handle_keys() {

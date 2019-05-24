@@ -5,6 +5,12 @@
 struct DrawOptions {
   bool wireframe = false;
   int tesselations = 16;
+  bool drawAxes = true;
+  bool normals = false;
+  bool lighting = false;
+  bool textures = false;
+  bool animation = false;
+  bool osd = false;
 };
 
 class Cube : public Shape{
@@ -21,7 +27,7 @@ class Cube : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
-		virtual void draw() const;
+		virtual void draw(DrawOptions options) const;
 };
 
 class Function : public Shape {
@@ -46,7 +52,7 @@ class Function : public Shape {
 		virtual bool collidesWith(const Sphere&) const override;//NYI
 
 #define DRAW_FUNCTION_NORMALS 0
-		virtual void draw() const;
+		virtual void draw(DrawOptions options) const;
 };
 
 class Sphere : public Shape{
@@ -64,7 +70,7 @@ class Sphere : public Shape{
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
 		double distance(const Sphere&) const;
-		virtual void draw() const;
+		virtual void draw(DrawOptions draw) const;
 };
 
 class Plane : public Shape{
@@ -80,7 +86,7 @@ class Plane : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
-		virtual void draw() const;//NYI
+		virtual void draw(DrawOptions draw) const;//NYI
 };
 
 class Cylinder : public Shape{
@@ -98,5 +104,5 @@ class Cylinder : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
-		virtual void draw() const;
+		virtual void draw(DrawOptions draw) const;
 };

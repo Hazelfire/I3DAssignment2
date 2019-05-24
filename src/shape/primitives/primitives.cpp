@@ -34,7 +34,7 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
-void Sphere::draw() const {
+void Sphere::draw(DrawOptions options) const {
 	glPushMatrix();
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_NORMALIZE);
@@ -42,7 +42,7 @@ void Sphere::draw() const {
 	glScaled(radius, radius, radius);
 
 	// TODO set n from global tessalation value
-	const int n = 200;
+	const int n = options.tesselations;
 	const int slices=n, stacks=n;
 	double step_phi = M_PI / stacks;
 
@@ -50,7 +50,7 @@ void Sphere::draw() const {
 	// start of sphere...
 	// simplified case, since the pole stays the same
 	{
-		glBegin(GL_TRIANGLE_FAN);
+		glBegin(options.wireframe ? GL_LINE_LOOP : GL_TRIANGLE_FAN);
 		double sin_phi_step = sinf(step_phi);
 		double cos_phi_step = cosf(step_phi);
 
@@ -78,7 +78,7 @@ void Sphere::draw() const {
 	// middle of sphere
 	for (int j = 1; j < stacks-1; j++) {
 		double phi = j / (double)stacks * M_PI;
-		glBegin(GL_QUAD_STRIP);
+		glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUAD_STRIP);
 		double sin_phi = sinf(phi);
 		double sin_phi_step = sinf(phi+step_phi);
 		double cos_phi = cosf(phi);
@@ -110,7 +110,7 @@ void Sphere::draw() const {
 	// simplified case, since the pole stays the same
 	{
 		double phi = (stacks-1) / (double)stacks * M_PI;
-		glBegin(GL_TRIANGLE_FAN);
+		glBegin(options.wireframe ? GL_LINE_LOOP : GL_TRIANGLE_FAN);
 		double sin_phi = sinf(phi);
 		double cos_phi = cosf(phi);
 		v3d start(0, 0, -1);
@@ -153,7 +153,7 @@ bool Function::collidesWith(const Sphere &other) const{
 	return false;
 }
 
-void Function::draw() const {
+void Function::draw(DrawOptions options) const {
 	glPushMatrix();
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_NORMALIZE);
@@ -163,7 +163,7 @@ void Function::draw() const {
 	//glBegin(GL_POINTS);
 
 	// TODO set n from global tessalation value
-	const int n = 80;
+	const int n = options.tesselations;
 	double y_vals[n][n];
 	v3d normals[n][n];
 	v3d x_tan[n][n];
@@ -207,7 +207,7 @@ void Function::draw() const {
 
 
 	for(int i = 0; i < n-1; i++) {
-		glBegin(GL_TRIANGLE_STRIP);
+		glBegin(options.wireframe ? GL_LINE_STRIP : GL_TRIANGLE_STRIP);
 		double x = (double)i / n - 0.5;
 		for(int j = 0; j < n; j++) {
 			double z = (double)j / n - 0.5;
@@ -221,33 +221,33 @@ void Function::draw() const {
 		glEnd();
 	}
 
-#if DRAW_FUNCTION_NORMALS
-	glDisable(GL_LIGHTING);
-	glBegin(GL_LINES);
-	for(int i = 0; i < n; i++) {
-		double x = (double)i / n - 0.5;
-		for(int j = 0; j < n; j++) {
-			double z = (double)j / n - 0.5;
+  if(options.normals){
+    glDisable(GL_LIGHTING);
+    glBegin(GL_LINES);
+    for(int i = 0; i < n; i++) {
+      double x = (double)i / n - 0.5;
+      for(int j = 0; j < n; j++) {
+        double z = (double)j / n - 0.5;
 
-			// draw normals
-			glColor3f(0,1,0);
-			v3d current(x, y_vals[i][j], z);
-			current.glVertex();
-			(current + normals[i][j] * 1.0/n).glVertex();
+        // draw normals
+        glColor3f(0,1,0);
+        v3d current(x, y_vals[i][j], z);
+        current.glVertex();
+        (current + normals[i][j] * 1.0/n).glVertex();
 
-			// draw x tangents
-			glColor3f(1,0,0);
-			current.glVertex();
-			x_tan[i][j].glVertex();
+        // draw x tangents
+        glColor3f(1,0,0);
+        current.glVertex();
+        x_tan[i][j].glVertex();
 
-			// draw z tangents
-			glColor3f(0,0,1);
-			current.glVertex();
-			z_tan[i][j].glVertex();
-		}
-	}
-	glEnd();
-#endif
+        // draw z tangents
+        glColor3f(0,0,1);
+        current.glVertex();
+        z_tan[i][j].glVertex();
+      }
+    }
+    glEnd();
+  }
 	glPopMatrix();
 	glPopAttrib();
 }
@@ -278,7 +278,7 @@ bool Cube::collidesWith(const Cylinder &other) const{
 	return insideX && insideY && insideZ;
 }
 
-void Cube::draw() const {
+void Cube::draw(DrawOptions options) const {
 	//                                 |
 	//       2---------6               |
 	//      /|        /|               |
@@ -345,7 +345,7 @@ void Cube::draw() const {
 	points[6].draw();
 	glEnd();
 #else
-	glBegin(GL_QUADS);
+	glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUADS);
 	{
 		//+x
 		v3d::X.glNormal();
@@ -430,7 +430,7 @@ bool Plane::collidesWith(const Cylinder &other) const{
 	return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
-void Plane::draw() const {
+void Plane::draw(DrawOptions options) const {
 	//NYI
 }
 
@@ -458,7 +458,7 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
-void Cylinder::draw() const {
+void Cylinder::draw(DrawOptions options) const {
 	glPushMatrix();
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_NORMALIZE);
@@ -467,7 +467,7 @@ void Cylinder::draw() const {
 	glScaled(radius, radius, length);
 
 	// TODO set n from global tessalation value
-	const int n = 200;
+	const int n = options.tesselations;
 	const int slices=n, stacks=n;
 
 	// for some reason, there is an artifact on the inside of the cylinder
@@ -482,7 +482,7 @@ void Cylinder::draw() const {
 	// start of cylinder...
 	// simplified case, since the pole stays the same
 	{
-		glBegin(GL_POLYGON);
+		glBegin(options.wireframe ? GL_LINE_LOOP : GL_POLYGON);
 
 		for(int i = 0; i < slices; i++) {
 			double theta = i / (double)slices * 2.0 * M_PI;
@@ -508,7 +508,7 @@ void Cylinder::draw() const {
 		double sin_theta = sinf(theta);
 
 		v3d normal(cos_theta, sin_theta, 0);
-		glBegin(GL_QUAD_STRIP);
+		glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUAD_STRIP);
 
 		for(int j = 0; j < stacks; j++) {
 			double zpos = (double)j / stacks - 0.5;
@@ -523,7 +523,7 @@ void Cylinder::draw() const {
 		glEnd();
 	}
 #else
-	glBegin(GL_QUAD_STRIP);
+	glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUAD_STRIP);
 	for(int i = 0; i <= slices; i++) {
 		double theta = i / (double)slices * 2.0 * M_PI;
 		double cos_theta = cosf(theta);
@@ -544,7 +544,7 @@ void Cylinder::draw() const {
 	// end of cylinder...
 	// simplified case, since the pole stays the same
 	if(1) {
-		glBegin(GL_POLYGON);
+		glBegin(options.wireframe ? GL_LINE_STRIP : GL_POLYGON);
 
 		// reverse order, so that the end is facing outwards
 		for (int i = slices; i > 0; i--) {
