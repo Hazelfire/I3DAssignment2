@@ -15,8 +15,8 @@ struct Transform {
 class GameObject {
   private:
     shared_ptr<GameObject> parent;
-    shared_ptr<Shape> shape;
   public:
+    shared_ptr<Shape> shape;
     v3d position;
     v3d rotation;
     GameObject(Shape* shape);

@@ -21,9 +21,11 @@ struct Material {
   Colour ambient;
   Colour diffuse;
   Colour specular;
+  GLuint texture = 0;
 
   Material(void);
   Material(float shininess, Colour ambient, Colour diffuse, Colour specular);
+  Material(float shininess, Colour ambient, Colour diffuse, Colour specular, GLuint texture);
   //Material(const Material &m) : shininess(m.shininess), ambient(m.ambient), diffuse(m.diffuse), specular(m.specular) {}
 };
 

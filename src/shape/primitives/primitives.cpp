@@ -1,6 +1,7 @@
 #include "primitives.hpp"
 #include <cmath>
 #include <GL/gl.h>
+#include <SOIL.h>
 
 // Sphere
 //Sphere::Sphere(Material material, v3d position, double radius): Shape(material), position(position), radius(radius) {};
@@ -554,7 +555,9 @@ void Cylinder::draw(DrawOptions options) const {
 		double sin_theta = sinf(theta);
 
 		glNormal3f(cos_theta, sin_theta, 0);
+    glTexCoord2f(theta / (2.0 * M_PI), 0);
 		v3d(cos_theta, sin_theta, 0.5).glVertex();
+    glTexCoord2f(theta / (2.0 * M_PI), 1);
 		glNormal3f(cos_theta, sin_theta, 0);
 		v3d(cos_theta, sin_theta, -0.5).glVertex();
 	}

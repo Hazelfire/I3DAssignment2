@@ -36,7 +36,7 @@ The main requirements are:
 -  • Control the speed/rotation of the frog's jump vector as in assignment 1.
 -  • Animate the frog's jump using the numerical integration as in assignment 1, but now in three dimensions.
 -  • Use a third person perspective camera that follows the frog as it moves with zoom and rotation.
-  • Put a road and a river in the scene. Make the river surface transparent.
+-  • Put a road and a river in the scene. Make the river surface transparent.
 -  • Draw moving, floating cylinders to represent logs, and moving cubes to represent cars.
   • Apply texturing to the logs, and optionally the ground/road/riverbed.
 -  • Animate the water using a sine wave as in assignment 1.

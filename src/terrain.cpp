@@ -4,6 +4,7 @@
 #include "material/material.hpp"
 #include "objects/car.hpp"
 #include "objects/log.hpp"
+#include <SOIL.h>
 
 
 void create_terrain(Scene& scene){
@@ -37,11 +38,10 @@ void create_terrain(Scene& scene){
   scene.add(shared_ptr<GameObject>(new GameObject(new Tute_Water(waterMaterial, v3d(0, -2, 15), v3d(10, 0.5, 5)))), tag::floor);
 
   // Logs
-  Colour brown(0.3, 0.3, 0.2, 1);
-  Material logMaterial(0.6, brown, brown, brown);
-  scene.add(shared_ptr<GameObject>(new Log(v3d(-3, -0.5, 6.5))), tag::log);
-  scene.add(shared_ptr<GameObject>(new Log(v3d(0, -0.5, 7.5))), tag::log);
-  scene.add(shared_ptr<GameObject>(new Log(v3d(3, -0.5, 8.5))), tag::log);
+  GLuint texture = SOIL_load_OGL_texture("resources/wood.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+  scene.add(shared_ptr<GameObject>(new Log(v3d(-3, -0.5, 6.5), texture)), tag::log);
+  scene.add(shared_ptr<GameObject>(new Log(v3d(0, -0.5, 7.5), texture)), tag::log);
+  scene.add(shared_ptr<GameObject>(new Log(v3d(3, -0.5, 8.5), texture)), tag::log);
 
 
 

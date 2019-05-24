@@ -3,7 +3,8 @@
 
 Colour brown(0.3, 0.3, 0.2, 1);
 
-Log::Log(v3d position): GameObject(new Cylinder(Material(0.6, brown, brown, brown),v3d::zero, 0.5, 2 )) {
+Log::Log(v3d position, GLuint texture): GameObject(new Cylinder(Material(0.6, brown, brown, brown, texture),v3d::zero, 0.5, 2 )) {
+  this->shape->material.texture = texture;
   this->position = position;
 };
 

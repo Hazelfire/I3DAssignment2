@@ -38,6 +38,7 @@ set(GAME_HEADERS
   src/keyboard/keyboard.h
 
   src/gameobject/gameobject.hpp
+  src/SOIL.h
 
   src/terrain.hpp
   src/scene/scene.hpp
@@ -84,10 +85,12 @@ target_link_libraries(test_executable
 	${OPENGL_LIBRARIES}
 	${GLUT_LIBRARY}
   ${Boost_LIBRARIES}
+  ${CMAKE_SOURCE_DIR}/lib/libSOIL.a
 	)
 
 target_link_libraries(Frogger
 	m
 	${OPENGL_LIBRARIES}
 	${GLUT_LIBRARY}
+  ${CMAKE_SOURCE_DIR}/lib/libSOIL.a
 	)
