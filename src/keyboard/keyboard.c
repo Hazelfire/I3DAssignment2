@@ -35,34 +35,34 @@ void c_hold_ctrl(enum keys *held) {
 }
 
 void c_release_ctrl(enum keys *held) {
-  *held &= kb_ctrl ^ 0xFFFFF;
+  *held &= kb_ctrl ^ UINT_MAX;
 }
 
 void c_release(char key, enum keys *held) {
   switch(key) {
     case '\027':
     case 'w':
-      *held &= kb_w ^ 0xFFFFFFFFF;
+      *held &= kb_w ^ UINT_MAX;
       break;
     case '\023':
     case 's':
-      *held &= kb_s ^ 0xFFFFFFFFF;
+      *held &= kb_s ^ UINT_MAX;
       break;
     case '\001':
     case 'a':
-      *held &= kb_a ^ 0xFFFFFFFFF;
+      *held &= kb_a ^ UINT_MAX;
       break;
     case '\004':
     case 'd':
-      *held &= kb_d ^ 0xFFFFFFFFF;
+      *held &= kb_d ^ UINT_MAX;
       break;
     case '\000':
     case ' ':
-      *held &= kb_space ^ 0xFFFFFFFFF;
+      *held &= kb_space ^ UINT_MAX;
       break;
     case '\003':
     case 'c':
-      *held &= kb_c ^ 0xFFFFFFFFF;
+      *held &= kb_c ^ UINT_MAX;
       break;
   }
 }
@@ -87,16 +87,16 @@ void c_special_hold(int key, enum keys *held){
 void c_special_release(int key, enum keys *held){
   switch(key){
     case GLUT_KEY_UP:
-      *held &= kb_up ^ 0xFFFFFFFFF;
+      *held &= kb_up ^ UINT_MAX;
       break;
     case GLUT_KEY_DOWN:
-      *held &= kb_down ^ 0xFFFFFFFFF;
+      *held &= kb_down ^ UINT_MAX;
       break;
     case GLUT_KEY_RIGHT:
-      *held &= kb_right ^ 0xFFFFFFFFF;
+      *held &= kb_right ^ UINT_MAX;
       break;
     case GLUT_KEY_LEFT:
-      *held &= kb_left ^ 0xFFFFFFFFF;
+      *held &= kb_left ^ UINT_MAX;
       break;
   } 
 }
