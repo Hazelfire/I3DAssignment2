@@ -34,15 +34,21 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
-void Sphere::draw() const {
+void Sphere::draw(DrawOptions options) const {
+	// push position
 	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(radius, radius, radius);
 
+	// push settings
+	glPushAttrib(GL_NORMALIZE);
+	glPushAttrib(GL_COLOR_MATERIAL);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
+
 	// TODO set n from global tessalation value
-	const int n = 200;
+	const int n = options.tesselations;
 	const int slices=n, stacks=n;
 	double step_phi = M_PI / stacks;
 
@@ -131,7 +137,9 @@ void Sphere::draw() const {
 		}
 		glEnd();
 	}
+
 	glPopMatrix();
+	glPopAttrib();
 	glPopAttrib();
 }
 
@@ -153,17 +161,23 @@ bool Function::collidesWith(const Sphere &other) const{
 	return false;
 }
 
-void Function::draw() const {
+void Function::draw(DrawOptions options) const {
+	// push position
 	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
+
+	// push settings
+	glPushAttrib(GL_NORMALIZE);
+	glPushAttrib(GL_COLOR_MATERIAL);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	//glBegin(GL_POINTS);
 
 	// TODO set n from global tessalation value
-	const int n = 80;
+	const int n = options.tesselations;
 	double y_vals[n][n];
 	v3d normals[n][n];
 	v3d x_tan[n][n];
@@ -221,34 +235,35 @@ void Function::draw() const {
 		glEnd();
 	}
 
-#if DRAW_FUNCTION_NORMALS
-	glDisable(GL_LIGHTING);
-	glBegin(GL_LINES);
-	for(int i = 0; i < n; i++) {
-		double x = (double)i / n - 0.5;
-		for(int j = 0; j < n; j++) {
-			double z = (double)j / n - 0.5;
+  if(options.normals){
+    glDisable(GL_LIGHTING);
+    glBegin(GL_LINES);
+    for(int i = 0; i < n; i++) {
+      double x = (double)i / n - 0.5;
+      for(int j = 0; j < n; j++) {
+        double z = (double)j / n - 0.5;
 
-			// draw normals
-			glColor3f(0,1,0);
-			v3d current(x, y_vals[i][j], z);
-			current.glVertex();
-			(current + normals[i][j] * 1.0/n).glVertex();
+        // draw normals
+        glColor3f(0,1,0);
+        v3d current(x, y_vals[i][j], z);
+        current.glVertex();
+        (current + normals[i][j] * 1.0/n).glVertex();
 
-			// draw x tangents
-			glColor3f(1,0,0);
-			current.glVertex();
-			x_tan[i][j].glVertex();
+        // draw x tangents
+        glColor3f(1,0,0);
+        current.glVertex();
+        x_tan[i][j].glVertex();
 
-			// draw z tangents
-			glColor3f(0,0,1);
-			current.glVertex();
-			z_tan[i][j].glVertex();
-		}
-	}
-	glEnd();
-#endif
+        // draw z tangents
+        glColor3f(0,0,1);
+        current.glVertex();
+        z_tan[i][j].glVertex();
+      }
+    }
+    glEnd();
+  }
 	glPopMatrix();
+	glPopAttrib();
 	glPopAttrib();
 }
 
@@ -278,7 +293,19 @@ bool Cube::collidesWith(const Cylinder &other) const{
 	return insideX && insideY && insideZ;
 }
 
-void Cube::draw() const {
+void Cube::draw(DrawOptions options) const {
+	// push position
+	glPushMatrix();
+	glTranslated(position.x, position.y, position.z);
+	glScaled(size.x, size.y, size.z);
+
+	// push settings
+	glPushAttrib(GL_NORMALIZE);
+	glPushAttrib(GL_COLOR_MATERIAL);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
+
 	//                                 |
 	//       2---------6               |
 	//      /|        /|               |
@@ -316,11 +343,8 @@ void Cube::draw() const {
 		points[i] -= v3d::unit / 2;
 	}
 
-	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
-	glTranslated(position.x, position.y, position.z);
-	glScaled(size.x, size.y, size.z);
+
+
 #define CUBE_USE_STRIPS 0
 	// can't use strips for cube lighting, since the 
 #if CUBE_USE_STRIPS
@@ -411,6 +435,7 @@ void Cube::draw() const {
 #endif
 	glPopMatrix();
 	glPopAttrib();
+	glPopAttrib();
 }
 
 // Plane
@@ -430,7 +455,7 @@ bool Plane::collidesWith(const Cylinder &other) const{
 	return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
-void Plane::draw() const {
+void Plane::draw(DrawOptions options) const {
 	//NYI
 }
 
@@ -458,24 +483,30 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
-void Cylinder::draw() const {
+void Cylinder::draw(DrawOptions options) const {
+	// push position
 	glPushMatrix();
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
   glRotatef(90, 0, 1, 0);
 	glScaled(radius, radius, length);
 
+	// push settings
+	glPushAttrib(GL_COLOR_MATERIAL);
+	glPushAttrib(GL_NORMALIZE);
+	glEnable(GL_NORMALIZE);
+	if(is_material_active)
+		glMaterialfv(GL_FRONT_AND_BACK, material);
+
 	// TODO set n from global tessalation value
-	const int n = 200;
+	const int n = options.tesselations;
 	const int slices=n, stacks=n;
 
 	// for some reason, there is an artifact on the inside of the cylinder
 	// in the non-stack mode.
-	// not quite sure why. since turning on CYLINDER_COLOUR makes the
+	// not quite sure why. since turning on CYLINDER_COLOR makes the
 	// artifact go away
-#define CYLINDER_COLOUR 0
-#if CYLINDER_COLOUR
+#define CYLINDER_COLOR 0
+#if CYLINDER_COLOR
 	glColor3f(0,1,1);
 #endif
 
@@ -495,7 +526,7 @@ void Cylinder::draw() const {
 		glEnd();
 	}
 
-#if CYLINDER_COLOUR
+#if CYLINDER_COLOR
 	glColor3f(1, 1,1);
 #endif
 
@@ -537,7 +568,7 @@ void Cylinder::draw() const {
 	glEnd();
 #endif
 
-#if CYLINDER_COLOUR
+#if CYLINDER_COLOR
 	glColor3f(1, 0.1,0.1);
 #endif
 
@@ -558,5 +589,6 @@ void Cylinder::draw() const {
 		glEnd();
 	}
 	glPopMatrix();
+	glPopAttrib();
 	glPopAttrib();
 }

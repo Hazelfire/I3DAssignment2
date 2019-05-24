@@ -10,8 +10,8 @@ void Log::update(double dt){
   position.x = fmod(( (position.x + 5) + dt * logSpeed), 10) - 5;
 }
 
-void Log::draw(){
+void Log::draw(DrawOptions opts){
   this->pushTransform();
-  GameObject::draw();
+  GameObject::draw(opts);
   this->popTransform();
 }

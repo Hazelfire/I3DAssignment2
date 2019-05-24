@@ -10,8 +10,8 @@ void Car::update(double dt){
   position.x = fmod(( (position.x + 5) + dt * carSpeed), 10) - 5;
 }
 
-void Car::draw(){
+void Car::draw(DrawOptions opts){
   this->pushTransform();
-  GameObject::draw();
+  GameObject::draw(opts);
   this->popTransform();
 }
