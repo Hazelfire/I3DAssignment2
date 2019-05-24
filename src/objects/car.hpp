@@ -8,5 +8,5 @@ class Car : public GameObject {
   public:
     Car(v3d position);
     virtual void update(double dt) override;
-    virtual void draw() override;
+    virtual void draw(DrawOptions options) override;
 };

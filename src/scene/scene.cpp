@@ -20,9 +20,9 @@ std::vector<std::shared_ptr<GameObject>> Scene::getObjectsByTag(tag::object_tag 
   return re;
 }
 
-void Scene::draw(){
+void Scene::draw(DrawOptions options){
   for(auto& pair : gameObjects){
-    pair.first->draw();
+    pair.first->draw(options);
   }
 }
 void Scene::update(double delta){

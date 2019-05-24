@@ -1,6 +1,7 @@
 #pragma once
 #include "../material/material.hpp"
 
+struct DrawOptions;
 class Cube;
 class Sphere;
 class Cylinder;
@@ -24,6 +25,6 @@ class Shape {
     Shape(const Material &material) : material(material) {};
     Shape() {};
 
-    virtual void draw() const = 0;
+    virtual void draw(DrawOptions options) const = 0;
 };
 

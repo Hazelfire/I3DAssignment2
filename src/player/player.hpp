@@ -12,6 +12,6 @@ class Player : public GameObject {
     v3d jumpV = v3d::unit;
     void jump();
     Player();
-    virtual void draw() override;
+    virtual void draw(DrawOptions options) override;
     virtual void update(double dt) override;
 };

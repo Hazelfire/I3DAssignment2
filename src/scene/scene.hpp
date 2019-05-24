@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include "gameobject/gameobject.hpp"
+#include "shape/primitives/primitives.hpp"
 
 namespace tag {
   enum object_tag {
@@ -21,7 +22,7 @@ class Scene {
     Scene();
     void add(std::shared_ptr<GameObject> obj, tag::object_tag tag);
     std::vector<std::shared_ptr<GameObject>> getObjectsByTag(tag::object_tag tag);
-    void draw();
+    void draw(DrawOptions options);
     void update(double dt);
 };
 
