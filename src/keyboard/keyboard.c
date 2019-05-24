@@ -1,5 +1,6 @@
 #include "keyboard.h"
 #include <GL/freeglut.h>
+#include <limits.h>
 
 void c_hold(char key, enum keys *held) {
   switch(key) {

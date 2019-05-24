@@ -2,14 +2,14 @@
 
 
 Scene::Scene(){
-  gameObjects = std::vector<std::pair<std::shared_ptr<GameObject>, std::string>>();
+  gameObjects = std::vector<std::pair<std::shared_ptr<GameObject>, tag::object_tag>>();
 }
 
-void Scene::add(std::shared_ptr<GameObject> obj, std::string tag){
-  gameObjects.push_back(std::pair<std::shared_ptr<GameObject>, std::string>(obj, tag));
+void Scene::add(std::shared_ptr<GameObject> obj, tag::object_tag tag){
+  gameObjects.push_back(std::pair<std::shared_ptr<GameObject>, tag::object_tag>(obj, tag));
 }
 
-std::vector<std::shared_ptr<GameObject>> Scene::getObjectsByTag(std::string tag){
+std::vector<std::shared_ptr<GameObject>> Scene::getObjectsByTag(tag::object_tag tag){
   std::vector<std::shared_ptr<GameObject>> re;
 
   for(auto& pair : gameObjects){

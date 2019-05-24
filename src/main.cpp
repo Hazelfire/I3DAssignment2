@@ -376,12 +376,12 @@ void init() {
 
 #define DRAW_OBJECTS 0
 #if DRAW_OBJECTS
-  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
-  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), "object");
-  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
-  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
+  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
+  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), tag::object);
+  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
+  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), tag::object);
 #endif
-  scene.add(player, "player");
+  scene.add(player, tag::player);
 
   create_terrain(scene);
 
