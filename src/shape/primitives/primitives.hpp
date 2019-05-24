@@ -1,6 +1,6 @@
 #pragma once
-#include "../../vector/vector.h"// keeping track of relative dirs is why i setup generated_directories.h - you only have to setup the relative dir once per file
-#include "../shape.hpp"
+#include "vector/vector.h"// keeping track of relative dirs is why i setup generated_directories.h - you only have to setup the relative dir once per file
+#include "shape/shape.hpp"
 
 class Cube : public Shape{
 	public:
