@@ -24,5 +24,5 @@ class GameObject {
     void pushTransform() const;
     void popTransform() const;
     void setParent(std::shared_ptr<GameObject> parent);
-    virtual void update(double dt) {if(shape) shape->update(dt);};
+    virtual void update(double dt);
 };
