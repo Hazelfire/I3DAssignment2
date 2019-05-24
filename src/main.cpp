@@ -103,8 +103,6 @@ void display() {
 
   scene.draw();
 
-  std::cout << scene.gameObjects.size() << std::endl;
-
   glDisable(GL_LIGHTING);
   glColor3f(1,1,1);
 #if ENABLE_LIGHTING
