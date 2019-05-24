@@ -9,12 +9,12 @@ class Function;
 
 class Shape {
   public:
-    virtual bool collidesWith(Cube) = 0;
-    virtual bool collidesWith(Plane) = 0;
-    virtual bool collidesWith(Cylinder) = 0;
-    virtual bool collidesWith(Sphere) = 0;
-    //virtual bool collidesWith(Mesh) = 0; NYI
-    //virtual bool collidesWith(Function) = 0; NYI
+    virtual bool collidesWith(Cube) const = 0;
+    virtual bool collidesWith(Plane) const = 0;
+    virtual bool collidesWith(Cylinder) const = 0;
+    virtual bool collidesWith(Sphere) const = 0;
+    //virtual bool collidesWith(Mesh) const = 0; NYI
+    //virtual bool collidesWith(Function) const = 0; NYI
 
     virtual void draw() const = 0;
 };

@@ -5,26 +5,26 @@
 // Sphere
 Sphere::Sphere(v3d position, double radius): position(position), radius(radius) {};
 
-double Sphere::distance(Sphere other){
+double Sphere::distance(const Sphere &other) const {
 	return other.position.distance(this->position) - this->radius - other.radius;
 }
 
-bool Sphere::collidesWith(Sphere other){
-	return this->distance(other) <= 0;
+bool Sphere::collidesWith(Sphere other) const{
+	return distance(other) <= 0;
 }
 
-bool Sphere::collidesWith(Cube other){
+bool Sphere::collidesWith(Cube other) const{
 	bool insideX = this->position.x + this->radius > other.position.x - (other.size.x / 2) && this->position.x - this->radius < other.position.x + (other.size.x / 2);
 	bool insideY = this->position.y + this->radius > other.position.y - (other.size.y / 2) && this->position.y - this->radius < other.position.y + (other.size.y / 2);
 	bool insideZ = this->position.z + this->radius > other.position.z - (other.size.z / 2) && this->position.z - this->radius < other.position.z + (other.size.z / 2);
 	return insideX && insideY && insideZ;
 }
 
-bool Sphere::collidesWith(Plane other){
+bool Sphere::collidesWith(Plane other) const{
 	return other.height > (this->position.y - this->radius);
 }
 
-bool Sphere::collidesWith(Cylinder other){
+bool Sphere::collidesWith(Cylinder other) const{
 	double diffz = position.z - other.position.z;
 	double diffy = position.y - other.position.y;
 	bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
@@ -136,19 +136,19 @@ void Sphere::draw() const {
 
 // Function
 //Function::Function(v3d position, v3d size): position(position), size(size) {};
-bool Function::collidesWith(Cube other){
+bool Function::collidesWith(Cube other) const{
 	return false;
 }
 
-bool Function::collidesWith(Plane other){
+bool Function::collidesWith(Plane other) const{
 	return false;
 }
 
-bool Function::collidesWith(Cylinder other){
+bool Function::collidesWith(Cylinder other) const{
 	return false;
 }
 
-bool Function::collidesWith(Sphere other){
+bool Function::collidesWith(Sphere other) const{
 	return false;
 }
 
@@ -254,23 +254,23 @@ void Function::draw() const {
 
 // Cube
 Cube::Cube(v3d position, v3d size): position(position), size(size){};
-bool Cube::collidesWith(Sphere other){
+bool Cube::collidesWith(Sphere other) const{
 	return other.collidesWith(*this);
 }
 
-bool Cube::collidesWith(Cube other){
+bool Cube::collidesWith(Cube other) const{
 	bool insideX = this->position.x + (this->size.x / 2) > other.position.x - (other.size.x / 2) && this->position.x - ( this->size.x / 2 ) < other.position.x + (other.size.x / 2);
 	bool insideY = this->position.y + (this->size.y / 2) > other.position.y - (other.size.y / 2) && this->position.y - ( this->size.y / 2 ) < other.position.y + (other.size.y / 2);
 	bool insideZ = this->position.z + (this->size.z / 2) > other.position.z - (other.size.z / 2) && this->position.z - ( this->size.z / 2 ) < other.position.z + (other.size.z / 2);
 	return insideX && insideY && insideZ;
 }
 
-bool Cube::collidesWith(Plane other){
+bool Cube::collidesWith(Plane other) const{
 	return other.height > (this->position.y - this->size.y / 2);
 }
 
 // Bad implementation, pretends the cylinder is a cube
-bool Cube::collidesWith(Cylinder other){
+bool Cube::collidesWith(Cylinder other) const{
 	bool insideX = position.x + (size.x / 2) > other.position.x - other.radius && position.x - ( size.x / 2 ) < other.position.x + other.radius;
 	bool insideY = position.y + (size.y / 2) > other.position.y - other.radius && position.y - ( size.y / 2 ) < other.position.y + other.radius;
 	bool insideZ = position.z + (size.z / 2) > other.position.z - other.radius && position.z - ( size.z / 2 ) < other.position.z + other.radius;
@@ -413,19 +413,19 @@ void Cube::draw() const {
 }
 
 // Plane
-bool Plane::collidesWith(Sphere other){
+bool Plane::collidesWith(Sphere other) const{
 	return other.collidesWith(*this);
 }
 
-bool Plane::collidesWith(Cube other){
+bool Plane::collidesWith(Cube other) const{
 	return other.collidesWith(*this);
 }
 
-bool Plane::collidesWith(Plane other){
+bool Plane::collidesWith(Plane other) const{
 	return height == other.height;
 }
 
-bool Plane::collidesWith(Cylinder other){
+bool Plane::collidesWith(Cylinder other) const{
 	return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
@@ -436,19 +436,19 @@ void Plane::draw() const {
 // Cylinder
 Cylinder::Cylinder(v3d position, double radius, double length): position(position), radius(radius), length(length) {};
 
-bool Cylinder::collidesWith(Sphere other){
+bool Cylinder::collidesWith(Sphere other) const{
 	return other.collidesWith(*this);
 }
 
-bool Cylinder::collidesWith(Cube other){
+bool Cylinder::collidesWith(Cube other) const{
 	return other.collidesWith(*this);
 }
 
-bool Cylinder::collidesWith(Plane other){
+bool Cylinder::collidesWith(Plane other) const{
 	return other.collidesWith(*this);
 }
 
-bool Cylinder::collidesWith(Cylinder other){
+bool Cylinder::collidesWith(Cylinder other) const{
 	double diffz = position.z - other.position.z;
 	double diffy = position.y - other.position.y;
 	bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
