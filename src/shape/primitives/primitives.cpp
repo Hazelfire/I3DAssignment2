@@ -42,6 +42,7 @@ void Sphere::draw(DrawOptions options) const {
 
 	// push settings
 	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
 		glMaterialfv(GL_FRONT_AND_BACK, material);
@@ -139,6 +140,7 @@ void Sphere::draw(DrawOptions options) const {
 
 	glPopMatrix();
 	glPopAttrib();
+	glPopAttrib();
 }
 
 // Function
@@ -167,6 +169,7 @@ void Function::draw(DrawOptions options) const {
 
 	// push settings
 	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
 		glMaterialfv(GL_FRONT_AND_BACK, material);
@@ -261,6 +264,7 @@ void Function::draw(DrawOptions options) const {
   }
 	glPopMatrix();
 	glPopAttrib();
+	glPopAttrib();
 }
 
 
@@ -297,6 +301,7 @@ void Cube::draw(DrawOptions options) const {
 
 	// push settings
 	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
 		glMaterialfv(GL_FRONT_AND_BACK, material);
@@ -430,6 +435,7 @@ void Cube::draw(DrawOptions options) const {
 #endif
 	glPopMatrix();
 	glPopAttrib();
+	glPopAttrib();
 }
 
 // Plane
@@ -485,6 +491,7 @@ void Cylinder::draw(DrawOptions options) const {
 	glScaled(radius, radius, length);
 
 	// push settings
+	glPushAttrib(GL_COLOR_MATERIAL);
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_NORMALIZE);
 	if(is_material_active)
@@ -496,10 +503,10 @@ void Cylinder::draw(DrawOptions options) const {
 
 	// for some reason, there is an artifact on the inside of the cylinder
 	// in the non-stack mode.
-	// not quite sure why. since turning on CYLINDER_COLOUR makes the
+	// not quite sure why. since turning on CYLINDER_COLOR makes the
 	// artifact go away
-#define CYLINDER_COLOUR 0
-#if CYLINDER_COLOUR
+#define CYLINDER_COLOR 0
+#if CYLINDER_COLOR
 	glColor3f(0,1,1);
 #endif
 
@@ -519,7 +526,7 @@ void Cylinder::draw(DrawOptions options) const {
 		glEnd();
 	}
 
-#if CYLINDER_COLOUR
+#if CYLINDER_COLOR
 	glColor3f(1, 1,1);
 #endif
 
@@ -561,7 +568,7 @@ void Cylinder::draw(DrawOptions options) const {
 	glEnd();
 #endif
 
-#if CYLINDER_COLOUR
+#if CYLINDER_COLOR
 	glColor3f(1, 0.1,0.1);
 #endif
 
@@ -582,5 +589,6 @@ void Cylinder::draw(DrawOptions options) const {
 		glEnd();
 	}
 	glPopMatrix();
+	glPopAttrib();
 	glPopAttrib();
 }

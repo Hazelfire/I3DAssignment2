@@ -99,6 +99,19 @@ void display() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   }
 
+
+  Tute_Water test_func(Material(128,//shine
+        Colour(0.1, 0.1, 0.1, 0.1), //ambient
+        Colour(1, 0, 0, 0),         //diffuse
+        Colour(1, 1, 1, 1)          //specular
+        ), v3d(2,2,0), v3d(2,1,1)); //position, scale
+  test_func.x_mul = 10;
+  test_func.z_mul = 5;
+  test_func.t = time.current;
+  test_func.draw(drawOpts);
+
+
+
   scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
@@ -106,13 +119,9 @@ void display() {
   if(drawOpts.lighting){
     glEnable(GL_LIGHTING);
   }
-  /*
-  Tute_Water test_func(v3d(2,2,0), v3d(2,1,1));
-  test_func.x_mul = 10;
-  test_func.z_mul = 5;
-  test_func.t = time.current;
-  test_func.draw();
-*/
+
+
+
 
 #define DRAW_3_SQUARES 0
 #if DRAW_3_SQUARES
