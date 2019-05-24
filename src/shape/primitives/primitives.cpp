@@ -348,13 +348,13 @@ void Cube::draw() const {
 	{
 		//+x
 		v3d::X.glNormal();
-		points[4].glVertex();
-		v3d::X.glNormal();
 		points[5].glVertex();
 		v3d::X.glNormal();
-		points[7].glVertex();
+		points[4].glVertex();
 		v3d::X.glNormal();
 		points[6].glVertex();
+		v3d::X.glNormal();
+		points[7].glVertex();
 
 		//-x
 		(-1*v3d::X).glNormal();
@@ -378,24 +378,24 @@ void Cube::draw() const {
 		points[6].glVertex();
 		//-y
 		(-1*v3d::Y).glNormal();
-		points[0].glVertex();
-		(-1*v3d::Y).glNormal();
 		points[1].glVertex();
 		(-1*v3d::Y).glNormal();
-		points[5].glVertex();
+		points[0].glVertex();
 		(-1*v3d::Y).glNormal();
 		points[4].glVertex();
+		(-1*v3d::Y).glNormal();
+		points[5].glVertex();
 	}
 	{
 		//+z
 		v3d::Z.glNormal();
-		points[1].glVertex();
-		v3d::Z.glNormal();
 		points[3].glVertex();
 		v3d::Z.glNormal();
-		points[7].glVertex();
+		points[1].glVertex();
 		v3d::Z.glNormal();
 		points[5].glVertex();
+		v3d::Z.glNormal();
+		points[7].glVertex();
 		//-z
 		(-1*v3d::Z).glNormal();
 		points[0].glVertex();
