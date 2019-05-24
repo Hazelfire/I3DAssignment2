@@ -19,6 +19,7 @@ set(GAME_SRC
   src/terrain.cpp
 
   src/player/player.cpp
+  src/objects/car.cpp
 
   src/shape/primitives/primitives.cpp
   src/shape/primitives/function/function.cpp
@@ -41,6 +42,7 @@ set(GAME_HEADERS
   src/scene/scene.hpp
 
   src/player/player.hpp
+  src/objects/car.hpp
 
   src/shape/primitives/primitives.hpp
   src/shape/primitives/function/function.hpp
