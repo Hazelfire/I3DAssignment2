@@ -11,12 +11,13 @@ class Function;
 class Shape {
   public:
     Material material;
-    virtual bool collidesWith(Cube &c) = 0;
-    virtual bool collidesWith(Plane &p) = 0;
-    virtual bool collidesWith(Cylinder &c) = 0;
-    virtual bool collidesWith(Sphere &s) = 0;
-    //virtual bool collidesWith(Mesh) = 0; NYI
-    //virtual bool collidesWith(Function) = 0; NYI
+
+    virtual bool collidesWith(const Cube&) const = 0;
+    virtual bool collidesWith(const Plane&) const = 0;
+    virtual bool collidesWith(const Cylinder&) const = 0;
+    virtual bool collidesWith(const Sphere&) const = 0;
+    //virtual bool collidesWith(const Mesh&) const = 0; NYI
+    //virtual bool collidesWith(const Function&) const = 0; NYI
 
     Shape(const Shape &other): material(other.material) {};
     Shape(const Material &material) : material(material) {};
