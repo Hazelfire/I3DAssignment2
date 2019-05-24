@@ -307,18 +307,18 @@ void handle_keys() {
   if(*keys & kb_s) {
     player_camera.position -= forward * movement * time.delta;
   }
-  if(*keys & kb_d) {
-    player.rotation.y -= movement * time.delta;
-  }
-  if(*keys & kb_a) {
-    player.rotation.y += movement * time.delta;
-  }
   if(*keys & kb_c) {
     player_camera.position += v3d::Y * movement * time.delta;
   }
 #endif
   if(*keys & kb_space) {
     player->jump();
+  }
+  if(*keys & kb_d) {
+    player->jumpV.rotate(-movement * time.delta, v3d::Y);
+  }
+  if(*keys & kb_a) {
+    player->jumpV.rotate(movement * time.delta, v3d::Y);
   }
 }
 

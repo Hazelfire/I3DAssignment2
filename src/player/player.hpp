@@ -4,12 +4,12 @@
 
 class Player : public GameObject {
   private:
-    v3d jumpV = v3d::unit;
     v3d velocity = v3d::zero;
     bool grounded = true;
 
     void drawJump();
   public:
+    v3d jumpV = v3d::unit;
     void jump();
     Player();
     virtual void draw() override;
