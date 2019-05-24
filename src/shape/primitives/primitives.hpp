@@ -2,6 +2,11 @@
 #include "vector/vector.h"// keeping track of relative dirs is why i setup generated_directories.h - you only have to setup the relative dir once per file
 #include "shape/shape.hpp"
 
+struct DrawOptions {
+  bool wireframe = false;
+  int tesselations = 16;
+};
+
 class Cube : public Shape{
 	public:
 		v3d position;

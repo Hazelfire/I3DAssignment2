@@ -2,12 +2,17 @@
 
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
+  const _time& t = _time::get_instance();
 
 #if UNIT_TESTS
   test::rotate();
 #endif
 
   handle_keys();
+
+  scene.update(t.delta);
+  focus->position = v3d::zero -player->position;
+
 
   // redraw the screen
   glutPostRedisplay();
@@ -35,7 +40,7 @@ void display() {
 
   // camera
   // anything before here is relative to the camera
-  player_camera.move_to();
+  player_camera->move_to();
   // anything after here is relative to the world
 
   const _time& time = _time::get_instance();
@@ -109,14 +114,11 @@ void display() {
   glEnable(GL_LIGHTING);
 #endif
   /*
-<<<<<<< HEAD
   Tute_Water test_func(v3d(2,2,0), v3d(2,1,1));
   test_func.x_mul = 10;
   test_func.z_mul = 5;
   test_func.t = time.current;
   test_func.draw();
-=======
->>>>>>> master
 */
 
 #define DRAW_3_SQUARES 0
@@ -216,6 +218,7 @@ void display() {
 #endif
 
 
+  player_camera->popTransform();
   glPopMatrix();
 #ifndef VSYNC
 #define VSYNC 1
@@ -262,13 +265,13 @@ void mouse(int x, int y) {
   int dx = x - last_x;
   int dy = y - last_y;
 
-  player_camera.rotation.x += 0.5 * dx;
-  player_camera.rotation.y += 0.5 * dy;
+  focus->rotation.y += 0.5 * dx;
+  focus->rotation.x += 0.5 * dy;
 
-  if(player_camera.rotation.y > 90) {
-    player_camera.rotation.y = 90;
-  } else if(player_camera.rotation.y < -90) {
-    player_camera.rotation.y = -90;
+  if(focus->rotation.x > 0) {
+    focus->rotation.x = 0;
+  } else if(focus->rotation.x < -90) {
+    focus->rotation.x = -90;
   }
 
   last_x = x;
@@ -276,17 +279,11 @@ void mouse(int x, int y) {
 }
 
 void specialUp(int key, int x, int y) {
-  switch(key) {
-    default:
-    break;
-  }
+  keyboard::release_special(key);
 }
 
 void special(int key, int x, int y) {
-  switch(key) {
-    default:
-    break;
-  }
+  keyboard::hold_special(key);
 }
 
 void keyboardUp(unsigned char key, int x, int y) {
@@ -309,6 +306,7 @@ void keyboard(unsigned char key, int x, int y) {
 
 void handle_keys() {
   double movement = 5;
+  double extensionSpeed = 1;
 
 #define USE_XZ 0
 #if USE_XZ
@@ -316,7 +314,7 @@ void handle_keys() {
   // cross is already normalised, since forward is in the x-z plane
   v3d right = v3d::cross(v3d::Y, forward)/*.normalise()*/;
 #else
-  v3d forward = player_camera.get_forward();
+  v3d forward = player_camera->get_forward();
   v3d right = v3d::cross(v3d::Y, forward).normalise();
 #endif
 
@@ -333,38 +331,68 @@ void handle_keys() {
   std::cout << "right.length: " << right.length() << std::endl;
 #endif
 
-  if(*keys & kb_ctrl) {
-    movement /= 10;
-  }
-
+#define FLY_MOVEMENT 0
+#if FLY_MOVEMENT
   if(*keys & kb_w) {
     player_camera.position += forward * movement * time.delta;
   }
   if(*keys & kb_s) {
     player_camera.position -= forward * movement * time.delta;
   }
-  if(*keys & kb_d) {
-    player_camera.position -= right * movement * time.delta;
-  }
-  if(*keys & kb_a) {
-    player_camera.position += right * movement * time.delta;
-  }
-  if(*keys & kb_space) {
-    player_camera.position -= v3d::Y * movement * time.delta;
-  }
   if(*keys & kb_c) {
     player_camera.position += v3d::Y * movement * time.delta;
+  }
+#endif
+  if(*keys & kb_space) {
+    player->jump();
+  }
+  if(*keys & kb_d) {
+    player->jumpV.rotate(-movement * time.delta, v3d::Y);
+  }
+  if(*keys & kb_a) {
+    player->jumpV.rotate(movement * time.delta, v3d::Y);
+  }
+  v3d jumpD(player->jumpV);
+  jumpD.normalise();
+  if(*keys & kb_up) {
+    player->jumpV += jumpD * extensionSpeed * time.delta;
+  }
+  if(*keys & kb_down) {
+    player->jumpV -= jumpD * extensionSpeed * time.delta;
+  }
+  if(*keys & kb_left) {
+    v3d right = jumpD.cross(v3d::Y);
+    player->jumpV.rotate(movement * time.delta, right);
+  }
+  if(*keys & kb_right) {
+    v3d right = jumpD.cross(v3d::Y);
+    player->jumpV.rotate(-movement * time.delta, right);
   }
 }
 
 
 void init() {
-  player_camera = camera();
 
-  scene.add(GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
-  scene.add(GameObject(new Sphere(v3d(0,2,1), 1)), "object");
-  scene.add(GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
-  scene.add(GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
+#define DRAW_OBJECTS 0
+#if DRAW_OBJECTS
+  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
+  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), "object");
+  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
+  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
+#endif
+  scene.add(player, "player");
+  scene.add(std::shared_ptr<GameObject>(new GameObject(new Cube(v3d(0, -1.5, 0), v3d(100, 1, 100)))), "floor");
+
+  /*
+   * The camera has a "focus", which is an empty game object that tracks
+   * the position of the player. Rotating and moving this focus makes sure
+   * that the camera is always pointing towards the player
+   */
+
+  player_camera->position.z = -4;
+  player_camera->setParent(focus);
+
+
 
   // init singletons
   keyboard::get_instance();

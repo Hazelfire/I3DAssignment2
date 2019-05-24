@@ -11,9 +11,8 @@ void v3d::draw() const {
 
 void v3d::draw(double x, double y, double z) const {
   glBegin(GL_LINES);
-  glTranslated(x, y, z);
-  glVertex3f(0,0,0);
-  glVertex3f(this->x,this->y,this->z);
+  glVertex3f(x,y,z);
+  glVertex3f(this->x + x,this->y + y,this->z + z);
   glEnd();
 }
 

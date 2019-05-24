@@ -1,12 +1,11 @@
-#include "../vector/vector.h"
+#include "vector/vector.h"
+#include "gameobject/gameobject.hpp"
 
 
-class camera {
+class Camera : public GameObject{
   public:
-    v3d rotation;
-    v3d position;
 
-    camera(void);
+    Camera(void);
 
     void move_to() const;
 

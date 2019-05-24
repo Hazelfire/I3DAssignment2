@@ -6,11 +6,12 @@
 
 class Scene {
   private:
-    std::vector<std::pair<GameObject, std::string>> gameObjects;
+    std::vector<std::pair<std::shared_ptr<GameObject>, std::string>> gameObjects;
   public:
     Scene();
-    void add(GameObject obj, std::string tag);
-    std::vector<GameObject> getObjectsByTag(std::string tag);
+    void add(std::shared_ptr<GameObject> obj, std::string tag);
+    std::vector<std::shared_ptr<GameObject>> getObjectsByTag(std::string tag);
     void draw();
+    void update(double dt);
 };
 
