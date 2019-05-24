@@ -25,4 +25,9 @@ void Scene::draw(){
     pair.first->draw();
   }
 }
+void Scene::update(double delta){
+  for(auto& pair : gameObjects){
+    pair.first->update(delta);
+  }
+}
 

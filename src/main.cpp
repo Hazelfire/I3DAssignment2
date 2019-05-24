@@ -2,12 +2,16 @@
 
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
+  const _time& t = _time::get_instance();
 
 #if UNIT_TESTS
   test::rotate();
 #endif
 
   handle_keys();
+
+  scene.update(t.delta);
+
 
   // redraw the screen
   glutPostRedisplay();
@@ -308,13 +312,13 @@ void handle_keys() {
   if(*keys & kb_a) {
     player.rotation.y += movement * time.delta;
   }
-  if(*keys & kb_space) {
-    player_camera.position -= v3d::Y * movement * time.delta;
-  }
   if(*keys & kb_c) {
     player_camera.position += v3d::Y * movement * time.delta;
   }
 #endif
+  if(*keys & kb_space) {
+    player->jump();
+  }
 }
 
 
@@ -328,6 +332,7 @@ void init() {
   scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
 #endif
   scene.add(player, "player");
+  scene.add(std::shared_ptr<GameObject>(new GameObject(new Cube(v3d(0, -1.5, 0), v3d(10, 1, 10)))), "floor");
 
   /*
    * The camera has a "focus", which is an empty game object that tracks

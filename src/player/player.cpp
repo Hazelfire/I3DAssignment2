@@ -13,7 +13,7 @@ void Player::draw(){
 void Player::drawJump(){
 
   v3d currentPos(position);
-  v3d currentVel(jump);
+  v3d currentVel(jumpV);
   
   const double dt = 0.1;
   const double gravity = 0.2;
@@ -24,4 +24,22 @@ void Player::drawJump(){
     movement.draw(currentPos.x, currentPos.y, currentPos.z);
     currentPos = newPos;
   }
+}
+
+void Player::jump(){
+  if(grounded){
+    velocity = v3d(jumpV);
+    grounded = false;
+  }
+}
+
+void Player::update(double dt){
+  if(!grounded){
+    const double gravity = 0.2;
+    position += velocity * dt;
+    velocity.y -= dt * gravity;
+    if(position.y <= 0){
+      grounded = true;
+    }
+  }   
 }

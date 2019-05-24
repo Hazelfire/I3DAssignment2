@@ -12,5 +12,6 @@ class Scene {
     void add(std::shared_ptr<GameObject> obj, std::string tag);
     std::vector<std::shared_ptr<GameObject>> getObjectsByTag(std::string tag);
     void draw();
+    void update(double dt);
 };
 
