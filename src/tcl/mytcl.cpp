@@ -16,8 +16,8 @@ void hello() { std::cout << "Hello C++/Tcl!" << std::endl; }
 TCLInterpreter::TCLInterpreter(){
   future = std::async(std::launch::async, GetLineFromCin);
   Tcl_Interp * interp = Tcl_CreateInterpWithStubs("8.6", 0);
-	i = Tcl::Interpreter(interp, true);
-	i.def("hello", hello);
+  i = Tcl::Interpreter(interp, true);
+  i.def("hello", hello);
 }
 
 TCLInterpreter::update(){
