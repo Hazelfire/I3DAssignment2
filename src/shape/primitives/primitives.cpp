@@ -463,6 +463,7 @@ void Cylinder::draw() const {
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_NORMALIZE);
 	glTranslated(position.x, position.y, position.z);
+  glRotatef(90, 0, 1, 0);
 	glScaled(radius, radius, length);
 
 	// TODO set n from global tessalation value

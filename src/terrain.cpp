@@ -2,6 +2,7 @@
 #include "shape/primitives/primitives.hpp"
 #include "shape/primitives/function/function.hpp"
 #include "objects/car.hpp"
+#include "objects/log.hpp"
 
 
 void create_terrain(Scene& scene){
@@ -27,6 +28,11 @@ void create_terrain(Scene& scene){
 
   // water in lake
   scene.add(shared_ptr<GameObject>(new GameObject(new Tute_Water(v3d(0, -2, 15), v3d(10, 0.5, 5)))), "floor");
+
+  // Logs
+  scene.add(shared_ptr<GameObject>(new Log(v3d(-3, 0.5, 13.5))), "log");
+  scene.add(shared_ptr<GameObject>(new Log(v3d(0, 0.5, 15))), "log");
+  scene.add(shared_ptr<GameObject>(new Log(v3d(3, 0.5, 16.5))), "log");
 
 
 

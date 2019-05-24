@@ -20,6 +20,7 @@ set(GAME_SRC
 
   src/player/player.cpp
   src/objects/car.cpp
+  src/objects/log.cpp
 
   src/shape/primitives/primitives.cpp
   src/shape/primitives/function/function.cpp
@@ -43,6 +44,7 @@ set(GAME_HEADERS
 
   src/player/player.hpp
   src/objects/car.hpp
+  src/objects/log.hpp
 
   src/shape/primitives/primitives.hpp
   src/shape/primitives/function/function.hpp
