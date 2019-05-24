@@ -7,9 +7,9 @@ struct DrawOptions {
   int tesselations = 16;
   bool drawAxes = true;
   bool normals = false;
-  bool lighting = false;
+  bool lighting = true;
   bool textures = false;
-  bool animation = false;
+  bool animation = true;
   bool osd = false;
 };
 

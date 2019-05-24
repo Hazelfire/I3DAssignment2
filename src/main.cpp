@@ -11,7 +11,10 @@ void update(void) {
 
   handle_keys();
 
-  scene.update(t.delta);
+  if(drawOpts.animation){
+    scene.update(t.delta);
+  }
+
   focus->position = v3d::zero -player->position;
 
 
@@ -33,11 +36,9 @@ void display() {
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
 
-#define ENABLE_LIGHTING 1
-
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
 
   // camera
   // anything before here is relative to the camera
@@ -77,9 +78,9 @@ void display() {
 
   glDisable(GL_LIGHTING);
   sun.draw(drawOpts);
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
 
 
 
@@ -91,29 +92,20 @@ void display() {
   glTexCoord2d(/*u[0,1]*/0, /*v[0,1]*/0);
 #endif
 
-#define DRAW_FILL 1
-#if DRAW_FILL
-  //glPolygonMode(GL_FRONT, GL_FILL);
-  //glPolygonMode(GL_BACK, GL_LINE);
-  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-#else
-#define WIREFRAME 1
-#if WIREFRAME
-  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-#else
-  glPolygonMode(GL_BACK, GL_LINE);
-  glPolygonMode(GL_FRONT, GL_POINT);
-  glPointSize(10);
-#endif
-#endif
+  if(drawOpts.wireframe){
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  }
+  else{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
 
   scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
   glColor3f(1,1,1);
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
   /*
   Tute_Water test_func(v3d(2,2,0), v3d(2,1,1));
   test_func.x_mul = 10;
@@ -145,18 +137,20 @@ void display() {
 #endif
 
   glDisable(GL_LIGHTING);
-  //X axis
-  glColor3f(1,0,0);
-  v3d::X.draw();
-  //Y axis
-  glColor3f(0,1,0);
-  v3d::Y.draw();
-  //Z axis
-  glColor3f(0,0,1);
-  v3d::Z.draw();
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.drawAxes){
+    //X axis
+    glColor3f(1,0,0);
+    v3d::X.draw();
+    //Y axis
+    glColor3f(0,1,0);
+    v3d::Y.draw();
+    //Z axis
+    glColor3f(0,0,1);
+    v3d::Z.draw();
+  }
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
 
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   //glPolygonMode(GL_BACK, GL_LINE);
@@ -319,6 +313,9 @@ void keyboard(unsigned char key, int x, int y) {
       break;
     case 'g':
       drawOpts.animation = !drawOpts.animation;
+      break;
+    case 'l':
+      drawOpts.lighting = !drawOpts.lighting;
       break;
     case 'o':
       drawOpts.osd = !drawOpts.osd;

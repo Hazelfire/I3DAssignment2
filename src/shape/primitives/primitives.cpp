@@ -50,7 +50,7 @@ void Sphere::draw(DrawOptions options) const {
 	// start of sphere...
 	// simplified case, since the pole stays the same
 	{
-		glBegin(options.wireframe ? GL_LINE_LOOP : GL_TRIANGLE_FAN);
+		glBegin(GL_TRIANGLE_FAN);
 		double sin_phi_step = sinf(step_phi);
 		double cos_phi_step = cosf(step_phi);
 
@@ -78,7 +78,7 @@ void Sphere::draw(DrawOptions options) const {
 	// middle of sphere
 	for (int j = 1; j < stacks-1; j++) {
 		double phi = j / (double)stacks * M_PI;
-		glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUAD_STRIP);
+		glBegin(GL_QUAD_STRIP);
 		double sin_phi = sinf(phi);
 		double sin_phi_step = sinf(phi+step_phi);
 		double cos_phi = cosf(phi);
@@ -110,7 +110,7 @@ void Sphere::draw(DrawOptions options) const {
 	// simplified case, since the pole stays the same
 	{
 		double phi = (stacks-1) / (double)stacks * M_PI;
-		glBegin(options.wireframe ? GL_LINE_LOOP : GL_TRIANGLE_FAN);
+		glBegin(GL_TRIANGLE_FAN);
 		double sin_phi = sinf(phi);
 		double cos_phi = cosf(phi);
 		v3d start(0, 0, -1);
@@ -207,7 +207,7 @@ void Function::draw(DrawOptions options) const {
 
 
 	for(int i = 0; i < n-1; i++) {
-		glBegin(options.wireframe ? GL_LINE_STRIP : GL_TRIANGLE_STRIP);
+		glBegin(GL_TRIANGLE_STRIP);
 		double x = (double)i / n - 0.5;
 		for(int j = 0; j < n; j++) {
 			double z = (double)j / n - 0.5;
@@ -345,7 +345,7 @@ void Cube::draw(DrawOptions options) const {
 	points[6].draw();
 	glEnd();
 #else
-	glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUADS);
+	glBegin(GL_QUADS);
 	{
 		//+x
 		v3d::X.glNormal();
@@ -482,7 +482,7 @@ void Cylinder::draw(DrawOptions options) const {
 	// start of cylinder...
 	// simplified case, since the pole stays the same
 	{
-		glBegin(options.wireframe ? GL_LINE_LOOP : GL_POLYGON);
+		glBegin(GL_POLYGON);
 
 		for(int i = 0; i < slices; i++) {
 			double theta = i / (double)slices * 2.0 * M_PI;
@@ -508,7 +508,7 @@ void Cylinder::draw(DrawOptions options) const {
 		double sin_theta = sinf(theta);
 
 		v3d normal(cos_theta, sin_theta, 0);
-		glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUAD_STRIP);
+		glBegin(GL_QUAD_STRIP);
 
 		for(int j = 0; j < stacks; j++) {
 			double zpos = (double)j / stacks - 0.5;
@@ -523,7 +523,7 @@ void Cylinder::draw(DrawOptions options) const {
 		glEnd();
 	}
 #else
-	glBegin(options.wireframe ? GL_LINE_STRIP : GL_QUAD_STRIP);
+	glBegin(GL_QUAD_STRIP);
 	for(int i = 0; i <= slices; i++) {
 		double theta = i / (double)slices * 2.0 * M_PI;
 		double cos_theta = cosf(theta);
@@ -544,7 +544,7 @@ void Cylinder::draw(DrawOptions options) const {
 	// end of cylinder...
 	// simplified case, since the pole stays the same
 	if(1) {
-		glBegin(options.wireframe ? GL_LINE_STRIP : GL_POLYGON);
+		glBegin(GL_POLYGON);
 
 		// reverse order, so that the end is facing outwards
 		for (int i = slices; i > 0; i--) {
