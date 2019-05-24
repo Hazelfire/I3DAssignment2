@@ -19,7 +19,3 @@ v3d Camera::get_forward_xz() const {
   forward.rotate(this->rotation.x, v3d::Y);
   return forward;
 }
-
-void Camera::move_to() const {
-  this->pushTransform();
-}

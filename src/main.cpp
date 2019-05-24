@@ -41,7 +41,7 @@ void display() {
 
   // camera
   // anything before here is relative to the camera
-  player_camera->move_to();
+  player_camera->pushTransform();
   // anything after here is relative to the world
 
   const _time& time = _time::get_instance();
