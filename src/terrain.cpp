@@ -1,6 +1,7 @@
 #include "terrain.hpp"
 #include "shape/primitives/primitives.hpp"
 #include "shape/primitives/function/function.hpp"
+#include "material/material.hpp"
 #include "objects/car.hpp"
 #include "objects/log.hpp"
 
@@ -27,7 +28,9 @@ void create_terrain(Scene& scene){
   scene.add(shared_ptr<GameObject>(new GameObject(new Cube(v3d(0, -6, 20), v3d(10, 10, 5)))), "floor");
 
   // water in lake
-  scene.add(shared_ptr<GameObject>(new GameObject(new Tute_Water(v3d(0, -2, 15), v3d(10, 0.5, 5)))), "floor");
+  Colour blue(1, 0, 0, 0.5);
+  Material waterMaterial(0.5, blue, blue, blue);
+  scene.add(shared_ptr<GameObject>(new GameObject(new Tute_Water(waterMaterial, v3d(0, -2, 15), v3d(10, 0.5, 5)))), "floor");
 
   // Logs
   scene.add(shared_ptr<GameObject>(new Log(v3d(-3, -0.5, 6.5))), "log");

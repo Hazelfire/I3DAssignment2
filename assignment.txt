@@ -30,21 +30,21 @@ ellipsoid, for the frog, and only do a hiearchical key-framed frog model if you 
 
 The main requirements are:
 
-  • Start with a sphere or ellipsoid to represent a frog, using GLUT's primitives, then your own implementation using parametric equations.
-  • Draw the jump trajectory parabola as in assignment 1, but now in three dimensions, and only to the ground plane y=0.
-  • Control the frog's rotation around the y axis.
-  • Control the speed/rotation of the frog's jump vector as in assignment 1.
-  • Animate the frog's jump using the numerical integration as in assignment 1, but now in three dimensions.
-  • Use a third person perspective camera that follows the frog as it moves with zoom and rotation.
+-  • Start with a sphere or ellipsoid to represent a frog, using GLUT's primitives, then your own implementation using parametric equations.
+-  • Draw the jump trajectory parabola as in assignment 1, but now in three dimensions, and only to the ground plane y=0.
+-  • Control the frog's rotation around the y axis.
+-  • Control the speed/rotation of the frog's jump vector as in assignment 1.
+-  • Animate the frog's jump using the numerical integration as in assignment 1, but now in three dimensions.
+-  • Use a third person perspective camera that follows the frog as it moves with zoom and rotation.
   • Put a road and a river in the scene. Make the river surface transparent.
-  • Draw moving, floating cylinders to represent logs, and moving cubes to represent cars.
+-  • Draw moving, floating cylinders to represent logs, and moving cubes to represent cars.
   • Apply texturing to the logs, and optionally the ground/road/riverbed.
-  • Animate the water using a sine wave as in assignment 1.
+-  • Animate the water using a sine wave as in assignment 1.
   • Use sphere-sphere or sphere-box collision detection with the cars and logs.
   • As in assignment 1, the frog should attach to logs and die when hitting the river or a car.
   • Draw normal vectors for all geometry being rendered.
-  • Apply lighting, normals and materials to all geometry.
-  • Add keyboard controls for for toggling lighting/texturing/wifreframe mode (see controls section for more details).
+-  • Apply lighting, normals and materials to all geometry.
+-  • Add keyboard controls for for toggling lighting/texturing/wifreframe mode (see controls section for more details).
   • Draw a hierarchical model for the frog, made from boxes.
   • Perform keyframe animation for the jumping and landing of the frog.
   • Game scoring.
