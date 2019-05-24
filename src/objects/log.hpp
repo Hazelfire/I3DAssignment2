@@ -8,5 +8,5 @@ class Log : public GameObject {
   public:
     Log(v3d position);
     virtual void update(double dt) override;
-    virtual void draw() override;
+    virtual void draw(DrawOptions opts) override;
 };

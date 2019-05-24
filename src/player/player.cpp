@@ -4,8 +4,8 @@
 
 Player::Player(): GameObject(new Sphere(v3d::zero, 0.2)){};
 
-void Player::draw(){
-  GameObject::draw(); 
+void Player::draw(DrawOptions options){
+  GameObject::draw(options); 
 
   drawJump();
 }

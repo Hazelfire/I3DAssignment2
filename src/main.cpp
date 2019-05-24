@@ -11,7 +11,10 @@ void update(void) {
 
   handle_keys();
 
-  scene.update(t.delta);
+  if(drawOpts.animation){
+    scene.update(t.delta);
+  }
+
   focus->position = v3d::zero -player->position;
 
 
@@ -33,11 +36,9 @@ void display() {
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
 
-#define ENABLE_LIGHTING 1
-
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
 
   // camera
   // anything before here is relative to the camera
@@ -76,10 +77,10 @@ void display() {
   Sphere sun(v3d(light_pos[0],light_pos[1],light_pos[2]), 0.2);
 
   glDisable(GL_LIGHTING);
-  sun.draw();
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  sun.draw(drawOpts);
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
 
 
 
@@ -91,29 +92,20 @@ void display() {
   glTexCoord2d(/*u[0,1]*/0, /*v[0,1]*/0);
 #endif
 
-#define DRAW_FILL 1
-#if DRAW_FILL
-  //glPolygonMode(GL_FRONT, GL_FILL);
-  //glPolygonMode(GL_BACK, GL_LINE);
-  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-#else
-#define WIREFRAME 1
-#if WIREFRAME
-  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-#else
-  glPolygonMode(GL_BACK, GL_LINE);
-  glPolygonMode(GL_FRONT, GL_POINT);
-  glPointSize(10);
-#endif
-#endif
+  if(drawOpts.wireframe){
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  }
+  else{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
 
-  scene.draw();
+  scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
   glColor3f(1,1,1);
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
   /*
   Tute_Water test_func(v3d(2,2,0), v3d(2,1,1));
   test_func.x_mul = 10;
@@ -145,18 +137,20 @@ void display() {
 #endif
 
   glDisable(GL_LIGHTING);
-  //X axis
-  glColor3f(1,0,0);
-  v3d::X.draw();
-  //Y axis
-  glColor3f(0,1,0);
-  v3d::Y.draw();
-  //Z axis
-  glColor3f(0,0,1);
-  v3d::Z.draw();
-#if ENABLE_LIGHTING
-  glEnable(GL_LIGHTING);
-#endif
+  if(drawOpts.drawAxes){
+    //X axis
+    glColor3f(1,0,0);
+    v3d::X.draw();
+    //Y axis
+    glColor3f(0,1,0);
+    v3d::Y.draw();
+    //Z axis
+    glColor3f(0,0,1);
+    v3d::Z.draw();
+  }
+  if(drawOpts.lighting){
+    glEnable(GL_LIGHTING);
+  }
 
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   //glPolygonMode(GL_BACK, GL_LINE);
@@ -303,6 +297,38 @@ void keyboard(unsigned char key, int x, int y) {
     keyboard::release_ctrl();
   }
   keyboard::hold(key);
+  
+  switch(key){
+    case 'x':
+      drawOpts.drawAxes = !drawOpts.drawAxes;
+      break;
+    case 'n':
+      drawOpts.normals = !drawOpts.normals;
+      break;
+    case 'f':
+      drawOpts.wireframe = !drawOpts.wireframe;
+      break;
+    case 't':
+      drawOpts.textures = !drawOpts.textures;
+      break;
+    case 'g':
+      drawOpts.animation = !drawOpts.animation;
+      break;
+    case 'l':
+      drawOpts.lighting = !drawOpts.lighting;
+      break;
+    case 'o':
+      drawOpts.osd = !drawOpts.osd;
+      break;
+    case '+':
+      drawOpts.tesselations *= 2;
+      break;
+    case '-':
+      if(drawOpts.tesselations > 4){
+        drawOpts.tesselations /= 2;
+      }
+      break;
+  }
 }
 
 void handle_keys() {
@@ -376,12 +402,12 @@ void init() {
 
 #define DRAW_OBJECTS 0
 #if DRAW_OBJECTS
-  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), "object");
-  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), "object");
-  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
-  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
+  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
+  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), tag::object);
+  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
+  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), tag::object);
 #endif
-  scene.add(player, "player");
+  scene.add(player, tag::player);
 
   create_terrain(scene);
 
