@@ -21,3 +21,11 @@ void keyboard::hold(char key) {
 void keyboard::release(char key) {
   c_release(key, &instance->held);
 }
+
+void keyboard::hold_special(char key){
+  c_special_hold(key, &instance->held);
+}
+
+void keyboard::release_special(char key){
+  c_special_release(key, &instance->held);
+}

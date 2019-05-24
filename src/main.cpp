@@ -252,17 +252,11 @@ void mouse(int x, int y) {
 }
 
 void specialUp(int key, int x, int y) {
-  switch(key) {
-    default:
-    break;
-  }
+  keyboard::release_special(key);
 }
 
 void special(int key, int x, int y) {
-  switch(key) {
-    default:
-    break;
-  }
+  keyboard::hold_special(key);
 }
 
 void keyboardUp(unsigned char key, int x, int y) {
@@ -275,6 +269,7 @@ void keyboard(unsigned char key, int x, int y) {
 
 void handle_keys() {
   double movement = 5;
+  double extensionSpeed = 1;
 
 #define USE_XZ 0
 #if USE_XZ
@@ -319,6 +314,22 @@ void handle_keys() {
   }
   if(*keys & kb_a) {
     player->jumpV.rotate(movement * time.delta, v3d::Y);
+  }
+  v3d jumpD(player->jumpV);
+  jumpD.normalise();
+  if(*keys & kb_up) {
+    player->jumpV += jumpD * extensionSpeed * time.delta;
+  }
+  if(*keys & kb_down) {
+    player->jumpV -= jumpD * extensionSpeed * time.delta;
+  }
+  if(*keys & kb_left) {
+    v3d right = jumpD.cross(v3d::Y);
+    player->jumpV.rotate(movement * time.delta, right);
+  }
+  if(*keys & kb_right) {
+    v3d right = jumpD.cross(v3d::Y);
+    player->jumpV.rotate(-movement * time.delta, right);
   }
 }
 

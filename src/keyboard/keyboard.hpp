@@ -17,4 +17,7 @@ class keyboard {
 
   static void hold(char key);
   static void release(char key);
+
+  static void hold_special(char key);
+  static void release_special(char key);
 };
