@@ -1,4 +1,5 @@
 #include "gameobject.hpp"
+#include <GL/gl.h>
 
 
 GameObject::GameObject(Shape* shape): shape(shape) {};
@@ -11,23 +12,22 @@ void GameObject::draw(){
   }
 }
 
-Transform GameObject::getWorldTransform() const{
-  Transform re;
+void GameObject::pushTransform() const{
+  glPushMatrix();
+  glTranslatef(this->position.x, this->position.y, this->position.z);
+  glRotatef(this->rotation.y, 0, 1, 0);
+  glRotatef(this->rotation.x, 1, 0, 0);
+  glRotatef(this->rotation.z, 0, 0, 1); 
   if(parent){
-    Transform parentTrans = parent->getWorldTransform();
-    v3d newPosition = v3d(this->position);
-    newPosition.rotate(parentTrans.rotation.y, v3d::Y);
-    newPosition.rotate(parentTrans.rotation.x, v3d::X);
-    newPosition.rotate(parentTrans.rotation.z, v3d::Z);
-    re.position = newPosition + parentTrans.position;
-    re.rotation = this->rotation + parentTrans.rotation;
-    return re;
-  }  
-  else {
-    re.position = this->position;
-    re.rotation = this->rotation;
+    parent->pushTransform();
   }
-  return re;
+}
+
+void GameObject::popTransform() const {
+  glPopMatrix();
+  if(parent){
+    this->parent->popTransform();
+  }
 }
 
 void GameObject::setParent(std::shared_ptr<GameObject> parent){

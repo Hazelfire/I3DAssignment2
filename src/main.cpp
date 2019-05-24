@@ -1,5 +1,4 @@
 #include "main.hpp"
-#include "player/player.hpp"
 
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
@@ -187,6 +186,7 @@ void display() {
 #endif
 
 
+  player_camera->popTransform();
   glPopMatrix();
 #ifndef VSYNC
 #define VSYNC 1
@@ -303,10 +303,10 @@ void handle_keys() {
     player_camera.position -= forward * movement * time.delta;
   }
   if(*keys & kb_d) {
-    player_camera.position -= right * movement * time.delta;
+    player.rotation.y -= movement * time.delta;
   }
   if(*keys & kb_a) {
-    player_camera.position += right * movement * time.delta;
+    player.rotation.y += movement * time.delta;
   }
   if(*keys & kb_space) {
     player_camera.position -= v3d::Y * movement * time.delta;
@@ -327,7 +327,7 @@ void init() {
   scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), "object");
   scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
 #endif
-  scene.add(std::shared_ptr<GameObject>(new Player()), "player");
+  scene.add(player, "player");
 
   /*
    * The camera has a "focus", which is an empty game object that tracks

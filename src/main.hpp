@@ -22,12 +22,14 @@ void glutBitmapString(void *font, char *str);
 #include "scene/scene.hpp"
 #include "shape/primitives/primitives.hpp"
 #include "shape/primitives/function/function.hpp"
+#include "player/player.hpp"
 #include <cmath>
 
 #define UNIT_TESTS 0
 
 std::shared_ptr<GameObject> focus(new GameObject(nullptr));
 std::shared_ptr<Camera> player_camera(new Camera());
+std::shared_ptr<Player> player(new Player());
 Scene scene;
 
 

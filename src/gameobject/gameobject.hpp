@@ -21,6 +21,7 @@ class GameObject {
     GameObject(Shape* shape);
     GameObject(Shape* shape, std::shared_ptr<GameObject> parent);
     virtual void draw();
-    Transform getWorldTransform() const;
+    void pushTransform() const;
+    void popTransform() const;
     void setParent(std::shared_ptr<GameObject> parent);
 };
