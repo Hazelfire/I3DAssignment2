@@ -482,6 +482,7 @@ void Cylinder::draw() const {
 	// push position
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
+  glRotatef(90, 0, 1, 0);
 	glScaled(radius, radius, length);
 
 	// push settings

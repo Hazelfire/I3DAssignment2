@@ -28,3 +28,11 @@ void keyboard::hold_ctrl() {
 void keyboard::release_ctrl() {
   c_release_ctrl(&instance->held);
 }
+
+void keyboard::hold_special(int key){
+  c_special_hold(key, &instance->held);
+}
+
+void keyboard::release_special(int key){
+  c_special_release(key, &instance->held);
+}

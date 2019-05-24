@@ -11,9 +11,8 @@ void v3d::draw() const {
 
 void v3d::draw(double x, double y, double z) const {
   glBegin(GL_LINES);
-  glTranslated(x, y, z);
-  glVertex3f(0,0,0);
-  glVertex3f(this->x,this->y,this->z);
+  glVertex3f(x,y,z);
+  glVertex3f(this->x + x,this->y + y,this->z + z);
   glEnd();
 }
 
@@ -118,14 +117,14 @@ bool v3d::is_valid(const v3d& vector) {
 }
 
 // length
-double v3d::length_squared() {
+double v3d::length_squared() const {
   return v3d::length_squared(*this);
 }
 double v3d::length_squared(const v3d& val) {
   return val.x * val.x + val.y * val.y + val.z * val.z;
 }
 
-double v3d::length() {
+double v3d::length() const {
   return sqrt(v3d::length_squared(*this));
 }
 double v3d::length(const v3d& val) {
@@ -155,7 +154,7 @@ v3d& v3d::cross(const v3d& right) {
   return *this;
 }
 
-double v3d::dot(const v3d& right) {
+double v3d::dot(const v3d& right) const {
   return v3d::dot(*this, right);
 }
 

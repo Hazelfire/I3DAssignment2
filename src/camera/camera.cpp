@@ -1,9 +1,9 @@
 #include "camera.h"
 #include <GL/gl.h>
 
-camera::camera(void): rotation(v3d::zero), position(v3d::zero) {}
+Camera::Camera(void): GameObject(nullptr) {}
 
-v3d camera::get_forward() const {
+v3d Camera::get_forward() const {
   v3d forward = v3d::Z;
 
   forward.rotate(this->rotation.x, v3d::Y);
@@ -13,15 +13,13 @@ v3d camera::get_forward() const {
   return forward;
 }
 
-v3d camera::get_forward_xz() const {
+v3d Camera::get_forward_xz() const {
   v3d forward = v3d::Z;
 
   forward.rotate(this->rotation.x, v3d::Y);
   return forward;
 }
 
-void camera::move_to() const {
-  glRotatef(rotation.y, -1,0,0);
-  glRotatef(rotation.x, 0,1,0);
-  glTranslatef(position.x, position.y, position.z);
+void Camera::move_to() const {
+  this->pushTransform();
 }

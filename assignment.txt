@@ -1,0 +1,202 @@
+COSC1186/1187 Interactive 3D Graphics And Animation
+
+Assignment 2: Frogger 3D
+
+Due: end week 12 Fri May 31 9pm
+
+Assignment screenshot
+
+Note
+
+Features in the assignment specification may be reduced.
+
+Frogger 2D
+
+A reference implemention for Frogger2D (assignment 1) here
+
+Changes
+
+  • 16/5/19: Marking guide
+  • 16/5/19: Elevated road
+  • 16/5/19: Separared lighting and texturing. Links to textures.
+
+Overview
+
+This assignment requires you to now implement a 3D version of Frogger, building on the knowledge you have gained from assignment 1 and 2D Frogger. It includes 3D motion
+and interaction, lighting and shading, texturing, projectile motion, collision detection and hierarchical animation. All in 3D.
+
+Similar to assignment 1, you are encouraged to follow a progression of features, building, extending and refactoring as you go. An example, start with a aphere, or an
+ellipsoid, for the frog, and only do a hiearchical key-framed frog model if you have time.
+
+The main requirements are:
+
+  • Start with a sphere or ellipsoid to represent a frog, using GLUT's primitives, then your own implementation using parametric equations.
+  • Draw the jump trajectory parabola as in assignment 1, but now in three dimensions, and only to the ground plane y=0.
+  • Control the frog's rotation around the y axis.
+  • Control the speed/rotation of the frog's jump vector as in assignment 1.
+  • Animate the frog's jump using the numerical integration as in assignment 1, but now in three dimensions.
+  • Use a third person perspective camera that follows the frog as it moves with zoom and rotation.
+  • Put a road and a river in the scene. Make the river surface transparent.
+  • Draw moving, floating cylinders to represent logs, and moving cubes to represent cars.
+  • Apply texturing to the logs, and optionally the ground/road/riverbed.
+  • Animate the water using a sine wave as in assignment 1.
+  • Use sphere-sphere or sphere-box collision detection with the cars and logs.
+  • As in assignment 1, the frog should attach to logs and die when hitting the river or a car.
+  • Draw normal vectors for all geometry being rendered.
+  • Apply lighting, normals and materials to all geometry.
+  • Add keyboard controls for for toggling lighting/texturing/wifreframe mode (see controls section for more details).
+  • Draw a hierarchical model for the frog, made from boxes.
+  • Perform keyframe animation for the jumping and landing of the frog.
+  • Game scoring.
+  • Special effects and visual enhancements. For example, splattering when a frog is hit by a car, using flattened geometry or exploding (3D) using a particle system,
+    skybox.
+
+Details
+
+The assignment should be done in C/C++, using OpenGL and must compile and run in the sutherland lab. You may use GLUT to set up the OpenGL context, window and handle
+input events. The tutorial exercises are directly related to the assignment and the core of the assignment can be completed in the tutorials. However you will still be
+expected to do some work outside of tutorials and exercises in order to complete the assignment.
+
+You may again work in pairs or individually.
+
+Camera
+
+Another assignment screenshot
+
+A third person perspective camera should follow the frog as it moves about the world. Holding the right mouse button while moving the mouse up/down should zoom towards/
+away from the frog. Holding the left mouse button while moving the mouse up/down or left/right should rotate vertically (around x) and horizontally (around y)
+respectively. A perspective projection should be used and resizing the window should update both the viewport and projection.
+
+Jump controls
+
+As in assignment 1 left/right and up/down should control the jump's angle and magnitude respectively. Additionally a/d should control the frog's left/right rotation
+around the y axis and spacebar performs the jump. For full marks the controls should be made smooth (ie, no pauses when being held down).
+
+Scoring
+
+The game should keep track of a number of lives (initially 5) and a score (initially 0). These should be rendered as text to the screen. Reaching the opposite side of
+the river respawns the frog and increases its score by 1. Dying respawns the frog and decreases its lives by 1. When the number of lives reaches 0 or score reaches 5,
+game over text should be rendered and no further movement/jumping should be allowed.
+
+Procedural Geometry
+
+Yet Another assignment screenshot Assignment screenshot
+
+The world should be rendered as a flat grid on the xz plane (a grid, not a single quad, at y = 0) of size 8x8, with 8x8 rows/columns. Normal vectors should be applied to
+the grid. 3D axes should be rendered at the centre of the world, which should correspond with the centre of the grid.
+
+The frog should be rendered as a 3D sphere or ellipsoid (of appropriate size) using parametric equations, with calculation of normal vectors. The cars should be rendered
+as cubes with normals. The logs should be rendered as cylinders with normals and texture coordinates. Use glut sphere, box and cylinder primitives to begin with, but
+then implement your own primitives.
+
+Road/Cars
+
+The road should be elevated and textured. Cars should be randomly spawned and restricted to moving along four (or more) lanes in different directions. You may apply a
+splattering or exploding effect when a car hits the frog. Cars may be implemented as a more complex hierarchical model made of different shapes.
+
+River/Logs
+
+As with cars, logs should be randomly spawned on the river and move along four (or more) lanes in different directions. The water should be an animated transparent sine
+wave above a textured riverbed.
+
+Lighting
+
+Normal vectors should be normalised and used for lighting with materials applied to each mesh. Normals should also be visualised as lines by pressing the n key.
+
+For lighting the geometry, a single directional light should be used with direction <1, 1, 1>.
+
+There should be a rendering control toggle for lighting (see controls).
+
+Texturing
+
+Texture maps should be applied to the ground (grass), road (ashpalt), and for high marks to the logs (wood) and riverbed (sand).
+
+There should be a rendering control toggle for texturing (see controls).
+
+Hierarchical model
+
+Frog model
+
+A basic frog should use a sphere or an ellipsoid - where an ellipsoid is better as it can be rotated through the jump.
+
+A better frog can be modelled as a hierarchy of boxes. A simple hierarchy should have a large box for the torso, a smaller box for the head, along with four limbs each
+composed of two segments. A more complex frog model should have three segments for the rear legs, along with a more complex head and fingers/toes. An example of a
+complex frog model is shown above.
+
+Keyframe animation
+
+Frog jump pose
+
+The hierarchical frog can perform a jump and landing animation, as well as a ribbit animation (opening and closing the mouth at random intervals). A simple animation
+uses hardcoded values for the rotation of various joints over time. A more complex animation stores keyframes for joints and linearly interpolates between them.
+
+Arrays
+
+For high marks, arrays of vertices should be used to store geometry data (ie, a mesh). One mesh should be used for each type of shape (eg one sphere, one cube, one
+cylinder, one grid). For multiple cars and logs, instancing should be used, i.e. transformations applied to the basic shapes.
+
+The vertex values for these meshes should be calculated and stored when the program starts up, so they can be re-used whenever a mesh needs to be rendered. For full
+marks, arrays of indices should be used to prevent the need for storing duplicate vertex data.
+
+Controls
+
+  • x: toggle axes (this should also draw an axes at the local origin of every mesh being rendered)
+  • n: toggle visualising normals (drawing them as lines)
+  • f: toggle wireframe
+  • l: toggle lighting
+  • t: toggle textures
+  • g: toggle animation on/off
+  • up/down: increase/decrease jump speed
+  • left/right: increase/decrease jump angle
+  • a/d: rotate frog left/right
+  • o: toggle OSD on/off
+  • r: respawn (manually)
+  • spacebar: jump
+  • left mouse: rotate camera
+  • right mouse: zoom camera
+  • +/-: tesselation doubles/halves number of segments for grid, sphere, parabola and cylinder shapes
+
+Submission
+
+Submit assignments via Canvas. Assignments can be submitted prior to assignment due date.
+
+Submit all of your source code, Makefile and README file. Create a zip, gzip or tar archive and submit that as a single file. Do not include object files or executables.
+Assignments will be compiled by markers in the Sutherland Lab so make sure you test your assignments on the Sutherland machines. If you are working in pairs only one
+person needs to submit, but make sure to include both student numbers in the README file. In the case of both students submitting, the latest assignment submission will
+be used for marking.
+
+A few notes:
+
+  • Markers can miss functionality if the default controls are changed. Make sure alterations and additions are listed in the readme.
+  • If there are known bugs, say so, and if it can be avoided describe how.
+  • Clean code up before submission, but leave debugging code in. If a feature is only partially working, leave it in and add a note in the readme, or if not working use
+    the macro preprocessor to disable it, but again leave it in.
+  • When commenting code focus on complex areas, for example, when applying the sine wave. Not only does this improve readability, but it shows you know what you’ve
+    coded.
+  • Separate long lines of code (ie, longer than my 1600 monitor) and use intermediate variables. Properly structured and indented code has less bugs and receives more
+    marks. Don’t mix tabs and spaces.
+  • You can make multiple submissions, the last one will be the one used for assessment.
+  • If you’re having trouble submitting close to the due date, contact Geoff or Jesse.
+
+Late Submission
+
+Late submissions receive a 10% per day penalty (calculated hourly on a pro rata basis, starting from 9:00am next working day, i.e. Monday).
+
+Marking Guide/Rubric
+
+This is a guide, and may change.
+
+PA: Basic 3D assignment with frog able to jump in 3D on flat ground with adjustable magnitude, angle and direction with jump vector shown. Elevated road and sunken river
+with flat water. Simple collision detection with ground, road and river. Frog trajectory rendered using numerical integration to go forward in time. Camera controls.
+Lighting. Rendering controls: wireframe/filled, tesselation, lighting, normals, OSD.
+
+CR: Static level with road and cars including textures. Static sine wave water. Collision detection with road, river, cars and logs, for both trajectory and frog - with
+frog death. Frog respawn. Frog lock/follow camera when jumping. Rendering controls: texture, axes.
+
+DI: Moving cars, logs and animated sine wave. Collision detection. Rendering controls: animation. Transparent river.
+
+HD: Hierarchical frog and keyframe animation. Visual enhancements. Scoring. Smooth movement controls. Perspective camera.
+
+Note: Quality of implementation, including data structures, code, modularisation and fine detail matter and will be taken into account e.g. correctly colliding with
+moving logs.
+
