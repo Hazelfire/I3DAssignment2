@@ -11,6 +11,7 @@ void update(void) {
   handle_keys();
 
   scene.update(t.delta);
+  focus->position = v3d::zero -player->position;
 
 
   // redraw the screen
@@ -240,8 +241,8 @@ void mouse(int x, int y) {
   focus->rotation.y += 0.5 * dx;
   focus->rotation.x += 0.5 * dy;
 
-  if(focus->rotation.x > 90) {
-    focus->rotation.x = 90;
+  if(focus->rotation.x > 0) {
+    focus->rotation.x = 0;
   } else if(focus->rotation.x < -90) {
     focus->rotation.x = -90;
   }
@@ -332,7 +333,7 @@ void init() {
   scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), "object");
 #endif
   scene.add(player, "player");
-  scene.add(std::shared_ptr<GameObject>(new GameObject(new Cube(v3d(0, -1.5, 0), v3d(10, 1, 10)))), "floor");
+  scene.add(std::shared_ptr<GameObject>(new GameObject(new Cube(v3d(0, -1.5, 0), v3d(100, 1, 100)))), "floor");
 
   /*
    * The camera has a "focus", which is an empty game object that tracks
