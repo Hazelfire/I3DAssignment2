@@ -43,3 +43,4 @@ double Tute_Water::df_x(double x, double z) const {
 double Tute_Water::df_z(double x, double z) const {
 	return cosf(z_mul * z * z + x_mul * x * x + t_mul * t) * (z_mul * 2 * z);
 }
+
