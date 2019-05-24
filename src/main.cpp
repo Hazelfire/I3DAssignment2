@@ -40,6 +40,9 @@ void display() {
 
   const _time& time = _time::get_instance();
 
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
+
   glColor3f(1,1,1);
 
   float shininess = 128;
