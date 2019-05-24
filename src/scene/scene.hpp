@@ -6,8 +6,8 @@
 
 class Scene {
   private:
-    std::vector<std::pair<GameObject, std::string>> gameObjects;
   public:
+    std::vector<std::pair<GameObject, std::string>> gameObjects;
     Scene();
     void add(GameObject obj, std::string tag);
     std::vector<GameObject> getObjectsByTag(std::string tag);
