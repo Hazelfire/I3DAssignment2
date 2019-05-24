@@ -16,6 +16,7 @@ class Shape {
     virtual bool collidesWith(const Plane&) const = 0;
     virtual bool collidesWith(const Cylinder&) const = 0;
     virtual bool collidesWith(const Sphere&) const = 0;
+    virtual void update(double dt) {};
     //virtual bool collidesWith(const Mesh&) const = 0; NYI
     //virtual bool collidesWith(const Function&) const = 0; NYI
 
