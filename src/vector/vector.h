@@ -30,7 +30,7 @@ class v3d {
     // static methods here do not modify the inputs
     // non-static versions modify the class its called on
 
-    double dot(const v3d&);
+    double dot(const v3d&) const;
     static double dot(const v3d&, const v3d&);
 
     v3d& cross(const v3d&);
@@ -39,10 +39,10 @@ class v3d {
     double distance(const v3d&) const;
     static double distance(const v3d&, const v3d&);
 
-    double length_squared();
+    double length_squared() const;
     static double length_squared(const v3d&);
 
-    double length();
+    double length() const;
     static double length(const v3d&);
 
     v3d& normalise();
