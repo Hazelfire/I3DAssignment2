@@ -8,13 +8,15 @@
 
 
 void create_terrain(Scene& scene){
+  Colour white_specular(1, 1, 1, 1);
+
   Colour green(0, 1, 0, 1);
-  Material grassMaterial(0.2, green, green, green);
+  Material grassMaterial(0.2, green * 0.1, green, white_specular);
   // Main grass
   scene.add(shared_ptr<GameObject>(new GameObject(new Cube(grassMaterial, v3d(0, -1.5, 0), v3d(10, 1, 5)))), tag::floor);
 
   Colour grey(0.1, 0.1, 0.1, 1);
-  Material roadMaterial(0.3, grey, grey, grey);
+  Material roadMaterial(0.3, grey * 0.1, grey, white_specular);
   // Road
   scene.add(shared_ptr<GameObject>(new GameObject(new Cube(roadMaterial, v3d(0, -1, 5), v3d(10, 1, 5)))), tag::floor);
 
@@ -33,8 +35,8 @@ void create_terrain(Scene& scene){
   scene.add(shared_ptr<GameObject>(new GameObject(new Cube(grassMaterial, v3d(0, -6, 20), v3d(10, 10, 5)))), tag::floor);
 
   // water in lake
-  Colour blue(0, 0, 1, 0.5);
-  Material waterMaterial(0.5, blue, blue, blue);
+  Colour blue(0, 1, 0, 0.5);
+  Material waterMaterial(0.5, blue * 0.1, blue, white_specular);
   scene.add(shared_ptr<GameObject>(new GameObject(new Tute_Water(waterMaterial, v3d(0, -2, 15), v3d(10, 0.5, 5)))), tag::floor);
 
   // Logs
