@@ -14,6 +14,13 @@ struct Colour {
   //Colour(const Colour &c) : r(c.r), g(c.g), b(c.b), a(c.a) {}
   operator float*() { return &r; }
   operator const float*() const { return &r; }
+
+  Colour operator*(double) const;
+  Colour operator/(double) const;
+  friend Colour operator*(double, const Colour&);
+  friend Colour operator/(double, const Colour&);
+  Colour& operator*=(double);
+  Colour& operator/=(double);
 };
 
 struct Material {

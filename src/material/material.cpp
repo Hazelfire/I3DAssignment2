@@ -3,6 +3,26 @@
 Colour::Colour(void): r(1), g(1), b(1), a(1) {};
 Colour::Colour(float r, float g, float b, float a): r(r), g(g), b(b), a(a) {};
 
+Colour Colour::operator*(double mul) const {
+  return Colour(r * mul, g * mul, b * mul, a * mul);
+}
+Colour Colour::operator/(double mul) const {
+  return Colour(r / mul, g / mul, b / mul, a / mul);
+}
+Colour operator*(double mul, const Colour& other) {
+  return other * mul;
+}
+Colour operator/(double mul, const Colour& other) {
+  return other / mul;
+}
+Colour& Colour::operator*=(double mul) {
+  r *= mul; g *= mul; b *= mul; a *= mul;
+  return *this;
+}
+Colour& Colour::operator/=(double mul) {
+  r /= mul; g /= mul; b /= mul; a /= mul;
+  return *this;
+}
 
 Material::Material(void):
   shininess(16), ambient(), diffuse(), specular() {};
