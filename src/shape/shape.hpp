@@ -26,6 +26,9 @@ class Shape {
     Shape(const Material &material) : material(material), is_material_active(true) {};
     Shape(): is_material_active(false) {};
 
-    virtual void draw(DrawOptions options) const = 0;
+  protected:
+    virtual void really_draw(const DrawOptions &options) const = 0;
+  public:
+    virtual void draw(const DrawOptions &options) const;
 };
 
