@@ -2,7 +2,10 @@
 #include <iostream>
 
 
-Player::Player(): GameObject(new Sphere(v3d::zero, 0.2)){};
+Colour player_green(0,1,0.2,1);
+Colour specular_white(1,1,1,1);
+Material player_mat(128, player_green * 0.3, player_green, specular_white);
+Player::Player(): GameObject(new Sphere(player_mat, v3d::zero, 0.2)){};
 
 void Player::draw(DrawOptions options){
   GameObject::draw(options); 
