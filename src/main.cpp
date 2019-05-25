@@ -102,6 +102,19 @@ void display() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   }
 
+
+  Tute_Water test_func(Material(128,//shine
+        Colour(0.1, 0.1, 0.1, 0.1), //ambient
+        Colour(1, 0, 0, 0),         //diffuse
+        Colour(1, 1, 1, 1)          //specular
+        ), v3d(2,2,0), v3d(2,1,1)); //position, scale
+  test_func.x_mul = 10;
+  test_func.z_mul = 5;
+  test_func.t = time.current;
+  test_func.draw(drawOpts);
+
+
+
   scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
@@ -109,13 +122,9 @@ void display() {
   if(drawOpts.lighting){
     glEnable(GL_LIGHTING);
   }
-  /*
-  Tute_Water test_func(v3d(2,2,0), v3d(2,1,1));
-  test_func.x_mul = 10;
-  test_func.z_mul = 5;
-  test_func.t = time.current;
-  test_func.draw();
-*/
+
+
+
 
 #define DRAW_3_SQUARES 0
 #if DRAW_3_SQUARES
@@ -162,58 +171,6 @@ void display() {
   double tangent_diff = 0.001;
 
   glColor3f(1, 1, 0);
-
-#define DRAW_SIN 0
-#if DRAW_SIN
-#define DRAW_SIN_NORMALS 0
-#if DRAW_SIN_NORMALS
-  glBegin(GL_LINES);
-  for(int row = 0; row < numverts; row++) {
-    for(int col = 0; col < numverts; col++) {
-      v3d current = v3d(row, sinf(col * x_max/numverts), col);
-      v3d next = v3d(row+1, sinf(col * x_max/numverts), col);
-      v3d current_beside = v3d(row, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
-      v3d tangent = current - current_beside;
-      v3d normal = v3d::cross(tangent, current - next).normalise()*0.3;
-      if(normal.dot(v3d::Y) < 0)
-        normal *= -1;
-      normal += current;
-      glVertex3f(current.x, current.y, current.z);
-      glVertex3f(normal.x, normal.y, normal.z);
-    }
-  }
-  glEnd();
-#endif
-  
-  for(int row = 0; row < numverts; row++) {
-    glColor3f((row+1) / (double)numverts, 1, 1);
-    glBegin(GL_QUAD_STRIP);
-    for(int col = 0; col < numverts; col++) {
-      v3d current = v3d(row, sinf(col * x_max/numverts), col);
-      v3d next = v3d(row+1, sinf(col * x_max/numverts), col);
-
-      //normals
-      v3d current_beside = v3d(row, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
-      v3d tangent = current - current_beside;
-      v3d normal = v3d::cross(tangent, current - next).normalise()*0.3;
-      if(normal.dot(v3d::Y) < 0)
-        normal *= -1;
-
-      // normals 2
-      v3d current_beside2 = v3d(row+1, sinf((col+tangent_diff) * x_max/numverts), col+tangent_diff);
-      v3d tangent2 = next - current_beside2;
-      v3d normal2 = v3d::cross(tangent, current - next).normalise()*0.3;
-      if(normal2.dot(v3d::Y) < 0)
-        normal2 *= -1;
-
-      glNormal3f(normal.x, normal.y, normal.z);
-      current.glVertex();
-      glNormal3f(normal2.x, normal2.y, normal2.z);
-      next.glVertex();
-    }
-    glEnd();
-  }
-#endif
 
 
   player_camera->popTransform();

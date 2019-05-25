@@ -35,17 +35,11 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
-void Sphere::draw(DrawOptions options) const {
+void Sphere::really_draw(const DrawOptions &options) const {
 	// push position
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
 	glScaled(radius, radius, radius);
-
-	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
-	if(is_material_active)
-		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	// TODO set n from global tessalation value
 	const int n = options.tesselations;
@@ -139,7 +133,6 @@ void Sphere::draw(DrawOptions options) const {
 	}
 
 	glPopMatrix();
-	glPopAttrib();
 }
 
 // Function
@@ -160,17 +153,11 @@ bool Function::collidesWith(const Sphere &other) const{
 	return false;
 }
 
-void Function::draw(DrawOptions options) const {
+void Function::really_draw(const DrawOptions &options) const {
 	// push position
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
-
-	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
-	if(is_material_active)
-		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	//glBegin(GL_POINTS);
 
@@ -261,7 +248,6 @@ void Function::draw(DrawOptions options) const {
     glEnd();
   }
 	glPopMatrix();
-	glPopAttrib();
 }
 
 
@@ -290,17 +276,11 @@ bool Cube::collidesWith(const Cylinder &other) const{
 	return insideX && insideY && insideZ;
 }
 
-void Cube::draw(DrawOptions options) const {
+void Cube::really_draw(const DrawOptions &options) const {
 	// push position
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
 	glScaled(size.x, size.y, size.z);
-
-	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
-	if(is_material_active)
-		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	//                                 |
 	//       2---------6               |
@@ -430,7 +410,6 @@ void Cube::draw(DrawOptions options) const {
 	glEnd();
 #endif
 	glPopMatrix();
-	glPopAttrib();
 }
 
 // Plane
@@ -450,7 +429,7 @@ bool Plane::collidesWith(const Cylinder &other) const{
 	return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
-void Plane::draw(DrawOptions options) const {
+void Plane::really_draw(const DrawOptions &options) const {
 	//NYI
 }
 
@@ -478,18 +457,12 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
-void Cylinder::draw(DrawOptions options) const {
+void Cylinder::really_draw(const DrawOptions &options) const {
 	// push position
 	glPushMatrix();
 	glTranslated(position.x, position.y, position.z);
   glRotatef(90, 0, 1, 0);
 	glScaled(radius, radius, length);
-
-	// push settings
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_NORMALIZE);
-	if(is_material_active)
-		glMaterialfv(GL_FRONT_AND_BACK, material);
 
 	// TODO set n from global tessalation value
 	const int n = options.tesselations;
@@ -497,10 +470,10 @@ void Cylinder::draw(DrawOptions options) const {
 
 	// for some reason, there is an artifact on the inside of the cylinder
 	// in the non-stack mode.
-	// not quite sure why. since turning on CYLINDER_COLOUR makes the
+	// not quite sure why. since turning on CYLINDER_COLOR makes the
 	// artifact go away
-#define CYLINDER_COLOUR 0
-#if CYLINDER_COLOUR
+#define CYLINDER_COLOR 0
+#if CYLINDER_COLOR
 	glColor3f(0,1,1);
 #endif
 
@@ -520,7 +493,7 @@ void Cylinder::draw(DrawOptions options) const {
 		glEnd();
 	}
 
-#if CYLINDER_COLOUR
+#if CYLINDER_COLOR
 	glColor3f(1, 1,1);
 #endif
 
@@ -564,7 +537,7 @@ void Cylinder::draw(DrawOptions options) const {
 	glEnd();
 #endif
 
-#if CYLINDER_COLOUR
+#if CYLINDER_COLOR
 	glColor3f(1, 0.1,0.1);
 #endif
 
@@ -585,5 +558,4 @@ void Cylinder::draw(DrawOptions options) const {
 		glEnd();
 	}
 	glPopMatrix();
-	glPopAttrib();
 }

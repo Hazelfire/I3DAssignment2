@@ -24,6 +24,7 @@ set(GAME_SRC
 
   src/shape/primitives/primitives.cpp
   src/shape/primitives/function/function.cpp
+  src/shape/shape.cpp
 
   src/material/material.cpp
 	)
