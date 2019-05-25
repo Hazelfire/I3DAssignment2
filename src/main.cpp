@@ -52,15 +52,12 @@ void display() {
 
   glColor3f(1,1,1);
 
-  float shininess = 128;
-  //float shininess = 50;
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
-  float ambient[] = {0,0.15,0.3,1};
-  float diffuse[] = {0,0.5,1,1};
-  float specular[] = {1,1,1,1};
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+  Colour blue(0,0.5,1,1);
+  Colour green(0,1,0,1);
+  Colour pink(1,0.1,0.5,1);
+  Colour white(1,1,1,1);
+  Material debug_material(128, pink * 0.3, pink, white);
+  glMaterialfv(GL_FRONT_AND_BACK, debug_material);
 
   glEnable(GL_LIGHT0);
   float light_pos[] = {3,10,1,0};
@@ -105,7 +102,7 @@ void display() {
 
   Tute_Water test_func(Material(128,//shine
         Colour(0.1, 0.1, 0.1, 0.1), //ambient
-        Colour(1, 0, 0, 0),         //diffuse
+        Colour(1, 0, 0, 1),         //diffuse
         Colour(1, 1, 1, 1)          //specular
         ), v3d(2,2,0), v3d(2,1,1)); //position, scale
   test_func.x_mul = 10;
