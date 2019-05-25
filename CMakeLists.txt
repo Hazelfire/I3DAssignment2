@@ -94,3 +94,6 @@ target_link_libraries(Frogger
 	${GLUT_LIBRARY}
   ${CMAKE_SOURCE_DIR}/lib/libSOIL.a
 	)
+
+# create a symlink to the resources
+ADD_CUSTOM_TARGET(link_target ALL COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/resources ${CMAKE_SOURCE_DIR}/build/resources)
