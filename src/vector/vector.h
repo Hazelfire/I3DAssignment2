@@ -27,9 +27,13 @@ class v3d {
     void glVertex() const;//deprecated
     void glNormal() const;//deprecated
     friend void glVertex3f(const v3d&);
+    friend void glVertex3d(const v3d&);
     friend void glNormal3f(const v3d&);
+    friend void glNormal3d(const v3d&);
     friend void glRotatef(float angle, const v3d& axis);
+    friend void glRotated(float angle, const v3d& axis);
     friend void glTranslatef(const v3d&);
+    friend void glTranslated(const v3d&);
 
     // static methods here do not modify the inputs
     // non-static versions modify the class its called on

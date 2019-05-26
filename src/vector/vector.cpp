@@ -16,20 +16,39 @@ void v3d::draw(double x, double y, double z) const {
   glEnd();
 }
 
-void glTranslatef(const v3d& vec) {
-  return glTranslatef(vec.x, vec.y, vec.z);
-}
 
+
+// deprecated versions
+void v3d::glNormal() const {
+  return glNormal3f(x, y, z);
+}
 void v3d::glVertex() const {
   return glVertex3f(x, y, z);
 }
 
-void glVertex3f(const v3d& vec) {
-  return glVertex3f(vec.x, vec.y, vec.z);
+
+void glTranslated(const v3d& vec) {
+  return glTranslated(vec.x, vec.y, vec.z);
 }
 
-void v3d::glNormal() const {
-  return glNormal3f(x, y, z);
+void glVertex3d(const v3d& vec) {
+  return glVertex3d(vec.x, vec.y, vec.z);
+}
+
+void glNormal3d(const v3d& vec) {
+  glNormal3d(vec.x, vec.y, vec.z);
+}
+
+void glRotated(double angle, const v3d& axis) {
+  return glRotated(angle, axis.x, axis.y, axis.z);
+}
+
+void glTranslatef(const v3d& vec) {
+  return glTranslatef(vec.x, vec.y, vec.z);
+}
+
+void glVertex3f(const v3d& vec) {
+  return glVertex3f(vec.x, vec.y, vec.z);
 }
 
 void glNormal3f(const v3d& vec) {
