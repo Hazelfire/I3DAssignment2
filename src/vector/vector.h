@@ -24,8 +24,12 @@ class v3d {
     void draw() const;// draw line from 0 to vector
     void draw(double x, double y, double z) const;// draw line from x,y,z to vector+x,y,z
 
-    void glVertex() const;
-    void glNormal() const;
+    void glVertex() const;//deprecated
+    void glNormal() const;//deprecated
+    friend void glVertex3f(const v3d&);
+    friend void glNormal3f(const v3d&);
+    friend void glRotatef(float angle, const v3d& axis);
+    friend void glTranslatef(const v3d&);
 
     // static methods here do not modify the inputs
     // non-static versions modify the class its called on
@@ -76,7 +80,6 @@ class v3d {
     v3d& operator/=(double);
 
     friend std::ostream& operator<<(std::ostream&, const v3d&);
-
 };
 
 

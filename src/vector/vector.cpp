@@ -16,11 +16,28 @@ void v3d::draw(double x, double y, double z) const {
   glEnd();
 }
 
-void v3d::glVertex() const {
-  glVertex3f(x,y,z);
+void glTranslatef(const v3d& vec) {
+  return glTranslatef(vec.x, vec.y, vec.z);
 }
+
+void v3d::glVertex() const {
+  return glVertex3f(x, y, z);
+}
+
+void glVertex3f(const v3d& vec) {
+  return glVertex3f(vec.x, vec.y, vec.z);
+}
+
 void v3d::glNormal() const {
-  glNormal3f(x,y,z);
+  return glNormal3f(x, y, z);
+}
+
+void glNormal3f(const v3d& vec) {
+  glNormal3f(vec.x, vec.y, vec.z);
+}
+
+void glRotatef(float angle, const v3d& axis) {
+  return glRotatef(angle, axis.x, axis.y, axis.z);
 }
 
 bool test::rotate() {
