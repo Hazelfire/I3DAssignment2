@@ -632,5 +632,70 @@ void Cylinder::really_draw(const DrawOptions &options) const {
     }
     glEnd();
   }
+
+
+  // normals
+  if(options.normals) {
+    glPushAttrib(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+    glColor3f(0,1,0);
+
+
+    // start of cylinder...
+    // simplified case, since the pole stays the same
+    {
+
+      for(int i = 0; i < slices; i++) {
+        double theta = i / (double)slices * 2.0 * M_PI;
+        double cos_theta = cosf(theta);
+        double sin_theta = sinf(theta);
+
+        v3d(0,0,1).draw(v3d(cos_theta, sin_theta, 0.5));
+      }
+    }
+
+#if CYLINDER_USE_STACKS
+    // middle of cylinder
+    for(int i = 0; i < slices; i++) {
+      double theta = i / (double)slices * 2.0 * M_PI;
+      double cos_theta = cosf(theta);
+      double sin_theta = sinf(theta);
+
+      v3d normal(cos_theta, sin_theta, 0);
+      glBegin(GL_QUAD_STRIP);
+
+      for(int j = 0; j < stacks; j++) {
+        double zpos = (double)j / stacks - 0.5;
+
+        v3d(cos_theta, sin_theta, 0).draw(cos_theta, sin_theta, zpos);
+      }
+    }
+#else
+    for(int i = 0; i <= slices; i++) {
+      double theta = i / (double)slices * 2.0 * M_PI;
+      double cos_theta = cosf(theta);
+      double sin_theta = sinf(theta);
+
+      v3d(cos_theta, sin_theta, 0).draw(cos_theta, sin_theta, 0.5);
+      v3d(cos_theta, sin_theta, 0).draw(cos_theta, sin_theta, -0.5);
+    }
+#endif
+    // end of cylinder...
+    // simplified case, since the pole stays the same
+    {
+      for (int i = 0; i < slices; i++) {
+        double theta = i / (double)slices * 2.0 * M_PI;
+        double cos_theta = cosf(theta);
+        double sin_theta = sinf(theta);
+
+        v3d(0,0,-1).draw(cos_theta, sin_theta, -0.5);
+      }
+    }
+
+    glPopAttrib();
+  }
+  // end of normal
+
+
   glPopMatrix();
 }
