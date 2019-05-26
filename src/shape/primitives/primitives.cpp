@@ -132,6 +132,32 @@ void Sphere::really_draw(const DrawOptions &options) const {
     glEnd();
   }
 
+  // normals
+  if(options.normals) {
+    glPushAttrib(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+    glColor3f(0,1,0);
+    for (int j = 0; j <= stacks; j++) {
+      double phi = j / (double)stacks * M_PI;
+      double sin_phi = sinf(phi);
+      double cos_phi = cosf(phi);
+
+      for (int i = 0; i <= slices; i++) {
+        double theta = i / (double)slices * 2.0 * M_PI;
+        double cos_theta = cosf(theta);
+        double sin_theta = sinf(theta);
+
+        v3d curr(sin_phi * cos_theta,
+            sin_phi * sin_theta,
+            cos_phi);
+
+        curr.draw(curr);
+      }
+    }
+    glPopAttrib();
+  }
+
+
   glPopMatrix();
 }
 

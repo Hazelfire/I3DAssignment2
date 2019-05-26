@@ -9,6 +9,13 @@ void v3d::draw() const {
   glEnd();
 }
 
+void v3d::draw(const v3d &pos) const {
+  glBegin(GL_LINES);
+  glVertex3f(pos);
+  glVertex3f(pos + *this);
+  glEnd();
+}
+
 void v3d::draw(double x, double y, double z) const {
   glBegin(GL_LINES);
   glVertex3f(x,y,z);

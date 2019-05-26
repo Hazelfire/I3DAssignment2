@@ -22,6 +22,7 @@ class v3d {
     v3d(double x, double y, double z);
 
     void draw() const;// draw line from 0 to vector
+    void draw(const v3d &pos) const;// draw line from pos to vector
     void draw(double x, double y, double z) const;// draw line from x,y,z to vector+x,y,z
 
     void glVertex() const;//deprecated
