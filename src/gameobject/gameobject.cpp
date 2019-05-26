@@ -4,7 +4,9 @@
 
 GameObject::GameObject(Shape* shape): shape(shape) {};
 
-GameObject::GameObject(Shape* shape, std::shared_ptr<GameObject> parent): shape(shape), parent(parent) {};
+GameObject::GameObject(const Scene *scene, Shape* shape): scene(scene), shape(shape) {};
+
+GameObject::GameObject(const Scene *scene, Shape* shape, std::shared_ptr<GameObject> parent): scene(scene), shape(shape), parent(parent) {};
 
 bool GameObject::collidesWith(const GameObject &other) const {
   return shape.get()->collidesWith(*other.shape.get());

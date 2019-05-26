@@ -23,7 +23,8 @@ class GameObject {
     v3d position;
     v3d rotation;
     GameObject(Shape* shape);
-    GameObject(Shape* shape, std::shared_ptr<GameObject> parent);
+    GameObject(const Scene*, Shape* shape);
+    GameObject(const Scene*, Shape* shape, std::shared_ptr<GameObject> parent);
     bool collidesWith(const GameObject &other) const;
     virtual void draw(DrawOptions ops);
     void pushTransform() const;

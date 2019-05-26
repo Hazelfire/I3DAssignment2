@@ -36,13 +36,25 @@ void Player::jump(){
   }
 }
 
+#include "scene/scene.hpp"
+
 void Player::update(double dt){
   if(!grounded){
     const double gravity = 0.2;
     position += velocity * dt;
-    velocity.y -= dt * gravity;
-    if(position.y <= 0){
+    if(position.y <= -10){
       grounded = true;
     }
-  }   
+    std::vector<std::shared_ptr<GameObject>> colliding_floors = 
+      scene->getCollidingObjectsByTag(*this, tag::floor);
+    if(!colliding_floors.empty()) {
+      grounded = true;
+    }
+
+    if(grounded) {
+      // reverse the position to before we collided
+      position -= velocity * dt;
+    }
+    velocity.y -= dt * gravity;
+  }
 }

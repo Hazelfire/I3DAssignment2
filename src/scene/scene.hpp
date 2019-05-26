@@ -21,7 +21,8 @@ class Scene {
   public:
     Scene();
     void add(std::shared_ptr<GameObject> obj, tag::object_tag tag);
-    std::vector<std::shared_ptr<GameObject>> getObjectsByTag(tag::object_tag tag);
+    std::vector<std::shared_ptr<GameObject>> getObjectsByTag(tag::object_tag tag) const;
+    std::vector<std::shared_ptr<GameObject>> getCollidingObjectsByTag(const GameObject &other, tag::object_tag tag) const;
     void draw(DrawOptions options);
     void update(double dt);
 };
