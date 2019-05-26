@@ -637,7 +637,13 @@ void Cylinder::really_draw(const DrawOptions &options) const {
   // normals
   if(options.normals) {
     glPushAttrib(GL_LIGHTING);
+    glPushAttrib(GL_TEXTURE_1D);
+    glPushAttrib(GL_TEXTURE_2D);
+    glPushAttrib(GL_TEXTURE_3D);
     glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_1D);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_3D);
     glColor3f(0,1,0);
 
 
@@ -692,6 +698,9 @@ void Cylinder::really_draw(const DrawOptions &options) const {
       }
     }
 
+    glPopAttrib();
+    glPopAttrib();
+    glPopAttrib();
     glPopAttrib();
   }
   // end of normal
