@@ -2,11 +2,7 @@
 # git config filter.indent.smudge "unexpand -t2 --first-only"
 # git config filter.indent.clean "expand -t2 -i"
 
-src/*.c filter=indent
-src/*.cpp filter=indent
-src/*.h filter=indent
-src/*.hpp filter=indent
-src/*/*.c filter=indent
-src/*/*.cpp filter=indent
-src/*/*.h filter=indent
-src/*/*.hpp filter=indent
+*.c filter=indent
+*.cpp filter=indent
+*.h filter=indent
+*.hpp filter=indent
