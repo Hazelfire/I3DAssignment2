@@ -2,6 +2,7 @@
 #include <cmath>
 #include <GL/gl.h>
 #include <SOIL.h>
+#include <memory>
 
 // Sphere
 //Sphere::Sphere(Material material, v3d position, double radius): Shape(material), position(position), radius(radius) {};
@@ -189,10 +190,43 @@ void Function::really_draw(const DrawOptions &options) const {
 
   // TODO set n from global tessalation value
   const int n = options.tesselations;
-  double y_vals[n][n];
-  v3d normals[n][n];
-  v3d x_tan[n][n];
-  v3d z_tan[n][n];
+
+  //double y_vals[n][n];
+  double (*y_vals)[n] = nullptr;
+  std::unique_ptr<double[]> y_val_cont;
+  {
+    double *temp = new double[n*n];
+    y_val_cont = std::unique_ptr<double[]>(temp);
+    y_vals = (double(*)[n])temp;
+  }
+
+  //v3d normals[n][n];
+  v3d (*normals)[n] = nullptr;
+  std::unique_ptr<v3d[]> normal_cont;
+  {
+    v3d *temp = new v3d[n*n];
+    normal_cont = std::unique_ptr<v3d[]>(temp);
+    normals = (v3d(*)[n])temp;
+  }
+
+  //v3d x_tan[n][n];
+  v3d (*x_tan)[n] = nullptr;
+  std::unique_ptr<v3d[]> x_tan_cont;
+  {
+    v3d *temp = new v3d[n*n];
+    x_tan_cont = std::unique_ptr<v3d[]>(temp);
+    x_tan = (v3d(*)[n])temp;
+  }
+
+  //v3d z_tan[n][n];
+  v3d (*z_tan)[n] = nullptr;
+  std::unique_ptr<v3d[]> z_tan_cont;
+  {
+    v3d *temp = new v3d[n*n];
+    z_tan_cont = std::unique_ptr<v3d[]>(temp);
+    z_tan = (v3d(*)[n])temp;
+  }
+
 
   for(int i = 0; i < n; i++) {
     double x = (double)i / n - 0.5;
