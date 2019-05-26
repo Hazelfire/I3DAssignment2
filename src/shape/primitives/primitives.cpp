@@ -435,6 +435,55 @@ void Cube::really_draw(const DrawOptions &options) const {
   }
   glEnd();
 #endif
+
+  // normals
+  if(options.normals) {
+    glPushAttrib(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+    glColor3f(0,1,0);
+
+    {
+      //+x
+      v3d::X.draw(points[5]);
+      v3d::X.draw(points[4]);
+      v3d::X.draw(points[6]);
+      v3d::X.draw(points[7]);
+
+      //-x
+      (-1*v3d::X).draw(points[0]);
+      (-1*v3d::X).draw(points[1]);
+      (-1*v3d::X).draw(points[3]);
+      (-1*v3d::X).draw(points[2]);
+    }
+    {
+      //+y
+      v3d::Y.draw(points[2]);
+      v3d::Y.draw(points[3]);
+      v3d::Y.draw(points[7]);
+      v3d::Y.draw(points[6]);
+      //-y
+      (-1*v3d::Y).draw(points[1]);
+      (-1*v3d::Y).draw(points[0]);
+      (-1*v3d::Y).draw(points[4]);
+      (-1*v3d::Y).draw(points[5]);
+    }
+    {
+      //+z
+      v3d::Z.draw(points[3]);
+      v3d::Z.draw(points[1]);
+      v3d::Z.draw(points[5]);
+      v3d::Z.draw(points[7]);
+      //-z
+      (-1*v3d::Z).draw(points[0]);
+      (-1*v3d::Z).draw(points[2]);
+      (-1*v3d::Z).draw(points[6]);
+      (-1*v3d::Z).draw(points[4]);
+    }
+    glPopAttrib();
+  }
+
+
+
   glPopMatrix();
 }
 
