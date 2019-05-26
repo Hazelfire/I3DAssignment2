@@ -27,6 +27,7 @@ class Cube : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
+		virtual bool collidesWith(const Function&) const override;
 		virtual void really_draw(const DrawOptions &options) const;
 };
 
@@ -50,6 +51,7 @@ class Function : public Shape {
 		virtual bool collidesWith(const Plane&) const override;//NYI
 		virtual bool collidesWith(const Cylinder&) const override;//NYI
 		virtual bool collidesWith(const Sphere&) const override;//NYI
+		virtual bool collidesWith(const Function&) const override;//NYI
 
 #define DRAW_FUNCTION_NORMALS 0
 		virtual void really_draw(const DrawOptions &options) const;
@@ -69,6 +71,7 @@ class Sphere : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
+		virtual bool collidesWith(const Function&) const override;
 		double distance(const Sphere&) const;
 		virtual void really_draw(const DrawOptions &draw) const;
 };
@@ -86,6 +89,7 @@ class Plane : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
+		virtual bool collidesWith(const Function&) const override;
 		virtual void really_draw(const DrawOptions &draw) const;//NYI
 };
 
@@ -104,5 +108,6 @@ class Cylinder : public Shape{
 		virtual bool collidesWith(const Plane&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
+		virtual bool collidesWith(const Function&) const override;
 		virtual void really_draw(const DrawOptions &draw) const;
 };

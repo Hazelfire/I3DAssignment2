@@ -35,6 +35,10 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 	return insideX && insideLength;
 }
 
+bool Sphere::collidesWith(const Function &other) const{
+	return false;
+}
+
 void Sphere::really_draw(const DrawOptions &options) const {
 	// push position
 	glPushMatrix();
@@ -150,6 +154,10 @@ bool Function::collidesWith(const Cylinder &other) const{
 }
 
 bool Function::collidesWith(const Sphere &other) const{
+	return false;
+}
+
+bool Function::collidesWith(const Function &other) const{
 	return false;
 }
 
@@ -274,6 +282,10 @@ bool Cube::collidesWith(const Cylinder &other) const{
 	bool insideY = position.y + (size.y / 2) > other.position.y - other.radius && position.y - ( size.y / 2 ) < other.position.y + other.radius;
 	bool insideZ = position.z + (size.z / 2) > other.position.z - other.radius && position.z - ( size.z / 2 ) < other.position.z + other.radius;
 	return insideX && insideY && insideZ;
+}
+
+bool Cube::collidesWith(const Function &other) const{
+	return false;
 }
 
 void Cube::really_draw(const DrawOptions &options) const {
@@ -429,6 +441,10 @@ bool Plane::collidesWith(const Cylinder &other) const{
 	return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
+bool Plane::collidesWith(const Function &other) const{
+	return false;
+}
+
 void Plane::really_draw(const DrawOptions &options) const {
 	//NYI
 }
@@ -455,6 +471,10 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 	bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
 	bool insideX = position.x + length / 2 > other.position.x - (other.length / 2) && position.x - length / 2 < other.position.x + (other.length / 2);
 	return insideX && insideLength;
+}
+
+bool Cylinder::collidesWith(const Function &other) const{
+	return false;
 }
 
 void Cylinder::really_draw(const DrawOptions &options) const {

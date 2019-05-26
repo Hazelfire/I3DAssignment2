@@ -1,5 +1,8 @@
 #include "shape.hpp"
 
+// this is required because we want to dynamic cast to the different shapes for arbitrary collision
+#include "shape/primitives/primitives.hpp"
+
 
 void Shape::draw(const DrawOptions &options) const {
   // push settings
@@ -16,4 +19,33 @@ void Shape::draw(const DrawOptions &options) const {
   glPopAttrib();
   glPopAttrib();
   glPopAttrib();
+}
+
+bool Shape::collidesWith(const Shape& other) const {
+  const Cube *cube = dynamic_cast<const Cube *>(&other);
+  if(cube) {
+    return collidesWith(*cube);
+  }
+  const Sphere *sphere = dynamic_cast<const Sphere *>(&other);
+  if(sphere) {
+    return collidesWith(*sphere);
+  }
+  const Cylinder *cylinder = dynamic_cast<const Cylinder *>(&other);
+  if(cylinder) {
+    return collidesWith(*cylinder);
+  }
+  const Plane *plane = dynamic_cast<const Plane *>(&other);
+  if(plane) {
+    return collidesWith(*plane);
+  }
+  //const Mesh *mesh = dynamic_cast<const Mesh *>(&other);
+  //if(mesh) {
+  //	return collidesWith(*mesh);
+  //}
+  const Function *function = dynamic_cast<const Function *>(&other);
+  if(function) {
+    return collidesWith(*function);
+  }
+
+  return false;
 }
