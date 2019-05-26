@@ -41,8 +41,8 @@ set(GAME_HEADERS
   src/gameobject/gameobject.hpp
   src/SOIL.h
 
-  src/terrain.hpp
   src/scene/scene.hpp
+  src/terrain.hpp
 
   src/player/player.hpp
   src/objects/car.hpp
