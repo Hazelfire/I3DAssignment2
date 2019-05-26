@@ -18,9 +18,9 @@ void GameObject::pushTransform() const{
   glPushMatrix();
   glRotatef(this->rotation.y, 0, 1, 0);
   v3d right = v3d(0, 0, 1).rotate(this->rotation.y, v3d::Y).cross(v3d::Y);
-  glRotatef(this->rotation.x, right.x, right.y, right.z);
+  glRotatef(this->rotation.x, right);
   glRotatef(this->rotation.z, 0, 0, 1); 
-  glTranslatef(this->position.x, this->position.y, this->position.z);
+  glTranslatef(position);
   if(parent){
     parent->pushTransform();
   }
