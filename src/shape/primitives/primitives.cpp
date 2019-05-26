@@ -547,10 +547,7 @@ void Cylinder::really_draw(const DrawOptions &options) const {
   // in the non-stack mode.
   // not quite sure why. since turning on CYLINDER_COLOR makes the
   // artifact go away
-#define CYLINDER_COLOR 0
-#if CYLINDER_COLOR
-  glColor3f(0,1,1);
-#endif
+
 
   // start of cylinder...
   // simplified case, since the pole stays the same
@@ -568,9 +565,7 @@ void Cylinder::really_draw(const DrawOptions &options) const {
     glEnd();
   }
 
-#if CYLINDER_COLOR
-  glColor3f(1, 1,1);
-#endif
+
 
 #define CYLINDER_USE_STACKS 0
 #if CYLINDER_USE_STACKS
@@ -580,9 +575,7 @@ void Cylinder::really_draw(const DrawOptions &options) const {
     double cos_theta = cosf(theta);
     double sin_theta = sinf(theta);
 
-    v3d normal(cos_theta, sin_theta, 0);
     glBegin(GL_QUAD_STRIP);
-
     for(int j = 0; j < stacks; j++) {
       double zpos = (double)j / stacks - 0.5;
       double step = 1.0 / stacks;
@@ -612,9 +605,7 @@ void Cylinder::really_draw(const DrawOptions &options) const {
   glEnd();
 #endif
 
-#if CYLINDER_COLOR
-  glColor3f(1, 0.1,0.1);
-#endif
+
 
   // end of cylinder...
   // simplified case, since the pole stays the same
