@@ -18,13 +18,11 @@ class GameObject {
   private:
     shared_ptr<GameObject> parent;
   public:
-    const Scene *scene;
     shared_ptr<Shape> shape;
     v3d position;
     v3d rotation;
     GameObject(Shape* shape);
-    GameObject(const Scene*, Shape* shape);
-    GameObject(const Scene*, Shape* shape, std::shared_ptr<GameObject> parent);
+    GameObject(Shape* shape, std::shared_ptr<GameObject> parent);
     bool collidesWith(const GameObject &other) const;
     virtual void draw(DrawOptions ops);
     void pushTransform() const;

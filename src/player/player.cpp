@@ -40,13 +40,18 @@ void Player::jump(){
 
 void Player::update(double dt){
   if(!grounded){
+    const Scene& scene = Scene::get_instance();
     const double gravity = 0.2;
     position += velocity * dt;
+
+    // collide with -y
     if(position.y <= -10){
       grounded = true;
     }
+
+    // collide with floor
     std::vector<std::shared_ptr<GameObject>> colliding_floors = 
-      scene->getCollidingObjectsByTag(*this, tag::floor);
+      scene.getCollidingObjectsByTag(*this, tag::floor);
     if(!colliding_floors.empty()) {
       grounded = true;
     }

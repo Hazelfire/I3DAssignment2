@@ -31,7 +31,6 @@ std::shared_ptr<GameObject> focus(new GameObject(nullptr));
 std::shared_ptr<Camera> player_camera(new Camera());
 std::shared_ptr<Player> player(new Player());
 DrawOptions drawOpts;
-Scene scene;
 
 
 void handle_keys();

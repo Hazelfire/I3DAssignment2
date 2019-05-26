@@ -12,7 +12,7 @@ void update(void) {
   handle_keys();
 
   if(drawOpts.animation){
-    scene.update(t.delta);
+    Scene::update(t.delta);
   }
 
   focus->position = v3d::zero -player->position;
@@ -112,6 +112,7 @@ void display() {
 
 
 
+  const Scene& scene = Scene::get_instance();
   scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
@@ -356,17 +357,18 @@ void handle_keys() {
 
 
 void init() {
+  const Scene& scene = Scene::get_instance();
 
 #define DRAW_OBJECTS 0
 #if DRAW_OBJECTS
-  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
-  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), tag::object);
-  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
-  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), tag::object);
+  Scene::add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
+  Scene::add(new GameObject(new Sphere(v3d(0,2,1), 1)), tag::object);
+  Scene::add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
+  Scene::add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), tag::object);
 #endif
-  scene.add(player, tag::player);
+  Scene::add(player, tag::player);
 
-  create_terrain(scene);
+  create_terrain();
 
   /*
    * The camera has a "focus", which is an empty game object that tracks
