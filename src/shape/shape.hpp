@@ -1,5 +1,6 @@
 #pragma once
 #include "../material/material.hpp"
+#include <memory>
 
 struct DrawOptions;
 class Cube;
@@ -22,9 +23,11 @@ class Shape {
     //virtual bool collidesWith(const Mesh&) const = 0; NYI
     //virtual bool collidesWith(const Function&) const = 0; NYI
 
-    Shape(const Shape &other): material(other.material), is_material_active(true) {};
+    Shape(const Shape &other): material(other.material), is_material_active(other.is_material_active) {};
     Shape(const Material &material) : material(material), is_material_active(true) {};
     Shape(): is_material_active(false) {};
+
+    virtual std::unique_ptr<Shape> clone() const = 0;
 
   protected:
     virtual void really_draw(const DrawOptions &options) const = 0;

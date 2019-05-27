@@ -16,6 +16,10 @@ double Simple_Sin::df_z(double x, double z) const {
   return 0;
 }
 
+std::unique_ptr<Shape> Simple_Sin::clone() const {
+  return std::make_unique<Simple_Sin>(*this);
+}
+
 
 double Sin_and_Cos::f(double x, double z) const {
   return sinf(5*x) + cosf(3*z);
@@ -31,6 +35,10 @@ double Sin_and_Cos::df_z(double x, double z) const {
   return -1 * sinf(3*z)*3;
 }
 
+std::unique_ptr<Shape> Sin_and_Cos::clone() const {
+  return std::make_unique<Sin_and_Cos>(*this);
+}
+
 
 double Tute_Water::f(double x, double z) const {
   return sinf(x_mul * x * x + z_mul * z * z + t_mul * t);
@@ -44,3 +52,6 @@ double Tute_Water::df_z(double x, double z) const {
   return cosf(z_mul * z * z + x_mul * x * x + t_mul * t) * (z_mul * 2 * z);
 }
 
+std::unique_ptr<Shape> Tute_Water::clone() const {
+  return std::make_unique<Tute_Water>(*this);
+}
