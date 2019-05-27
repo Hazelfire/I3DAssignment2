@@ -6,6 +6,12 @@ GameObject::GameObject(Shape* shape): shape(shape) {};
 
 GameObject::GameObject(Shape* shape, std::shared_ptr<GameObject> parent): shape(shape), parent(parent) {};
 
+GameObject::GameObject(const GameObject& other) {
+  //shape = std::make_shared<Shape>(*other.shape.get());
+  shape.reset(*other.shape.get());
+  parent = other.parent;
+}
+
 void GameObject::draw(DrawOptions ops){
   if(shape){
     this->pushTransform();

@@ -6,6 +6,7 @@
 #include "objects/log.hpp"
 #include <SOIL.h>
 
+using namespace std;
 
 void create_terrain(Scene& scene){
   Colour white_specular(1, 1, 1, 1);
