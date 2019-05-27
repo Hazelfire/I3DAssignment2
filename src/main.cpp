@@ -301,6 +301,9 @@ void keyboard(unsigned char key, int x, int y) {
         drawOpts.tesselations /= 2;
       }
       break;
+    case 'r':
+      reset();
+      break;
   }
 }
 
