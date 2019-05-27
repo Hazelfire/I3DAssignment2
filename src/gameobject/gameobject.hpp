@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <vector>
 #include "shape/shape.hpp"
 #include "vector/vector.h"
 #include "shape/primitives/primitives.hpp"
@@ -14,9 +15,11 @@ struct Transform {
 
 class GameObject {
   private:
-    std::shared_ptr<GameObject> parent;
+    std::weak_ptr<GameObject> parent;
+    std::vector<std::shared_ptr<GameObject>> children;
   public:
     std::shared_ptr<Shape> shape;
+    std::weak_ptr<GameObject> self;
     v3d position;
     v3d rotation;
 
@@ -30,6 +33,6 @@ class GameObject {
     virtual void draw(DrawOptions ops);
     void pushTransform() const;
     void popTransform() const;
-    void setParent(std::shared_ptr<GameObject> parent);
+    void setParent(std::shared_ptr<GameObject>);
     virtual void update(double dt);
 };
