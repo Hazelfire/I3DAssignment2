@@ -35,6 +35,10 @@ bool Sphere::collidesWith(const Cylinder &other) const{
   return insideX && insideLength;
 }
 
+std::unique_ptr<Shape> Sphere::clone() const {
+  return std::make_unique<Sphere>(*this);
+}
+
 void Sphere::really_draw(const DrawOptions &options) const {
   // push position
   glPushMatrix();
@@ -179,6 +183,7 @@ bool Function::collidesWith(const Sphere &other) const{
   return false;
 }
 
+
 void Function::really_draw(const DrawOptions &options) const {
   // push position
   glPushMatrix();
@@ -300,6 +305,10 @@ bool Cube::collidesWith(const Cylinder &other) const{
   bool insideY = position.y + (size.y / 2) > other.position.y - other.radius && position.y - ( size.y / 2 ) < other.position.y + other.radius;
   bool insideZ = position.z + (size.z / 2) > other.position.z - other.radius && position.z - ( size.z / 2 ) < other.position.z + other.radius;
   return insideX && insideY && insideZ;
+}
+
+std::unique_ptr<Shape> Cube::clone() const {
+  return std::make_unique<Cube>(*this);
 }
 
 void Cube::really_draw(const DrawOptions &options) const {
@@ -504,6 +513,11 @@ bool Plane::collidesWith(const Cylinder &other) const{
   return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
+
+std::unique_ptr<Shape> Plane::clone() const {
+  return std::make_unique<Plane>(*this);
+}
+
 void Plane::really_draw(const DrawOptions &options) const {
   //NYI
 }
@@ -530,6 +544,11 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
   bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
   bool insideX = position.x + length / 2 > other.position.x - (other.length / 2) && position.x - length / 2 < other.position.x + (other.length / 2);
   return insideX && insideLength;
+}
+
+
+std::unique_ptr<Shape> Cylinder::clone() const {
+  return std::make_unique<Cylinder>(*this);
 }
 
 void Cylinder::really_draw(const DrawOptions &options) const {

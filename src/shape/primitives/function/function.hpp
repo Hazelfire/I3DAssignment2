@@ -9,6 +9,8 @@ class Simple_Sin : public Function {
     virtual double f(double x, double z) const override;
     virtual double df_x(double x, double z) const override;
     virtual double df_z(double x, double z) const override;
+
+    virtual std::unique_ptr<Shape> clone() const override;
 };
 
 class Sin_and_Cos : public Function {
@@ -19,6 +21,8 @@ class Sin_and_Cos : public Function {
     virtual double f(double x, double z) const override;
     virtual double df_x(double x, double z) const override;
     virtual double df_z(double x, double z) const override;
+
+    virtual std::unique_ptr<Shape> clone() const override;
 };
 
 class Tute_Water : public Function {
@@ -36,4 +40,6 @@ class Tute_Water : public Function {
     virtual double f(double x, double z) const override;
     virtual double df_x(double x, double z) const override;
     virtual double df_z(double x, double z) const override;
+
+    virtual std::unique_ptr<Shape> clone() const override;
 };
