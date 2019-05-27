@@ -24,6 +24,12 @@ void update(void) {
     reset();
   }
 
+  auto logsCollided = Scene::get_instance().getCollidingObjectsByTag(*player, tag::log);
+  if(logsCollided.size() > 0){
+    std::cout << "Log" << std::endl;
+    (*player).bind(*logsCollided[0]);
+  }
+
   focus->position = v3d::zero -player->position;
 
 

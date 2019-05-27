@@ -8,10 +8,14 @@ class Player : public GameObject {
     bool grounded = true;
 
     void drawJump();
+    GameObject* boundTo;
+    v3d boundDistance;
+    bool bound;
   public:
     v3d jumpV = v3d::unit;
     void jump();
     void ground();
+    void bind(GameObject& other);
     Player();
     virtual void draw(DrawOptions options) override;
     virtual void update(double dt) override;

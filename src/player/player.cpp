@@ -8,11 +8,18 @@ Material player_mat(128, player_green * 0.3, player_green, specular_white);
 Player::Player(): GameObject(new Sphere(player_mat, v3d::zero, 0.2), new Sphere(player_mat, v3d::zero, 0.2)){};
 
 void Player::draw(DrawOptions options){
-  GameObject::draw(options); 
+  GameObject::draw(options);
 
   drawJump();
 }
 
+void Player::bind(GameObject& other){
+  if(!bound){
+    boundTo = &other;
+    boundDistance = v3d(0, (((Cylinder*)other.shape.get())->radius) + 0.25, 0);
+    bound = true;
+  }
+}
 void Player::drawJump(){
 
   v3d currentPos(position);
@@ -33,6 +40,7 @@ void Player::jump(){
   if(grounded){
     velocity = v3d(jumpV);
     grounded = false;
+    bound = false;
   }
 }
 
@@ -67,5 +75,10 @@ void Player::update(double dt){
       position -= velocity * dt;
     }
     velocity.y -= dt * gravity;
+  }
+  
+  if(bound){
+    position = boundDistance + boundTo->position;
+    grounded = true;
   }
  }
