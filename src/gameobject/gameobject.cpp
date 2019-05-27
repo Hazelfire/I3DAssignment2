@@ -1,14 +1,17 @@
 #include "gameobject.hpp"
 #include <GL/gl.h>
+#include <iostream>
 
 
-GameObject::GameObject(Shape* shape): shape(shape) {};
+GameObject::GameObject(Shape* shape): shape(shape), collider(shape) {};
+GameObject::GameObject(Shape* shape, Shape* collider): shape(shape), collider(collider) {};
 
 
-GameObject::GameObject(Shape* shape, std::shared_ptr<GameObject> parent): shape(shape), parent(parent) {};
+GameObject::GameObject(Shape* shape, std::shared_ptr<GameObject> parent): shape(shape), parent(parent), collider(shape) {};
 
 bool GameObject::collidesWith(const GameObject &other) const {
-  return shape.get()->collidesWith(*other.shape.get());
+  bool collides = collider->collidesWith(*other.collider);
+  return collides;
 }
 
 void GameObject::draw(DrawOptions ops){

@@ -5,7 +5,7 @@
 Colour player_green(0,1,0.2,1);
 Colour specular_white(1,1,1,1);
 Material player_mat(128, player_green * 0.3, player_green, specular_white);
-Player::Player(): GameObject(new Sphere(player_mat, v3d::zero, 0.2)){};
+Player::Player(): GameObject(new Sphere(player_mat, v3d::zero, 0.2), new Sphere(player_mat, v3d::zero, 0.2)){};
 
 void Player::draw(DrawOptions options){
   GameObject::draw(options); 
@@ -19,8 +19,8 @@ void Player::drawJump(){
   v3d currentVel(jumpV);
   
   const double dt = 0.1;
-  const double gravity = 0.2;
-  while(currentPos.y >= 0){
+  const double gravity = 1;
+  while(currentPos.y >= -1){
     v3d newPos = currentPos + currentVel * dt;
     currentVel.y -= dt * gravity;
     v3d movement = newPos - currentPos;
@@ -39,9 +39,11 @@ void Player::jump(){
 #include "scene/scene.hpp"
 
 void Player::update(double dt){
+  Sphere* sphere =  (Sphere*) this->collider.get();
+  sphere->position = this->position;
   if(!grounded){
     const Scene& scene = Scene::get_instance();
-    const double gravity = 0.2;
+    const double gravity = 1;
     position += velocity * dt;
 
     // collide with -y
@@ -54,6 +56,7 @@ void Player::update(double dt){
       scene.getCollidingObjectsByTag(*this, tag::floor);
     if(!colliding_floors.empty()) {
       grounded = true;
+      return;
     }
 
     if(grounded) {
@@ -62,4 +65,4 @@ void Player::update(double dt){
     }
     velocity.y -= dt * gravity;
   }
-}
+ }
