@@ -37,7 +37,7 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 }
 
 bool Sphere::collidesWith(const Function &other) const{
-	return false;
+	return this->position.y < other.position.y;
 }
 
 void Sphere::really_draw(const DrawOptions &options) const {
@@ -181,7 +181,7 @@ bool Function::collidesWith(const Cylinder &other) const{
 }
 
 bool Function::collidesWith(const Sphere &other) const{
-  return false;
+  return other.collidesWith(*this);
 }
 
 bool Function::collidesWith(const Function &other) const{

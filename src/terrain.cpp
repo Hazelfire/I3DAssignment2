@@ -40,7 +40,7 @@ void create_terrain() {
   // water in lake
   Colour blue(0, 0.2, 1, 0.5);
   Material waterMaterial(128, blue * ambient_scale, blue, white_specular);
-  Scene::add(shared_ptr<GameObject>(new GameObject(new Tute_Water(waterMaterial, v3d(0, -2, 15), v3d(10, 0.5, 5)))), tag::floor);
+  Scene::add(shared_ptr<GameObject>(new GameObject(new Tute_Water(waterMaterial, v3d(0, -2, 15), v3d(10, 0.5, 5)))), tag::death);
 
   // Logs
   GLuint texture = SOIL_load_OGL_texture("resources/wood.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
