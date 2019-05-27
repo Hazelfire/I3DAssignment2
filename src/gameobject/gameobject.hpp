@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class Scene;
+
 struct Transform {
   v3d position;
   v3d rotation;
@@ -17,10 +19,13 @@ class GameObject {
     shared_ptr<GameObject> parent;
   public:
     shared_ptr<Shape> shape;
+    shared_ptr<Shape> collider;
     v3d position;
     v3d rotation;
     GameObject(Shape* shape);
+    GameObject(Shape* shape, Shape* collider);
     GameObject(Shape* shape, std::shared_ptr<GameObject> parent);
+    bool collidesWith(const GameObject &other) const;
     virtual void draw(DrawOptions ops);
     void pushTransform() const;
     void popTransform() const;
