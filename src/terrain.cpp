@@ -24,9 +24,9 @@ void create_terrain() {
   Scene::add(shared_ptr<GameObject>(new GameObject(new Cube(roadMaterial, v3d(0, -1, 5), v3d(10, 1, 5)))), tag::floor);
 
   // cars
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(-3, 0, 1.5))), tag::death);
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(0, 0, 2.5))), tag::death);
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(3, 0, 3.5))), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d(-6, 0, 3))), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d(0, 0, 5))), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d(6, 0, 7))), tag::death);
 
   // Grass on other side
   Scene::add(shared_ptr<GameObject>(new GameObject(new Cube(grassMaterial, v3d(0, -6, 10), v3d(10, 10, 5)))), tag::floor);
@@ -44,9 +44,9 @@ void create_terrain() {
 
   // Logs
   GLuint texture = SOIL_load_OGL_texture("resources/wood.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(-3, -0.5, 6.5), texture)), tag::log);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(0, -0.5, 7.5), texture)), tag::log);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(3, -0.5, 8.5), texture)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d(-6, -0.5, 13), texture)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d(0, -0.5, 15), texture)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d(6, -0.5, 17), texture)), tag::log);
 
 
 

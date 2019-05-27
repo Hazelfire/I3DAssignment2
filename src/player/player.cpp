@@ -36,6 +36,9 @@ void Player::jump(){
   }
 }
 
+void Player::ground(){
+  grounded = true;
+}
 #include "scene/scene.hpp"
 
 void Player::update(double dt){

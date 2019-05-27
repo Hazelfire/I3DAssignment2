@@ -1,6 +1,11 @@
 #include "main.hpp"
 #include "terrain.hpp"
 
+void reset(void) {
+  player->position = v3d::zero;
+  player->ground();
+}
+
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
   const _time& t = _time::get_instance();
@@ -13,6 +18,10 @@ void update(void) {
 
   if(drawOpts.animation){
     Scene::update(t.delta);
+  }
+
+  if(Scene::get_instance().getCollidingObjectsByTag(*player, tag::death).size() > 0){
+    reset();
   }
 
   focus->position = v3d::zero -player->position;
@@ -290,7 +299,7 @@ void keyboard(unsigned char key, int x, int y) {
 }
 
 void handle_keys() {
-  double movement = 5;
+  double movement = 20;
   double extensionSpeed = 1;
 
 #define USE_XZ 0
