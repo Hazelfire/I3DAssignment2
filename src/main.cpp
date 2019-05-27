@@ -246,6 +246,9 @@ void reshape(int x, int y) {
   glViewport(0,0, x, y);
 }
 
+bool rightDown = false;
+bool leftDown = false;
+
 void mouse(int x, int y) {
   //std::cout << "x: " << x << "\ny: " << y << std::endl;
   static int last_x = 0;
@@ -254,17 +257,28 @@ void mouse(int x, int y) {
   int dx = x - last_x;
   int dy = y - last_y;
 
-  focus->rotation.y += 0.5 * dx;
-  focus->rotation.x += 0.5 * dy;
+  if(leftDown){
+    focus->rotation.y += 0.5 * dx;
+    focus->rotation.x += 0.5 * dy;
 
-  if(focus->rotation.x > 0) {
-    focus->rotation.x = 0;
-  } else if(focus->rotation.x < -90) {
-    focus->rotation.x = -90;
+    if(focus->rotation.x > 0) {
+      focus->rotation.x = 0;
+    } else if(focus->rotation.x < -90) {
+      focus->rotation.x = -90;
+    }
+  }
+
+  if(rightDown){
+    player_camera->position.z += 0.1 * dy;
   }
 
   last_x = x;
   last_y = y;
+}
+
+void mouseClick(int button, int state, int x, int y){
+  leftDown = button == GLUT_LEFT_BUTTON && state == GLUT_DOWN;
+  rightDown = button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN;
 }
 
 void specialUp(int key, int x, int y) {
@@ -443,6 +457,7 @@ int main(int argc, char **argv) {
   glutReshapeFunc(reshape);
   glutPassiveMotionFunc(mouse);
   glutMotionFunc(mouse);
+  glutMouseFunc(mouseClick);
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
   glutKeyboardUpFunc(keyboardUp);
