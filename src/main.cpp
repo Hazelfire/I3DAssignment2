@@ -6,6 +6,18 @@ void reset(void) {
   player->ground();
 }
 
+void drawOsd(){
+  const _time& t = _time::get_instance();
+  glColor3f(1.0, 1.0, 1.0);
+
+  char cstring[100];
+  sprintf(cstring, "Tesselations %d\nFPS: %.2f\nFT: %.2f", drawOpts.tesselations, 1 / t.delta, t.delta * 1000);
+
+  glRasterPos2f(0.5, 0.5);
+  glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
+  
+}
+
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
   const _time& t = _time::get_instance();
@@ -51,9 +63,11 @@ void display() {
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
 
+
   if(drawOpts.lighting){
     glEnable(GL_LIGHTING);
   }
+
 
   // camera
   // anything before here is relative to the camera
@@ -115,6 +129,8 @@ void display() {
   }
 
 
+#define RENDER_TEST_WATER 0
+#if RENDER_TEST_WATER
   Tute_Water test_func(Material(128,//shine
         Colour(0.1, 0.1, 0.1, 0.1), //ambient
         Colour(1, 0, 0, 1),         //diffuse
@@ -124,6 +140,7 @@ void display() {
   test_func.z_mul = 5;
   test_func.t = time.current;
   test_func.draw(drawOpts);
+#endif
 
 
 
@@ -188,6 +205,10 @@ void display() {
 
   player_camera->popTransform();
   glPopMatrix();
+  if(drawOpts.osd){
+    drawOsd();
+  }
+
 #ifndef VSYNC
 #define VSYNC 1
 #endif
@@ -350,10 +371,10 @@ void handle_keys() {
     player->jump();
   }
   if(*keys & kb_d) {
-    player->jumpV.rotate(-movement * time.delta, v3d::Y);
+    player->jumpV.rotate(movement * time.delta, v3d::Y);
   }
   if(*keys & kb_a) {
-    player->jumpV.rotate(movement * time.delta, v3d::Y);
+    player->jumpV.rotate(-movement * time.delta, v3d::Y);
   }
   v3d jumpD(player->jumpV);
   jumpD.normalise();
