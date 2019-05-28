@@ -13,18 +13,16 @@ struct Transform {
   v3d scale;
 };
 
-class GameObject {
+class GameObject : public std::enable_shared_from_this<GameObject> {
   private:
     std::weak_ptr<GameObject> parent;
     std::vector<std::shared_ptr<GameObject>> children;
   public:
     std::shared_ptr<Shape> shape;
-    std::weak_ptr<GameObject> self;
     v3d position;
     v3d rotation;
 
-    GameObject(Shape* shape);
-    GameObject(Shape* shape, std::shared_ptr<GameObject> parent);
+    GameObject(std::shared_ptr<Shape> shape);
 
     // deep copies the shape
     // shallow copies the parent - preserves heirarchy

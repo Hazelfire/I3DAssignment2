@@ -1,4 +1,4 @@
 #pragma once
-#include "scene/scene.hpp"
+#include "player/player.hpp"
 
-void create_frog(Scene &scene);
+void create_frog(std::shared_ptr<GameObject> player);

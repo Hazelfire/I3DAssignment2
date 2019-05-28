@@ -2,12 +2,8 @@
 #include <GL/gl.h>
 
 
-GameObject::GameObject(Shape* shape): shape(shape) {};
+GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape) {};
 
-GameObject::GameObject(Shape* shape, std::shared_ptr<GameObject> parent): shape(shape) {
-  // need to use the method here, so that we get added to the parents children
-  setParent(parent);
-};
 
 GameObject::GameObject(const GameObject& other): parent(other.parent), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
@@ -17,14 +13,15 @@ GameObject::GameObject(const GameObject& other): parent(other.parent), position(
 }
 
 void GameObject::draw(DrawOptions ops){
-  if(shape){
-    this->pushTransform();
+  this->pushTransform();
+
+  if(shape)
     shape->draw(ops);
-    for(auto child : children) {
-      child->draw(ops);
-    }
-    this->popTransform();
+
+  for(auto child : children) {
+    child->draw(ops);
   }
+  this->popTransform();
 }
 
 void GameObject::pushTransform() const{
@@ -51,7 +48,7 @@ void GameObject::popTransform() const {
 
 void GameObject::setParent(std::shared_ptr<GameObject> new_parent){
   // makes sure we don't get deleted during this function
-  std::shared_ptr<GameObject> self = this->self.lock();
+  std::shared_ptr<GameObject> self = shared_from_this();
 
   {
     std::shared_ptr<GameObject> parent = this->parent.lock();

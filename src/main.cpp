@@ -359,13 +359,14 @@ void init() {
 
 #define DRAW_OBJECTS 0
 #if DRAW_OBJECTS
-  scene.add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
-  scene.add(new GameObject(new Sphere(v3d(0,2,1), 1)), tag::object);
-  scene.add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
-  scene.add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cube>(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sphere>(v3d(0,2,1), 1)), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cylinder>(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sin_and_Cos>(v3d(2,2,0), v3d(1,1,1))), tag::object);
 #endif
   scene.add(player, tag::player);
 
+  create_frog(player);
   create_terrain(scene);
 
   /*
