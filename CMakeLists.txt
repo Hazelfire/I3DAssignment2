@@ -62,6 +62,8 @@ set(GAME_HEADERS
 set(GAME_TESTS
   src/vector/vector.test.cpp
 
+  src/gameobject/gameobject.test.cpp
+
   src/shape/primitives/primitives.test.cpp
 
 

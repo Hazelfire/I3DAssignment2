@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
-#include <vector>
+//#include <vector>
+#include <set>
 #include "shape/shape.hpp"
 #include "vector/vector.h"
 #include "shape/primitives/primitives.hpp"
@@ -14,9 +15,9 @@ struct Transform {
 };
 
 class GameObject : public std::enable_shared_from_this<GameObject> {
-  private:
+  protected:
     std::weak_ptr<GameObject> parent;
-    std::vector<std::shared_ptr<GameObject>> children;
+    std::set<std::shared_ptr<GameObject>> children;
 
     GameObject(const GameObject&);
   public:
@@ -29,6 +30,7 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     // deep copies the shape
     // shallow copies the parent - preserves heirarchy
     virtual std::shared_ptr<GameObject> clone() const;
+    virtual std::shared_ptr<GameObject> clone(std::shared_ptr<GameObject> new_parent) const;
 
     virtual void draw(DrawOptions ops);
     void pushTransform() const;
@@ -37,4 +39,11 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     void popRelativeTransform() const;
     void setParent(std::shared_ptr<GameObject>);
     virtual void update(double dt);
+
+
+#ifdef TEST_ACCESS
+  public:
+    std::shared_ptr<GameObject> get_parent() {return parent.lock();};
+    std::set<std::shared_ptr<GameObject>> get_children() {return children;};
+#endif
 };

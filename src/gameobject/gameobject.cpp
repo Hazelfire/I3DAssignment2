@@ -5,21 +5,34 @@
 GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), position(v3d::zero), rotation(v3d::zero) {};
 
 
-GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), position(other.position), rotation(other.rotation) {
+GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), children(other.children), shape(nullptr), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
-  shape.reset(other.shape->clone().release());
-  /*
-  std::shared_ptr<GameObject> parent = other.parent.lock();
-
-  setParent(parent);
-  */
+  if(other.shape) {
+    shape.reset(other.shape->clone().release());
+  }
 }
 
 std::shared_ptr<GameObject> GameObject::clone() const {
+  return clone(this->parent.lock());
+}
+
+std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_parent) const {
   auto temp = std::shared_ptr<GameObject>(new GameObject(*this));
 
-  std::shared_ptr<GameObject> parent = this->parent.lock();
-  temp->setParent(parent);
+  if(new_parent) {
+    temp->parent = new_parent;
+    new_parent->children.insert(temp);
+    //parent->children.push_back(temp);
+  }
+
+  for(auto object_sp : temp->children) {
+    //don't set the sp while its in the set, that invalidates the set
+    //  since thats how it detects dupes
+    //object_sp = object_sp->clone(temp);
+    temp->children.erase(object_sp);
+    object_sp->clone(temp);
+  }
+
   return temp;
 }
 
@@ -72,7 +85,13 @@ void GameObject::setParent(std::shared_ptr<GameObject> new_parent){
 
   {
     std::shared_ptr<GameObject> parent = this->parent.lock();
+
+    if(new_parent == parent)
+      return;
+
     if(parent){
+      parent->children.erase(parent->children.find(self));
+#if 0
       // remove ourselfves from our parents list of children
       // swaps our position to the end, then pops the end
       // this is ok, because the list of children has no inherent order
@@ -85,11 +104,13 @@ void GameObject::setParent(std::shared_ptr<GameObject> new_parent){
           break;
         }
       }
+#endif
     }
   }
 
   if(new_parent) {
-    new_parent->children.push_back(self);
+    //new_parent->children.push_back(self);
+    new_parent->children.insert(self);
     parent = new_parent;
   }
 }
