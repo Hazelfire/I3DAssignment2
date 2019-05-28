@@ -7,7 +7,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#define USE_FREEGLUT 1
+#define USE_FREEGLUT 0
 #if USE_FREEGLUT
 #include <GL/freeglut.h>
 #else
