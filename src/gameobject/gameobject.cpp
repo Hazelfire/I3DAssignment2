@@ -35,7 +35,7 @@ void GameObject::pushTransform() const{
   glRotatef(this->rotation.z, 0, 0, 1); 
   glTranslatef(position);
 
-  std::shared_ptr<GameObject> parent(this->parent);
+  std::shared_ptr<GameObject> parent = this->parent.lock();
   if(parent){
     parent->pushTransform();
   }
@@ -43,7 +43,7 @@ void GameObject::pushTransform() const{
 
 void GameObject::popTransform() const {
   glPopMatrix();
-  std::shared_ptr<GameObject> parent(this->parent);
+  std::shared_ptr<GameObject> parent = this->parent.lock();
   if(parent){
     parent->popTransform();
   }
@@ -51,10 +51,10 @@ void GameObject::popTransform() const {
 
 void GameObject::setParent(std::shared_ptr<GameObject> new_parent){
   // makes sure we don't get deleted during this function
-  std::shared_ptr<GameObject> self(this->self);
+  std::shared_ptr<GameObject> self = this->self.lock();
 
   {
-    std::shared_ptr<GameObject> parent(this->parent);
+    std::shared_ptr<GameObject> parent = this->parent.lock();
     if(parent){
       // remove ourselfves from our parents list of children
       // swaps our position to the end, then pops the end
