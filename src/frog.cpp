@@ -25,4 +25,11 @@ void create_frog(std::shared_ptr<GameObject> player){
   auto body = std::make_shared<GameObject>(body_shape);
   body->setParent(player);
 
+  auto left_leg = std::make_shared<GameObject>(std::make_shared<Cube>(
+        frogMaterial,
+        v3d(1,1,1),// position
+        v3d(0.1, 0.1, 0.1)// size
+        ));
+  left_leg->setParent(body);
+
 }

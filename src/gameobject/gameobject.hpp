@@ -31,6 +31,8 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     virtual void draw(DrawOptions ops);
     void pushTransform() const;
     void popTransform() const;
+    void pushRelativeTransform() const;
+    void popRelativeTransform() const;
     void setParent(std::shared_ptr<GameObject>);
     virtual void update(double dt);
 };

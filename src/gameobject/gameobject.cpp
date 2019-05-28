@@ -8,12 +8,12 @@ GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), position(v3d
 GameObject::GameObject(const GameObject& other): parent(other.parent), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
   shape.reset(other.shape->clone().get());
-  std::shared_ptr<GameObject> parent(other.parent);
+  std::shared_ptr<GameObject> parent = other.parent.lock();
   setParent(parent);
 }
 
 void GameObject::draw(DrawOptions ops){
-  this->pushTransform();
+  this->pushRelativeTransform();
 
   if(shape)
     shape->draw(ops);
@@ -21,16 +21,11 @@ void GameObject::draw(DrawOptions ops){
   for(auto child : children) {
     child->draw(ops);
   }
-  this->popTransform();
+  this->popRelativeTransform();
 }
 
 void GameObject::pushTransform() const{
-  glPushMatrix();
-  glRotatef(this->rotation.y, 0, 1, 0);
-  v3d right = v3d(0, 0, 1).rotate(this->rotation.y, v3d::Y).cross(v3d::Y);
-  glRotatef(this->rotation.x, right);
-  glRotatef(this->rotation.z, 0, 0, 1); 
-  glTranslatef(position);
+  pushRelativeTransform();
 
   std::shared_ptr<GameObject> parent = this->parent.lock();
   if(parent){
@@ -38,12 +33,26 @@ void GameObject::pushTransform() const{
   }
 }
 
+void GameObject::pushRelativeTransform() const {
+  glPushMatrix();
+  glRotatef(this->rotation.y, 0, 1, 0);
+  v3d right = v3d(0, 0, 1).rotate(this->rotation.y, v3d::Y).cross(v3d::Y);
+  glRotatef(this->rotation.x, right);
+  glRotatef(this->rotation.z, 0, 0, 1); 
+  glTranslatef(position);
+}
+
 void GameObject::popTransform() const {
-  glPopMatrix();
   std::shared_ptr<GameObject> parent = this->parent.lock();
   if(parent){
     parent->popTransform();
   }
+
+  popRelativeTransform();
+}
+
+void GameObject::popRelativeTransform() const {
+  glPopMatrix();
 }
 
 void GameObject::setParent(std::shared_ptr<GameObject> new_parent){
