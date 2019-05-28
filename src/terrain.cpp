@@ -17,6 +17,7 @@ void create_terrain(Scene& scene){
   Colour green(0.14509, 0.3, 0.08627, 1);
   Material grassMaterial(128, green * ambient_scale, green, white_specular);
   // Main grass
+
   scene.add(std::make_shared<GameObject>(std::make_shared<Cube>(grassMaterial, v3d(0, -1.5, 0), v3d(10, 1, 5))), tag::floor);
 
   Colour grey(0.1, 0.1, 0.1, 1);

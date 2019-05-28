@@ -2,7 +2,7 @@
 #include <GL/gl.h>
 
 
-GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape) {};
+GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), position(v3d::zero), rotation(v3d::zero) {};
 
 
 GameObject::GameObject(const GameObject& other): parent(other.parent), position(other.position), rotation(other.rotation) {
