@@ -14,9 +14,14 @@ void drawOsd(){
   sprintf(cstring, "Tesselations %d\nFPS: %.2f\nFT: %.2f", drawOpts.tesselations, 1 / t.delta, t.delta * 1000);
 
   glRasterPos2f(0.5, 0.5);
-  glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
+  const unsigned char* string = reinterpret_cast<const unsigned char *>("cats");
+  glutBitmapString(GLUT_BITMAP_HELVETICA_18, string);
   
 }
+
+int lives = 5;
+int score = 0;
+bool playerDead = false;
 
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
@@ -33,6 +38,15 @@ void update(void) {
   }
 
   if(Scene::get_instance().getCollidingObjectsByTag(*player, tag::death).size() > 0){
+    lives--;
+    reset();
+    if(lives == 0){
+      playerDead = true;    
+    }
+  }
+
+  if(player->position.z > 20){
+    score++;
     reset();
   }
 
@@ -49,7 +63,7 @@ void update(void) {
   glutPostRedisplay();
 }
 
-#if !USE_FREEGLUT
+#if 0
 void glutBitmapString(void *font, char *str) {
   for(int i = 0; str[i] != '\0'; i++) {
     glutBitmapCharacter(font, str[i]);
@@ -59,6 +73,9 @@ void glutBitmapString(void *font, char *str) {
 
 // draw
 void display() {
+  glColor3f(1.0, 1.0, 1.0);
+  glRasterPos2f(0.5, 0.5);
+  glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"cats");
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
@@ -381,30 +398,33 @@ void handle_keys() {
     player_camera.position += v3d::Y * movement * time.delta;
   }
 #endif
-  if(*keys & kb_space) {
-    player->jump();
-  }
-  if(*keys & kb_d) {
-    player->jumpV.rotate(movement * time.delta, v3d::Y);
-  }
-  if(*keys & kb_a) {
-    player->jumpV.rotate(-movement * time.delta, v3d::Y);
-  }
-  v3d jumpD(player->jumpV);
-  jumpD.normalise();
-  if(*keys & kb_up) {
-    player->jumpV += jumpD * extensionSpeed * time.delta;
-  }
-  if(*keys & kb_down) {
-    player->jumpV -= jumpD * extensionSpeed * time.delta;
-  }
-  if(*keys & kb_left) {
-    v3d right = jumpD.cross(v3d::Y);
-    player->jumpV.rotate(movement * time.delta, right);
-  }
-  if(*keys & kb_right) {
-    v3d right = jumpD.cross(v3d::Y);
-    player->jumpV.rotate(-movement * time.delta, right);
+
+  if(!playerDead){
+    if(*keys & kb_space) {
+      player->jump();
+    }
+    if(*keys & kb_d) {
+      player->jumpV.rotate(movement * time.delta, v3d::Y);
+    }
+    if(*keys & kb_a) {
+      player->jumpV.rotate(-movement * time.delta, v3d::Y);
+    }
+    v3d jumpD(player->jumpV);
+    jumpD.normalise();
+    if(*keys & kb_up) {
+      player->jumpV += jumpD * extensionSpeed * time.delta;
+    }
+    if(*keys & kb_down) {
+      player->jumpV -= jumpD * extensionSpeed * time.delta;
+    }
+    if(*keys & kb_left) {
+      v3d right = jumpD.cross(v3d::Y);
+      player->jumpV.rotate(movement * time.delta, right);
+    }
+    if(*keys & kb_right) {
+      v3d right = jumpD.cross(v3d::Y);
+      player->jumpV.rotate(-movement * time.delta, right);
+    }
   }
 }
 
