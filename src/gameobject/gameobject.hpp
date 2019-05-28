@@ -17,6 +17,8 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
   private:
     std::weak_ptr<GameObject> parent;
     std::vector<std::shared_ptr<GameObject>> children;
+
+    GameObject(const GameObject&);
   public:
     std::shared_ptr<Shape> shape;
     v3d position;
@@ -26,7 +28,7 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
 
     // deep copies the shape
     // shallow copies the parent - preserves heirarchy
-    GameObject(const GameObject&);
+    virtual std::shared_ptr<GameObject> clone() const;
 
     virtual void draw(DrawOptions ops);
     void pushTransform() const;

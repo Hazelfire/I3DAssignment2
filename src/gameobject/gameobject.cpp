@@ -5,11 +5,22 @@
 GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), position(v3d::zero), rotation(v3d::zero) {};
 
 
-GameObject::GameObject(const GameObject& other): parent(other.parent), position(other.position), rotation(other.rotation) {
+GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
-  shape.reset(other.shape->clone().get());
+  shape.reset(other.shape->clone().release());
+  /*
   std::shared_ptr<GameObject> parent = other.parent.lock();
+
   setParent(parent);
+  */
+}
+
+std::shared_ptr<GameObject> GameObject::clone() const {
+  auto temp = std::shared_ptr<GameObject>(new GameObject(*this));
+
+  std::shared_ptr<GameObject> parent = this->parent.lock();
+  temp->setParent(parent);
+  return temp;
 }
 
 void GameObject::draw(DrawOptions ops){
