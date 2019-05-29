@@ -31,6 +31,25 @@ class Cube : public Shape{
     virtual void really_draw(const DrawOptions &options) const;
 };
 
+// inside-out cube with no position param
+class Skybox : public Shape{
+  public:
+    v3d size;
+
+    Skybox(const Material &material, v3d size): Shape(material), size(size) {};
+    Skybox(v3d size): Shape(), size(size) {};
+    Skybox(const Skybox &other) : Shape(other), size(other.size) {};
+    Skybox(const Cube &other) : Shape(other), size(other.size) {};
+    Skybox() : Shape() {}
+
+    virtual bool collidesWith(const Cube&) const override;
+    virtual bool collidesWith(const Plane&) const override;
+    virtual bool collidesWith(const Cylinder&) const override;
+    virtual bool collidesWith(const Sphere&) const override;
+    virtual bool collidesWith(const Function&) const override;
+    virtual void really_draw(const DrawOptions &options) const;
+};
+
 class Function : public Shape {
   public:
     v3d position;

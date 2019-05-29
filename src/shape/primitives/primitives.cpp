@@ -533,6 +533,227 @@ void Cube::really_draw(const DrawOptions &options) const {
   glPopMatrix();
 }
 
+
+
+
+
+
+// Skybox
+bool Skybox::collidesWith(const Sphere &other) const{
+  return false;
+}
+
+bool Skybox::collidesWith(const Cube &other) const{
+  return false;
+}
+
+bool Skybox::collidesWith(const Plane &other) const{
+  return false;
+}
+
+// Bad implementation, pretends the cylinder is a cube
+bool Skybox::collidesWith(const Cylinder &other) const{
+  return false;
+}
+
+bool Skybox::collidesWith(const Function &other) const{
+  return false;
+}
+
+void Skybox::really_draw(const DrawOptions &options) const {
+  // push position
+  glPushMatrix();
+  glScaled(size.x, size.y, size.z);
+
+  //                                 |
+  //       2---------6               |
+  //      /|        /|               |
+  //     / |       / |    Y          |
+  //    /  |      /  |    |          |
+  //   3---------7   |    |          |
+  //   |   |     |   |    |          |
+  //   |   0-----|---4    *---X      |
+  //   |  /      |  /    /           |
+  //   | /       | /    /            |
+  //   |/        |/    Z             |
+  //   1---------5                   |
+  //                                 |
+  //                                 |
+  //     0---4---6---2               |
+  //     |   |   |   |               |
+  //     |   |   |   |               |
+  //     1---5---7---3---2---6       |
+  //             |   |   |   |       |
+  //             |   |   |   |       |
+  //             5---1---0---4       |
+  //                                 |
+
+  v3d points[8] = {
+    v3d(0,0,0),
+    v3d(0,0,1),
+    v3d(0,1,0),
+    v3d(0,1,1),
+    v3d(1,0,0),
+    v3d(1,0,1),
+    v3d(1,1,0),
+    v3d(1,1,1),
+  };
+  for(int i = 0; i < 8; i++) {
+    points[i] -= v3d::unit / 2;
+  }
+
+
+
+  // can't use strips for cube lighting, since the 
+#if CUBE_USE_STRIPS
+  glBegin(GL_QUAD_STRIP);
+  points[0].draw();
+  points[1].draw();
+  points[4].draw();
+  points[5].draw();
+  points[6].draw();
+  points[7].draw();
+  points[2].draw();
+  points[3].draw();
+  glEnd();
+  glBegin(GL_QUAD_STRIP);
+  points[7].draw();
+  points[5].draw();
+  points[3].draw();
+  points[1].draw();
+  points[2].draw();
+  points[0].draw();
+  points[6].draw();
+  points[4].draw();
+  glEnd();
+#else
+  glBegin(GL_QUADS);
+  {
+    //+x
+    v3d::X.glNormal();
+    points[7].glVertex();
+    v3d::X.glNormal();
+    points[6].glVertex();
+    v3d::X.glNormal();
+    points[4].glVertex();
+    v3d::X.glNormal();
+    points[5].glVertex();
+
+    //-x
+    (-1*v3d::X).glNormal();
+    points[2].glVertex();
+    (-1*v3d::X).glNormal();
+    points[3].glVertex();
+    (-1*v3d::X).glNormal();
+    points[1].glVertex();
+    (-1*v3d::X).glNormal();
+    points[0].glVertex();
+  }
+  {
+    //+y
+    v3d::Y.glNormal();
+    points[6].glVertex();
+    v3d::Y.glNormal();
+    points[7].glVertex();
+    v3d::Y.glNormal();
+    points[3].glVertex();
+    v3d::Y.glNormal();
+    points[2].glVertex();
+    //-y
+    (-1*v3d::Y).glNormal();
+    points[5].glVertex();
+    (-1*v3d::Y).glNormal();
+    points[4].glVertex();
+    (-1*v3d::Y).glNormal();
+    points[0].glVertex();
+    (-1*v3d::Y).glNormal();
+    points[1].glVertex();
+  }
+  {
+    //+z
+    v3d::Z.glNormal();
+    points[7].glVertex();
+    v3d::Z.glNormal();
+    points[5].glVertex();
+    v3d::Z.glNormal();
+    points[1].glVertex();
+    v3d::Z.glNormal();
+    points[3].glVertex();
+    //-z
+    (-1*v3d::Z).glNormal();
+    points[4].glVertex();
+    (-1*v3d::Z).glNormal();
+    points[6].glVertex();
+    (-1*v3d::Z).glNormal();
+    points[2].glVertex();
+    (-1*v3d::Z).glNormal();
+    points[0].glVertex();
+  }
+  glEnd();
+#endif
+
+  // normals
+  if(options.normals) {
+    glPushAttrib(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+    glColor3f(0,1,0);
+
+    {
+      //+x
+      (-1*v3d::X).draw(points[5]);
+      (-1*v3d::X).draw(points[4]);
+      (-1*v3d::X).draw(points[6]);
+      (-1*v3d::X).draw(points[7]);
+
+      //-x
+      v3d::X.draw(points[0]);
+      v3d::X.draw(points[1]);
+      v3d::X.draw(points[3]);
+      v3d::X.draw(points[2]);
+    }
+    {
+      //+y
+      (-1*v3d::Y).draw(points[2]);
+      (-1*v3d::Y).draw(points[3]);
+      (-1*v3d::Y).draw(points[7]);
+      (-1*v3d::Y).draw(points[6]);
+      //-y
+      v3d::Y.draw(points[1]);
+      v3d::Y.draw(points[0]);
+      v3d::Y.draw(points[4]);
+      v3d::Y.draw(points[5]);
+    }
+    {
+      //+z
+      (-1*v3d::Z).draw(points[3]);
+      (-1*v3d::Z).draw(points[1]);
+      (-1*v3d::Z).draw(points[5]);
+      (-1*v3d::Z).draw(points[7]);
+      //-z
+      v3d::Z.draw(points[0]);
+      v3d::Z.draw(points[2]);
+      v3d::Z.draw(points[6]);
+      v3d::Z.draw(points[4]);
+    }
+    glPopAttrib();
+  }
+
+
+
+  glPopMatrix();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // Plane
 bool Plane::collidesWith(const Sphere &other) const{
   return other.collidesWith(*this);
