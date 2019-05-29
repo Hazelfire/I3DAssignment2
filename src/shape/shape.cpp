@@ -34,7 +34,7 @@ bool Shape::collidesWith(const Shape& other) const {
   if(cylinder) {
     return collidesWith(*cylinder);
   }
-  const Plane *plane = dynamic_cast<const Plane *>(&other);
+  const Grid *plane = dynamic_cast<const Grid *>(&other);
   if(plane) {
     return collidesWith(*plane);
   }

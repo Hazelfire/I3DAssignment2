@@ -5,7 +5,7 @@ struct DrawOptions;
 class Cube;
 class Sphere;
 class Cylinder;
-class Plane;
+class Grid;
 class Mesh;
 class Function;
 
@@ -15,7 +15,7 @@ class Shape {
     bool is_material_active;
 
     virtual bool collidesWith(const Cube&) const = 0;
-    virtual bool collidesWith(const Plane&) const = 0;
+    virtual bool collidesWith(const Grid&) const = 0;
     virtual bool collidesWith(const Cylinder&) const = 0;
     virtual bool collidesWith(const Sphere&) const = 0;
     virtual void update(double dt) {};

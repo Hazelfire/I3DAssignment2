@@ -24,7 +24,7 @@ class Cube : public Shape{
 		Cube() : Shape() {}
 
 		virtual bool collidesWith(const Cube&) const override;
-		virtual bool collidesWith(const Plane&) const override;
+		virtual bool collidesWith(const Grid&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
 		virtual bool collidesWith(const Function&) const override;
@@ -48,7 +48,7 @@ class Function : public Shape {
 		virtual double df_z(double x, double z) const = 0;//dy/dz
 
 		virtual bool collidesWith(const Cube&) const override;//NYI
-		virtual bool collidesWith(const Plane&) const override;//NYI
+		virtual bool collidesWith(const Grid&) const override;//NYI
 		virtual bool collidesWith(const Cylinder&) const override;//NYI
 		virtual bool collidesWith(const Sphere&) const override;//NYI
 		virtual bool collidesWith(const Function&) const override;//NYI
@@ -68,7 +68,7 @@ class Sphere : public Shape{
 		Sphere() : Shape() {}
 
 		virtual bool collidesWith(const Cube&) const override;
-		virtual bool collidesWith(const Plane&) const override;
+		virtual bool collidesWith(const Grid&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
 		virtual bool collidesWith(const Function&) const override;
@@ -76,17 +76,19 @@ class Sphere : public Shape{
 		virtual void really_draw(const DrawOptions &draw) const;
 };
 
-class Plane : public Shape{
+class Grid : public Shape{
 	public:
-		double height;
+		v3d position;
+    v3d size;
+    double tesselation;
 
-		Plane(const Material &material, double height): Shape(material), height(height) {};
-		Plane(double height): Shape(), height(height) {};
-		Plane(const Plane &other) : Shape(other.material), height(other.height) {};
-		Plane() : Shape() {}
+		Grid(const Material &material, v3d position, v3d size, int tesselation): Shape(material), position(position), size(size), tesselation(tesselation) {};
+		Grid(v3d position, v3d size, int tesselation): Shape(), position(position), size(size), tesselation(tesselation) {};
+		Grid(const Grid &other) : Shape(other.material), position(other.position), size(other.size), tesselation(other.tesselation) {};
+		Grid() : Shape() {}
 
 		virtual bool collidesWith(const Cube&) const override;
-		virtual bool collidesWith(const Plane&) const override;
+		virtual bool collidesWith(const Grid&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
 		virtual bool collidesWith(const Function&) const override;
@@ -105,7 +107,7 @@ class Cylinder : public Shape{
 		Cylinder() : Shape() {}
 
 		virtual bool collidesWith(const Cube&) const override;
-		virtual bool collidesWith(const Plane&) const override;
+		virtual bool collidesWith(const Grid&) const override;
 		virtual bool collidesWith(const Cylinder&) const override;
 		virtual bool collidesWith(const Sphere&) const override;
 		virtual bool collidesWith(const Function&) const override;
