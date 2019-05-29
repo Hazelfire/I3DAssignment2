@@ -6,8 +6,9 @@
 class Log : public GameObject {
   private:
     double t = 0.0;
+    double logSpeed;
   public:
-    Log(v3d position, GLuint texture);
+    Log(v3d position, GLuint texture, double speed);
     virtual void update(double dt) override;
     virtual void draw(DrawOptions opts) override;
 };

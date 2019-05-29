@@ -21,6 +21,7 @@ void Player::bind(GameObject& other){
   }
 }
 void Player::drawJump(){
+  glColor3f(1, 1, 1);
 
   v3d currentPos(position);
   v3d currentVel(jumpV);
