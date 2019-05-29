@@ -30,6 +30,18 @@ int lives = 5;
 int score = 0;
 bool playerDead = false;
 
+void drawScore(){
+  glColor3f(1.0, 1.0, 1.0);
+
+  char cstring[100];
+  sprintf(cstring, "Score: %d\nLives: %d", score, lives);
+
+  glRasterPos3f(-0.5, 0.5, -1);
+  glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
+
+}
+
+
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
   const _time& t = _time::get_instance();
@@ -237,6 +249,8 @@ void display() {
   if(playerDead){
     drawGameOver();
   }
+
+  drawScore();
 
 
 #ifndef VSYNC
