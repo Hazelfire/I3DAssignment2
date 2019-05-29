@@ -11,6 +11,7 @@ struct DrawOptions {
   bool textures = false;
   bool animation = true;
   bool osd = false;
+  bool collider = false;
 };
 
 class Cube : public Shape{

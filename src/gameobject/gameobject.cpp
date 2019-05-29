@@ -59,7 +59,7 @@ void GameObject::draw(DrawOptions ops){
   }
 
   this->popRelativeTransform();
-  if(collider){
+  if(ops.collider && collider){
     collider->draw(ops);
   }
 }
