@@ -5,12 +5,16 @@
 #include "objects/car.hpp"
 #include "objects/log.hpp"
 #include <SOIL.h>
+#include <cstdlib>
+#include <ctime>
 
 
 void create_terrain() {
   Colour white_specular(1, 1, 1, 1);
   Colour no_specular(0, 0, 0, 0);
   float ambient_scale = 0.4;
+
+  srand(time(0));
 
   //Colour green(0.05, 0.4, 0.05, 1);
   Colour green(0.14509, 0.3, 0.08627, 1);
@@ -24,10 +28,10 @@ void create_terrain() {
   Scene::add(shared_ptr<GameObject>(new GameObject(new Cube(roadMaterial, v3d(0, -1, 6), v3d(10, 1, 7)))), tag::floor);
 
   // cars
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(-6, 0, 3))), tag::death);
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(0, 0, 5))), tag::death);
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(6, 0, 7))), tag::death);
-  Scene::add(shared_ptr<GameObject>(new Car(v3d(3, 0, 9))), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d((rand() % 13) - 6, 0, 3), 2)), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d((rand() % 13) - 6, 0, 5), -2)), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d((rand() % 13) - 6, 0, 7), 2)), tag::death);
+  Scene::add(shared_ptr<GameObject>(new Car(v3d((rand() % 13) - 6, 0, 9), -2)), tag::death);
 
   // Grass on other side
   Scene::add(shared_ptr<GameObject>(new GameObject(new Cube(grassMaterial, v3d(0, -6, 12), v3d(10, 10, 5)))), tag::floor);
@@ -45,9 +49,9 @@ void create_terrain() {
 
   // Logs
   GLuint texture = SOIL_load_OGL_texture("resources/wood.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(-6, -0.5, 15), texture)), tag::log);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(0, -0.5, 17), texture)), tag::log);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(6, -0.5, 19), texture)), tag::log);
-  Scene::add(shared_ptr<GameObject>(new Log(v3d(6, -0.5, 21), texture)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d((rand() % 13) - 6, -0.5, 15), texture, 2)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d((rand() % 13) - 6, -0.5, 17), texture, -2)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d((rand() % 13) - 6, -0.5, 19), texture, 2)), tag::log);
+  Scene::add(shared_ptr<GameObject>(new Log(v3d((rand() % 13) - 6, -0.5, 21), texture, -2)), tag::log);
 
 }
