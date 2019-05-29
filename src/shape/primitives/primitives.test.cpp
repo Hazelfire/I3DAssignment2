@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE( test_sphere_collision )
 BOOST_AUTO_TEST_CASE( test_sphere_plane )
 {
   Sphere sphere(v3d(0, 2, 0), 1);
-  Plane plane(0);
+  Grid plane(0);
   BOOST_TEST(!sphere.collidesWith(plane));
   BOOST_TEST(!plane.collidesWith(sphere));
   plane.height = 1.5;
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE( test_cube_cube )
 BOOST_AUTO_TEST_CASE( test_cube_sphere )
 {
   Cube c1(v3d(0, 1, 0), v3d::unit);
-  Plane p1(0);
+  Grid p1(0);
 
   BOOST_TEST(!c1.collidesWith(p1));
   BOOST_TEST(!p1.collidesWith(c1));
@@ -99,8 +99,8 @@ BOOST_AUTO_TEST_CASE ( test_cube_cylinder )
 
 BOOST_AUTO_TEST_CASE (test_plane_plane)
 {
-  Plane p1(2.0);
-  Plane p2(1.0);
+  Grid p1(2.0);
+  Grid p2(1.0);
 
   BOOST_TEST(!p1.collidesWith(p2));
   BOOST_TEST(!p2.collidesWith(p1));
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE (test_plane_plane)
 
 BOOST_AUTO_TEST_CASE (test_plane_cylinder)
 {
-  Plane p1(0);
+  Grid p1(0);
   Cylinder cylinder(v3d(0, 2, 0), 1, 2);
 
   BOOST_TEST(!p1.collidesWith(cylinder));

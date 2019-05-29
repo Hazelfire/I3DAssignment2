@@ -23,7 +23,7 @@ bool Sphere::collidesWith(const Cube &other) const{
   return insideX && insideY && insideZ;
 }
 
-bool Sphere::collidesWith(const Plane &other) const{
+bool Sphere::collidesWith(const Grid &other) const{
   return other.height > (this->position.y - this->radius);
 }
 
@@ -172,7 +172,7 @@ bool Function::collidesWith(const Cube &other) const{
   return false;
 }
 
-bool Function::collidesWith(const Plane &other) const{
+bool Function::collidesWith(const Grid &other) const{
   return false;
 }
 
@@ -332,7 +332,7 @@ bool Cube::collidesWith(const Cube &other) const{
   return insideX && insideY && insideZ;
 }
 
-bool Cube::collidesWith(const Plane &other) const{
+bool Cube::collidesWith(const Grid &other) const{
   return other.height > (this->position.y - this->size.y / 2);
 }
 
@@ -533,29 +533,47 @@ void Cube::really_draw(const DrawOptions &options) const {
   glPopMatrix();
 }
 
-// Plane
-bool Plane::collidesWith(const Sphere &other) const{
+// Grid
+bool Grid::collidesWith(const Sphere &other) const{
   return other.collidesWith(*this);
 }
 
-bool Plane::collidesWith(const Cube &other) const{
+bool Grid::collidesWith(const Cube &other) const{
   return other.collidesWith(*this);
 }
 
-bool Plane::collidesWith(const Plane &other) const{
+bool Grid::collidesWith(const Grid &other) const{
   return height == other.height;
 }
 
-bool Plane::collidesWith(const Cylinder &other) const{
+bool Grid::collidesWith(const Cylinder &other) const{
   return other.position.y + other.radius > height && other.position.y - other.radius < height;
 }
 
-bool Plane::collidesWith(const Function &other) const{
+bool Grid::collidesWith(const Function &other) const{
 	return false;
 }
 
-void Plane::really_draw(const DrawOptions &options) const {
-  //NYI
+void Grid::really_draw(const DrawOptions &options) const {
+  glPushMatrix();
+
+  v3d cellSize = size / tesselation;
+  
+  v3d start = position - size / 2;
+
+  for(int i = 0; i < tesselation; i++){
+    glBegin(GL_TRIANGLE_STRIP);
+    for(int j = 0; j < tesselation + 1; j++){
+
+      glVertex3f(start.x + i * cellSize.x, position.y, start.z + j * cellSize.z);
+
+      glVertex3f(start.x + (i + 1) * cellSize.x, position.y, start.z + j * cellSize.z);
+
+    }
+    glEnd();
+
+  }
+  glPopMatrix();
 }
 
 // Cylinder
@@ -570,7 +588,7 @@ bool Cylinder::collidesWith(const Cube &other) const{
   return other.collidesWith(*this);
 }
 
-bool Cylinder::collidesWith(const Plane &other) const{
+bool Cylinder::collidesWith(const Grid &other) const{
   return other.collidesWith(*this);
 }
 
