@@ -200,45 +200,44 @@ void Function::really_draw(const DrawOptions &options) const {
   const int n = options.tesselations;
 
   //double y_vals[n][n];
-  double (*y_vals)[n] = nullptr;
+  double (*y_vals)[(n+1)] = nullptr;
   std::unique_ptr<double[]> y_val_cont;
   {
-    double *temp = new double[n*n];
+    double *temp = new double[(n+1)*(n+1)];
     y_val_cont = std::unique_ptr<double[]>(temp);
-    y_vals = (double(*)[n])temp;
+    y_vals = (double(*)[(n+1)])temp;
   }
 
   //v3d normals[n][n];
-  v3d (*normals)[n] = nullptr;
+  v3d (*normals)[(n+1)] = nullptr;
   std::unique_ptr<v3d[]> normal_cont;
   {
-    v3d *temp = new v3d[n*n];
+    v3d *temp = new v3d[(n+1)*(n+1)];
     normal_cont = std::unique_ptr<v3d[]>(temp);
-    normals = (v3d(*)[n])temp;
+    normals = (v3d(*)[(n+1)])temp;
   }
 
   //v3d x_tan[n][n];
-  v3d (*x_tan)[n] = nullptr;
+  v3d (*x_tan)[(n+1)] = nullptr;
   std::unique_ptr<v3d[]> x_tan_cont;
   {
-    v3d *temp = new v3d[n*n];
+    v3d *temp = new v3d[(n+1)*(n+1)];
     x_tan_cont = std::unique_ptr<v3d[]>(temp);
-    x_tan = (v3d(*)[n])temp;
+    x_tan = (v3d(*)[(n+1)])temp;
   }
 
   //v3d z_tan[n][n];
-  v3d (*z_tan)[n] = nullptr;
+  v3d (*z_tan)[(n+1)] = nullptr;
   std::unique_ptr<v3d[]> z_tan_cont;
   {
-    v3d *temp = new v3d[n*n];
+    v3d *temp = new v3d[(n+1)*(n+1)];
     z_tan_cont = std::unique_ptr<v3d[]>(temp);
-    z_tan = (v3d(*)[n])temp;
+    z_tan = (v3d(*)[(n+1)])temp;
   }
 
-
-  for(int i = 0; i < n; i++) {
+  for(int i = 0; i <= n; i++) {
     double x = (double)i / n - 0.5;
-    for(int j = 0; j < n; j++) {
+    for(int j = 0; j <= n; j++) {
       double z = (double)j / n - 0.5;
       y_vals[i][j] = f(x, z);
       double dy_x = df_x(x, z);
@@ -273,10 +272,10 @@ void Function::really_draw(const DrawOptions &options) const {
   }
 
 
-  for(int i = 0; i < n-1; i++) {
+  for(int i = 0; i <= n-1; i++) {
     glBegin(GL_TRIANGLE_STRIP);
     double x = (double)i / n - 0.5;
-    for(int j = 0; j < n; j++) {
+    for(int j = 0; j <= n; j++) {
       double z = (double)j / n - 0.5;
 
       normals[i+1][j].glNormal();
@@ -291,9 +290,9 @@ void Function::really_draw(const DrawOptions &options) const {
   if(options.normals){
     glDisable(GL_LIGHTING);
     glBegin(GL_LINES);
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i <= n; i++) {
       double x = (double)i / n - 0.5;
-      for(int j = 0; j < n; j++) {
+      for(int j = 0; j <= n; j++) {
         double z = (double)j / n - 0.5;
 
         // draw normals
