@@ -13,7 +13,7 @@ void drawOsd(){
   char cstring[100];
   sprintf(cstring, "Tesselations %d\nFPS: %.2f\nFT: %.2f", drawOpts.tesselations, 1 / t.delta, t.delta * 1000);
 
-  glRasterPos2f(0.5, 0.5);
+  glRasterPos3f(0.5, 0.5, -1);
   glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
   
 }
@@ -61,6 +61,7 @@ void glutBitmapString(void *font, char *str) {
 void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
+  glLoadIdentity();
   glPushMatrix();
 
 
@@ -205,9 +206,11 @@ void display() {
 
   player_camera->popTransform();
   glPopMatrix();
+  glDisable(GL_LIGHTING);
   if(drawOpts.osd){
     drawOsd();
   }
+
 
 #ifndef VSYNC
 #define VSYNC 1
