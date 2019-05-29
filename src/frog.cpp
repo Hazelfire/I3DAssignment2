@@ -158,6 +158,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_thigh_root->setParent(body);
 
 
+  auto right_thigh_root = left_thigh_root->clone();
+
+
   double left_thigh_zsize = 0.7;
   auto left_thigh = std::make_shared<GameObject>(std::make_shared<Cube>(
         frogMaterial,
@@ -241,6 +244,11 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_toe_2->rotation.y = 30;
   auto left_toe_3 = left_toe->clone();
   left_toe_3->rotation.y = -30;
+
+
+  auto right_thigh = left_thigh->clone();
+  right_thigh->setParent(right_thigh_root);
+  right_thigh->rotation = v3d(0,30,-15);
 
 
 #if 0

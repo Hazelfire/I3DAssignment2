@@ -37,7 +37,8 @@ std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_pa
     //parent->children.push_back(temp);
   }
 
-  for(auto object_sp : temp->children) {
+  for(auto child : temp->children) {
+    std::shared_ptr<GameObject> object_sp = child;// grab it so we don't delete it
     //don't set the sp while its in the set, that invalidates the set
     //  since thats how it detects dupes
     //object_sp = object_sp->clone(temp);
