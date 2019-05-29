@@ -39,12 +39,8 @@ bool Sphere::collidesWith(const Cylinder &other) const{
   return insideX && insideLength;
 }
 
-std::unique_ptr<Shape> Sphere::clone() const {
-  return std::make_unique<Sphere>(*this);
-}
-
 bool Sphere::collidesWith(const Function &other) const{
-  return this->position.y < other.position.y;
+	return this->position.y < other.position.y;
 }
 
 void Sphere::really_draw(const DrawOptions &options) const {
@@ -192,9 +188,8 @@ bool Function::collidesWith(const Sphere &other) const{
 }
 
 bool Function::collidesWith(const Function &other) const{
-  return false;
+	return false;
 }
-
 
 void Function::really_draw(const DrawOptions &options) const {
   // push position
@@ -208,44 +203,45 @@ void Function::really_draw(const DrawOptions &options) const {
   const int n = options.tesselations;
 
   //double y_vals[n][n];
-  double (*y_vals)[(n+1)] = nullptr;
+  double (*y_vals)[n] = nullptr;
   std::unique_ptr<double[]> y_val_cont;
   {
-    double *temp = new double[(n+1)*(n+1)];
+    double *temp = new double[n*n];
     y_val_cont = std::unique_ptr<double[]>(temp);
-    y_vals = (double(*)[(n+1)])temp;
+    y_vals = (double(*)[n])temp;
   }
 
   //v3d normals[n][n];
-  v3d (*normals)[(n+1)] = nullptr;
+  v3d (*normals)[n] = nullptr;
   std::unique_ptr<v3d[]> normal_cont;
   {
-    v3d *temp = new v3d[(n+1)*(n+1)];
+    v3d *temp = new v3d[n*n];
     normal_cont = std::unique_ptr<v3d[]>(temp);
-    normals = (v3d(*)[(n+1)])temp;
+    normals = (v3d(*)[n])temp;
   }
 
   //v3d x_tan[n][n];
-  v3d (*x_tan)[(n+1)] = nullptr;
+  v3d (*x_tan)[n] = nullptr;
   std::unique_ptr<v3d[]> x_tan_cont;
   {
-    v3d *temp = new v3d[(n+1)*(n+1)];
+    v3d *temp = new v3d[n*n];
     x_tan_cont = std::unique_ptr<v3d[]>(temp);
-    x_tan = (v3d(*)[(n+1)])temp;
+    x_tan = (v3d(*)[n])temp;
   }
 
   //v3d z_tan[n][n];
-  v3d (*z_tan)[(n+1)] = nullptr;
+  v3d (*z_tan)[n] = nullptr;
   std::unique_ptr<v3d[]> z_tan_cont;
   {
-    v3d *temp = new v3d[(n+1)*(n+1)];
+    v3d *temp = new v3d[n*n];
     z_tan_cont = std::unique_ptr<v3d[]>(temp);
-    z_tan = (v3d(*)[(n+1)])temp;
+    z_tan = (v3d(*)[n])temp;
   }
 
-  for(int i = 0; i <= n; i++) {
+
+  for(int i = 0; i < n; i++) {
     double x = (double)i / n - 0.5;
-    for(int j = 0; j <= n; j++) {
+    for(int j = 0; j < n; j++) {
       double z = (double)j / n - 0.5;
       y_vals[i][j] = f(x, z);
       double dy_x = df_x(x, z);
@@ -280,10 +276,10 @@ void Function::really_draw(const DrawOptions &options) const {
   }
 
 
-  for(int i = 0; i <= n-1; i++) {
+  for(int i = 0; i < n-1; i++) {
     glBegin(GL_TRIANGLE_STRIP);
     double x = (double)i / n - 0.5;
-    for(int j = 0; j <= n; j++) {
+    for(int j = 0; j < n; j++) {
       double z = (double)j / n - 0.5;
 
       normals[i+1][j].glNormal();
@@ -298,9 +294,9 @@ void Function::really_draw(const DrawOptions &options) const {
   if(options.normals){
     glDisable(GL_LIGHTING);
     glBegin(GL_LINES);
-    for(int i = 0; i <= n; i++) {
+    for(int i = 0; i < n; i++) {
       double x = (double)i / n - 0.5;
-      for(int j = 0; j <= n; j++) {
+      for(int j = 0; j < n; j++) {
         double z = (double)j / n - 0.5;
 
         // draw normals
@@ -354,12 +350,8 @@ bool Cube::collidesWith(const Cylinder &other) const{
   return insideX && insideY && insideZ;
 }
 
-std::unique_ptr<Shape> Cube::clone() const {
-  return std::make_unique<Cube>(*this);
-}
-
 bool Cube::collidesWith(const Function &other) const{
-  return false;
+	return false;
 }
 
 void Cube::really_draw(const DrawOptions &options) const {
@@ -547,227 +539,6 @@ void Cube::really_draw(const DrawOptions &options) const {
   glPopMatrix();
 }
 
-
-
-
-
-
-// Skybox
-bool Skybox::collidesWith(const Sphere &other) const{
-  return false;
-}
-
-bool Skybox::collidesWith(const Cube &other) const{
-  return false;
-}
-
-bool Skybox::collidesWith(const Grid &other) const{
-  return false;
-}
-
-// Bad implementation, pretends the cylinder is a cube
-bool Skybox::collidesWith(const Cylinder &other) const{
-  return false;
-}
-
-bool Skybox::collidesWith(const Function &other) const{
-  return false;
-}
-
-void Skybox::really_draw(const DrawOptions &options) const {
-  // push position
-  glPushMatrix();
-  glScaled(size.x, size.y, size.z);
-
-  //                                 |
-  //       2---------6               |
-  //      /|        /|               |
-  //     / |       / |    Y          |
-  //    /  |      /  |    |          |
-  //   3---------7   |    |          |
-  //   |   |     |   |    |          |
-  //   |   0-----|---4    *---X      |
-  //   |  /      |  /    /           |
-  //   | /       | /    /            |
-  //   |/        |/    Z             |
-  //   1---------5                   |
-  //                                 |
-  //                                 |
-  //     0---4---6---2               |
-  //     |   |   |   |               |
-  //     |   |   |   |               |
-  //     1---5---7---3---2---6       |
-  //             |   |   |   |       |
-  //             |   |   |   |       |
-  //             5---1---0---4       |
-  //                                 |
-
-  v3d points[8] = {
-    v3d(0,0,0),
-    v3d(0,0,1),
-    v3d(0,1,0),
-    v3d(0,1,1),
-    v3d(1,0,0),
-    v3d(1,0,1),
-    v3d(1,1,0),
-    v3d(1,1,1),
-  };
-  for(int i = 0; i < 8; i++) {
-    points[i] -= v3d::unit / 2;
-  }
-
-
-
-  // can't use strips for cube lighting, since the 
-#if CUBE_USE_STRIPS
-  glBegin(GL_QUAD_STRIP);
-  points[0].draw();
-  points[1].draw();
-  points[4].draw();
-  points[5].draw();
-  points[6].draw();
-  points[7].draw();
-  points[2].draw();
-  points[3].draw();
-  glEnd();
-  glBegin(GL_QUAD_STRIP);
-  points[7].draw();
-  points[5].draw();
-  points[3].draw();
-  points[1].draw();
-  points[2].draw();
-  points[0].draw();
-  points[6].draw();
-  points[4].draw();
-  glEnd();
-#else
-  glBegin(GL_QUADS);
-  {
-    //+x
-    v3d::X.glNormal();
-    points[7].glVertex();
-    v3d::X.glNormal();
-    points[6].glVertex();
-    v3d::X.glNormal();
-    points[4].glVertex();
-    v3d::X.glNormal();
-    points[5].glVertex();
-
-    //-x
-    (-1*v3d::X).glNormal();
-    points[2].glVertex();
-    (-1*v3d::X).glNormal();
-    points[3].glVertex();
-    (-1*v3d::X).glNormal();
-    points[1].glVertex();
-    (-1*v3d::X).glNormal();
-    points[0].glVertex();
-  }
-  {
-    //+y
-    v3d::Y.glNormal();
-    points[6].glVertex();
-    v3d::Y.glNormal();
-    points[7].glVertex();
-    v3d::Y.glNormal();
-    points[3].glVertex();
-    v3d::Y.glNormal();
-    points[2].glVertex();
-    //-y
-    (-1*v3d::Y).glNormal();
-    points[5].glVertex();
-    (-1*v3d::Y).glNormal();
-    points[4].glVertex();
-    (-1*v3d::Y).glNormal();
-    points[0].glVertex();
-    (-1*v3d::Y).glNormal();
-    points[1].glVertex();
-  }
-  {
-    //+z
-    v3d::Z.glNormal();
-    points[7].glVertex();
-    v3d::Z.glNormal();
-    points[5].glVertex();
-    v3d::Z.glNormal();
-    points[1].glVertex();
-    v3d::Z.glNormal();
-    points[3].glVertex();
-    //-z
-    (-1*v3d::Z).glNormal();
-    points[4].glVertex();
-    (-1*v3d::Z).glNormal();
-    points[6].glVertex();
-    (-1*v3d::Z).glNormal();
-    points[2].glVertex();
-    (-1*v3d::Z).glNormal();
-    points[0].glVertex();
-  }
-  glEnd();
-#endif
-
-  // normals
-  if(options.normals) {
-    glPushAttrib(GL_LIGHTING);
-    glDisable(GL_LIGHTING);
-    glColor3f(0,1,0);
-
-    {
-      //+x
-      (-1*v3d::X).draw(points[5]);
-      (-1*v3d::X).draw(points[4]);
-      (-1*v3d::X).draw(points[6]);
-      (-1*v3d::X).draw(points[7]);
-
-      //-x
-      v3d::X.draw(points[0]);
-      v3d::X.draw(points[1]);
-      v3d::X.draw(points[3]);
-      v3d::X.draw(points[2]);
-    }
-    {
-      //+y
-      (-1*v3d::Y).draw(points[2]);
-      (-1*v3d::Y).draw(points[3]);
-      (-1*v3d::Y).draw(points[7]);
-      (-1*v3d::Y).draw(points[6]);
-      //-y
-      v3d::Y.draw(points[1]);
-      v3d::Y.draw(points[0]);
-      v3d::Y.draw(points[4]);
-      v3d::Y.draw(points[5]);
-    }
-    {
-      //+z
-      (-1*v3d::Z).draw(points[3]);
-      (-1*v3d::Z).draw(points[1]);
-      (-1*v3d::Z).draw(points[5]);
-      (-1*v3d::Z).draw(points[7]);
-      //-z
-      v3d::Z.draw(points[0]);
-      v3d::Z.draw(points[2]);
-      v3d::Z.draw(points[6]);
-      v3d::Z.draw(points[4]);
-    }
-    glPopAttrib();
-  }
-
-
-
-  glPopMatrix();
-}
-
-
-
-
-
-
-
-
-
-
-
-
 // Grid
 bool Grid::collidesWith(const Sphere &other) const{
   return other.collidesWith(*this);
@@ -786,11 +557,7 @@ bool Grid::collidesWith(const Cylinder &other) const{
 }
 
 bool Grid::collidesWith(const Function &other) const{
-  return false;
-}
-
-std::unique_ptr<Shape> Grid::clone() const {
-  return std::make_unique<Grid>(*this);
+	return false;
 }
 
 void Grid::really_draw(const DrawOptions &options) const {
@@ -801,36 +568,25 @@ void Grid::really_draw(const DrawOptions &options) const {
   double cellSize = 1.0 / tesselation;
   
   for(int i = 0; i < tesselation; i++){
+    glBegin(GL_QUAD_STRIP);
     for(int j = 0; j < tesselation + 1; j++){
-      glBegin(GL_QUADS);
-      v3d pos4 = v3d(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
-      v3d pos3 = v3d(-0.5 + (i + 1) * cellSize, 0, -0.5 + j * cellSize);
-      v3d pos2 = v3d(-0.5 + (i + 1) * cellSize, 0, -0.5 + (j + 1) * cellSize);
-      v3d pos1 = v3d(-0.5 + i * cellSize, 0, -0.5 + (j + 1) * cellSize);
-
       v3d::Y.glNormal();
-      pos1.glVertex();
-
-      v3d::Y.glNormal();
-      pos2.glVertex();
-
-      v3d::Y.glNormal();
-      pos3.glVertex();
-
-      v3d::Y.glNormal();
-      pos4.glVertex();
-
-      glEnd();
-    }
-
-  }
-  for(int i = 0; i < tesselation + 1; i++){
-    for(int j = 0; j < tesselation + 1; j++){
-      v3d pos1 = v3d(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
       if(options.normals) {
-        v3d::Y.draw(pos1);
+        v3d::Y.draw(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
       }
+
+      glVertex3f(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
+
+      v3d::Y.glNormal();
+
+      if(options.normals) {
+        v3d::Y.draw(-0.5 + (i + 1) * cellSize, 0, -0.5 + j * cellSize);
+      }
+      glVertex3f(-0.5 + (i + 1) * cellSize, 0, -0.5 + j * cellSize);
+
     }
+    glEnd();
+
   }
 
   glPopMatrix();
@@ -860,13 +616,8 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
   return insideX && insideLength;
 }
 
-
-std::unique_ptr<Shape> Cylinder::clone() const {
-  return std::make_unique<Cylinder>(*this);
-}
-
 bool Cylinder::collidesWith(const Function &other) const{
-  return false;
+	return false;
 }
 
 void Cylinder::really_draw(const DrawOptions &options) const {

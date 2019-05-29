@@ -30,6 +30,18 @@ int lives = 5;
 int score = 0;
 bool playerDead = false;
 
+void drawScore(){
+  glColor3f(1.0, 1.0, 1.0);
+
+  char cstring[100];
+  sprintf(cstring, "Score: %d\nLives: %d", score, lives);
+
+  glRasterPos3f(-0.5, 0.5, -1);
+  glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
+
+}
+
+
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
   const _time& t = _time::get_instance();
@@ -237,6 +249,8 @@ void display() {
   if(playerDead){
     drawGameOver();
   }
+
+  drawScore();
 
 
 #ifndef VSYNC
@@ -447,13 +461,14 @@ void init() {
 
 #define DRAW_OBJECTS 0
 #if DRAW_OBJECTS
-  Scene::add(new GameObject(new Cube(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
-  Scene::add(new GameObject(new Sphere(v3d(0,2,1), 1)), tag::object);
-  Scene::add(new GameObject(new Cylinder(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
-  Scene::add(new GameObject(new Sin_and_Cos(v3d(2,2,0), v3d(1,1,1))), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cube>( v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sphere>( v3d(0,2,1), 1)), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cylinder>( v3d(0.5,0.5,1), 0.5, 2)), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sin_and_Cos>( v3d(2,2,0), v3d(1,1,1))), tag::object);
 #endif
   Scene::add(player, tag::player);
 
+  create_frog(player);
   create_terrain();
 
   /*
