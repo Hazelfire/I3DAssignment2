@@ -51,8 +51,8 @@ std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_pa
 void GameObject::draw(DrawOptions ops){
   this->pushRelativeTransform();
 
-  //if(shape)
-   // shape->draw(ops);
+  if(shape)
+    shape->draw(ops);
 
   for(auto child : children) {
     child->draw(ops);
