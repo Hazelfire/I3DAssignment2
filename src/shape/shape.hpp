@@ -21,7 +21,9 @@ class Shape {
     virtual bool collidesWith(const Sphere&) const = 0;
     virtual void update(double dt) {};
     //virtual bool collidesWith(const Mesh&) const = 0; NYI
-    //virtual bool collidesWith(const Function&) const = 0; NYI
+    virtual bool collidesWith(const Function&) const = 0;// NYI
+
+    bool collidesWith(const Shape&) const;
 
     Shape(const Shape &other): material(other.material), is_material_active(other.is_material_active) {};
     Shape(const Material &material) : material(material), is_material_active(true) {};

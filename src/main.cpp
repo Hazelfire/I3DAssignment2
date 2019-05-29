@@ -1,6 +1,23 @@
 #include "main.hpp"
 #include "terrain.hpp"
 
+void reset(void) {
+  player->position = v3d::zero;
+  player->ground();
+}
+
+void drawOsd(){
+  const _time& t = _time::get_instance();
+  glColor3f(1.0, 1.0, 1.0);
+
+  char cstring[100];
+  sprintf(cstring, "Tesselations %d\nFPS: %.2f\nFT: %.2f", drawOpts.tesselations, 1 / t.delta, t.delta * 1000);
+
+  glRasterPos2f(0.5, 0.5);
+  glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
+  
+}
+
 void update(void) {
   _time::update(glutGet(GLUT_ELAPSED_TIME));
   const _time& t = _time::get_instance();
@@ -12,7 +29,17 @@ void update(void) {
   handle_keys();
 
   if(drawOpts.animation){
-    scene.update(t.delta);
+    Scene::update(t.delta);
+  }
+
+  if(Scene::get_instance().getCollidingObjectsByTag(*player, tag::death).size() > 0){
+    reset();
+  }
+
+  auto logsCollided = Scene::get_instance().getCollidingObjectsByTag(*player, tag::log);
+  if(logsCollided.size() > 0){
+    std::cout << "Log" << std::endl;
+    (*player).bind(*logsCollided[0]);
   }
 
   focus->position = v3d::zero -player->position;
@@ -36,9 +63,11 @@ void display() {
   glEnable(GL_DEPTH_TEST);
   glPushMatrix();
 
+
   if(drawOpts.lighting){
     glEnable(GL_LIGHTING);
   }
+
 
   // camera
   // anything before here is relative to the camera
@@ -100,6 +129,8 @@ void display() {
   }
 
 
+#define RENDER_TEST_WATER 0
+#if RENDER_TEST_WATER
   Tute_Water test_func(Material(128,//shine
         Colour(0.1, 0.1, 0.1, 0.1), //ambient
         Colour(1, 0, 0, 1),         //diffuse
@@ -109,9 +140,11 @@ void display() {
   test_func.z_mul = 5;
   test_func.t = time.current;
   test_func.draw(drawOpts);
+#endif
 
 
 
+  const Scene& scene = Scene::get_instance();
   scene.draw(drawOpts);
 
   glDisable(GL_LIGHTING);
@@ -172,6 +205,10 @@ void display() {
 
   player_camera->popTransform();
   glPopMatrix();
+  if(drawOpts.osd){
+    drawOsd();
+  }
+
 #ifndef VSYNC
 #define VSYNC 1
 #endif
@@ -209,6 +246,9 @@ void reshape(int x, int y) {
   glViewport(0,0, x, y);
 }
 
+bool rightDown = false;
+bool leftDown = false;
+
 void mouse(int x, int y) {
   //std::cout << "x: " << x << "\ny: " << y << std::endl;
   static int last_x = 0;
@@ -217,17 +257,28 @@ void mouse(int x, int y) {
   int dx = x - last_x;
   int dy = y - last_y;
 
-  focus->rotation.y += 0.5 * dx;
-  focus->rotation.x += 0.5 * dy;
+  if(leftDown){
+    focus->rotation.y += 0.5 * dx;
+    focus->rotation.x += 0.5 * dy;
 
-  if(focus->rotation.x > 0) {
-    focus->rotation.x = 0;
-  } else if(focus->rotation.x < -90) {
-    focus->rotation.x = -90;
+    if(focus->rotation.x > 0) {
+      focus->rotation.x = 0;
+    } else if(focus->rotation.x < -90) {
+      focus->rotation.x = -90;
+    }
+  }
+
+  if(rightDown){
+    player_camera->position.z += 0.1 * dy;
   }
 
   last_x = x;
   last_y = y;
+}
+
+void mouseClick(int button, int state, int x, int y){
+  leftDown = button == GLUT_LEFT_BUTTON && state == GLUT_DOWN;
+  rightDown = button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN;
 }
 
 void specialUp(int key, int x, int y) {
@@ -285,11 +336,14 @@ void keyboard(unsigned char key, int x, int y) {
         drawOpts.tesselations /= 2;
       }
       break;
+    case 'r':
+      reset();
+      break;
   }
 }
 
 void handle_keys() {
-  double movement = 5;
+  double movement = 20;
   double extensionSpeed = 1;
 
 #define USE_XZ 0
@@ -331,10 +385,10 @@ void handle_keys() {
     player->jump();
   }
   if(*keys & kb_d) {
-    player->jumpV.rotate(-movement * time.delta, v3d::Y);
+    player->jumpV.rotate(movement * time.delta, v3d::Y);
   }
   if(*keys & kb_a) {
-    player->jumpV.rotate(movement * time.delta, v3d::Y);
+    player->jumpV.rotate(-movement * time.delta, v3d::Y);
   }
   v3d jumpD(player->jumpV);
   jumpD.normalise();
@@ -356,18 +410,19 @@ void handle_keys() {
 
 
 void init() {
+  const Scene& scene = Scene::get_instance();
 
 #define DRAW_OBJECTS 0
 #if DRAW_OBJECTS
-  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cube>(v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
-  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sphere>(v3d(0,2,1), 1)), tag::object);
-  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cylinder>(v3d(0.5,0.5,1), 0.5, 2)), tag::object);
-  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sin_and_Cos>(v3d(2,2,0), v3d(1,1,1))), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cube>( v3d(-0.5,3,-0.5), v3d(1,2,1))), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sphere>( v3d(0,2,1), 1)), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Cylinder>( v3d(0.5,0.5,1), 0.5, 2)), tag::object);
+  scene.add(std::shared_ptr<GameObject>(std::shared_ptr<Sin_and_Cos>( v3d(2,2,0), v3d(1,1,1))), tag::object);
 #endif
-  scene.add(player, tag::player);
+  Scene::add(player, tag::player);
 
   create_frog(player);
-  create_terrain(scene);
+  create_terrain();
 
   /*
    * The camera has a "focus", which is an empty game object that tracks
@@ -403,6 +458,7 @@ int main(int argc, char **argv) {
   glutReshapeFunc(reshape);
   glutPassiveMotionFunc(mouse);
   glutMotionFunc(mouse);
+  glutMouseFunc(mouseClick);
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
   glutKeyboardUpFunc(keyboardUp);

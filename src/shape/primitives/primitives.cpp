@@ -2,6 +2,7 @@
 #include <cmath>
 #include <GL/gl.h>
 #include <SOIL.h>
+#include <memory>
 
 // Sphere
 //Sphere::Sphere(Material material, v3d position, double radius): Shape(material), position(position), radius(radius) {};
@@ -37,6 +38,10 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 
 std::unique_ptr<Shape> Sphere::clone() const {
   return std::make_unique<Sphere>(*this);
+}
+
+bool Sphere::collidesWith(const Function &other) const{
+  return this->position.y < other.position.y;
 }
 
 void Sphere::really_draw(const DrawOptions &options) const {
@@ -180,6 +185,10 @@ bool Function::collidesWith(const Cylinder &other) const{
 }
 
 bool Function::collidesWith(const Sphere &other) const{
+  return other.collidesWith(*this);
+}
+
+bool Function::collidesWith(const Function &other) const{
   return false;
 }
 
@@ -194,10 +203,43 @@ void Function::really_draw(const DrawOptions &options) const {
 
   // TODO set n from global tessalation value
   const int n = options.tesselations;
-  double y_vals[n][n];
-  v3d normals[n][n];
-  v3d x_tan[n][n];
-  v3d z_tan[n][n];
+
+  //double y_vals[n][n];
+  double (*y_vals)[n] = nullptr;
+  std::unique_ptr<double[]> y_val_cont;
+  {
+    double *temp = new double[n*n];
+    y_val_cont = std::unique_ptr<double[]>(temp);
+    y_vals = (double(*)[n])temp;
+  }
+
+  //v3d normals[n][n];
+  v3d (*normals)[n] = nullptr;
+  std::unique_ptr<v3d[]> normal_cont;
+  {
+    v3d *temp = new v3d[n*n];
+    normal_cont = std::unique_ptr<v3d[]>(temp);
+    normals = (v3d(*)[n])temp;
+  }
+
+  //v3d x_tan[n][n];
+  v3d (*x_tan)[n] = nullptr;
+  std::unique_ptr<v3d[]> x_tan_cont;
+  {
+    v3d *temp = new v3d[n*n];
+    x_tan_cont = std::unique_ptr<v3d[]>(temp);
+    x_tan = (v3d(*)[n])temp;
+  }
+
+  //v3d z_tan[n][n];
+  v3d (*z_tan)[n] = nullptr;
+  std::unique_ptr<v3d[]> z_tan_cont;
+  {
+    v3d *temp = new v3d[n*n];
+    z_tan_cont = std::unique_ptr<v3d[]>(temp);
+    z_tan = (v3d(*)[n])temp;
+  }
+
 
   for(int i = 0; i < n; i++) {
     double x = (double)i / n - 0.5;
@@ -309,6 +351,10 @@ bool Cube::collidesWith(const Cylinder &other) const{
 
 std::unique_ptr<Shape> Cube::clone() const {
   return std::make_unique<Cube>(*this);
+}
+
+bool Cube::collidesWith(const Function &other) const{
+  return false;
 }
 
 void Cube::really_draw(const DrawOptions &options) const {
@@ -518,6 +564,10 @@ std::unique_ptr<Shape> Plane::clone() const {
   return std::make_unique<Plane>(*this);
 }
 
+bool Plane::collidesWith(const Function &other) const{
+  return false;
+}
+
 void Plane::really_draw(const DrawOptions &options) const {
   //NYI
 }
@@ -549,6 +599,10 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 
 std::unique_ptr<Shape> Cylinder::clone() const {
   return std::make_unique<Cylinder>(*this);
+}
+
+bool Cylinder::collidesWith(const Function &other) const{
+  return false;
 }
 
 void Cylinder::really_draw(const DrawOptions &options) const {

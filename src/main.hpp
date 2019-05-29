@@ -32,7 +32,6 @@ std::shared_ptr<GameObject> focus = std::make_shared<GameObject>(nullptr);
 std::shared_ptr<Camera> player_camera = std::make_shared<Camera>();
 std::shared_ptr<Player> player = std::make_shared<Player>();
 DrawOptions drawOpts;
-Scene scene;
 
 
 void handle_keys();

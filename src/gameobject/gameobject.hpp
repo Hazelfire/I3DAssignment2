@@ -1,12 +1,11 @@
 #pragma once
 #include <memory>
-//#include <vector>
 #include <set>
 #include "shape/shape.hpp"
 #include "vector/vector.h"
 #include "shape/primitives/primitives.hpp"
 
-//using namespace std;
+class Scene;
 
 struct Transform {
   v3d position;
@@ -22,22 +21,28 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     GameObject(const GameObject&);
   public:
     std::shared_ptr<Shape> shape;
+    std::shared_ptr<Shape> collider;
     v3d position;
     v3d rotation;
 
+    GameObject();
     GameObject(std::shared_ptr<Shape> shape);
+    GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider);
 
     // deep copies the shape
     // shallow copies the parent - preserves heirarchy
     virtual std::shared_ptr<GameObject> clone() const;
     virtual std::shared_ptr<GameObject> clone(std::shared_ptr<GameObject> new_parent) const;
+    void setParent(std::shared_ptr<GameObject>);
 
+    bool collidesWith(const GameObject &other) const;
     virtual void draw(DrawOptions ops);
+
     void pushTransform() const;
     void popTransform() const;
     void pushRelativeTransform() const;
     void popRelativeTransform() const;
-    void setParent(std::shared_ptr<GameObject>);
+
     virtual void update(double dt);
 
 

@@ -2,14 +2,23 @@
 #include <GL/gl.h>
 
 
-GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), position(v3d::zero), rotation(v3d::zero) {};
+GameObject::GameObject(): shape(nullptr), collider(nullptr), position(v3d::zero), rotation(v3d::zero) {};
+GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), collider(nullptr), position(v3d::zero), rotation(v3d::zero) {};
+GameObject::GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider): shape(shape), collider(collider), position(v3d::zero), rotation(v3d::zero) {};
 
-
-GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), children(other.children), shape(nullptr), position(other.position), rotation(other.rotation) {
+GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), children(other.children), shape(nullptr), collider(nullptr), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
   if(other.shape) {
     shape.reset(other.shape->clone().release());
   }
+  if(other.collider) {
+    collider.reset(other.collider->clone().release());
+  }
+}
+
+bool GameObject::collidesWith(const GameObject &other) const {
+  bool collides = collider->collidesWith(*other.collider);
+  return collides;
 }
 
 std::shared_ptr<GameObject> GameObject::clone() const {

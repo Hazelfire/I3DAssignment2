@@ -1,5 +1,5 @@
 #pragma once
-#include "vector/vector.h"// keeping track of relative dirs is why i setup generated_directories.h - you only have to setup the relative dir once per file
+#include "vector/vector.h"
 #include "shape/shape.hpp"
 
 struct DrawOptions {
@@ -23,13 +23,15 @@ class Cube : public Shape{
     Cube(const Cube &other) : Shape(other), position(other.position), size(other.size) {};
     Cube() : Shape() {}
 
+    virtual std::unique_ptr<Shape> clone() const override;
+
     virtual bool collidesWith(const Cube&) const override;
     virtual bool collidesWith(const Plane&) const override;
     virtual bool collidesWith(const Cylinder&) const override;
     virtual bool collidesWith(const Sphere&) const override;
-    virtual void really_draw(const DrawOptions &options) const;
+    virtual bool collidesWith(const Function&) const override;
 
-    virtual std::unique_ptr<Shape> clone() const override;
+    virtual void really_draw(const DrawOptions &options) const;
 };
 
 class Function : public Shape {
@@ -52,6 +54,7 @@ class Function : public Shape {
     virtual bool collidesWith(const Plane&) const override;//NYI
     virtual bool collidesWith(const Cylinder&) const override;//NYI
     virtual bool collidesWith(const Sphere&) const override;//NYI
+    virtual bool collidesWith(const Function&) const override;//NYI
 
     virtual std::unique_ptr<Shape> clone() const override = 0;
 
@@ -73,6 +76,8 @@ class Sphere : public Shape{
     virtual bool collidesWith(const Plane&) const override;
     virtual bool collidesWith(const Cylinder&) const override;
     virtual bool collidesWith(const Sphere&) const override;
+    virtual bool collidesWith(const Function&) const override;
+
     double distance(const Sphere&) const;
     virtual void really_draw(const DrawOptions &draw) const;
 
@@ -92,6 +97,8 @@ class Plane : public Shape{
     virtual bool collidesWith(const Plane&) const override;
     virtual bool collidesWith(const Cylinder&) const override;
     virtual bool collidesWith(const Sphere&) const override;
+    virtual bool collidesWith(const Function&) const override;
+
     virtual void really_draw(const DrawOptions &draw) const;//NYI
 
     virtual std::unique_ptr<Shape> clone() const override;
@@ -108,10 +115,12 @@ class Cylinder : public Shape{
     Cylinder(const Cylinder &other) : Shape(other), radius(other.radius), length(other.length) {};
     Cylinder() : Shape() {}
 
+
     virtual bool collidesWith(const Cube&) const override;
     virtual bool collidesWith(const Plane&) const override;
     virtual bool collidesWith(const Cylinder&) const override;
     virtual bool collidesWith(const Sphere&) const override;
+    virtual bool collidesWith(const Function&) const override;
     virtual void really_draw(const DrawOptions &draw) const;
 
     virtual std::unique_ptr<Shape> clone() const override;
