@@ -40,7 +40,7 @@ bool Sphere::collidesWith(const Cylinder &other) const{
 }
 
 bool Sphere::collidesWith(const Function &other) const{
-	return this->position.y < other.position.y;
+  return this->position.y < other.position.y;
 }
 
 void Sphere::really_draw(const DrawOptions &options) const {
@@ -188,7 +188,7 @@ bool Function::collidesWith(const Sphere &other) const{
 }
 
 bool Function::collidesWith(const Function &other) const{
-	return false;
+  return false;
 }
 
 void Function::really_draw(const DrawOptions &options) const {
@@ -351,7 +351,7 @@ bool Cube::collidesWith(const Cylinder &other) const{
 }
 
 bool Cube::collidesWith(const Function &other) const{
-	return false;
+  return false;
 }
 
 void Cube::really_draw(const DrawOptions &options) const {
@@ -557,7 +557,7 @@ bool Grid::collidesWith(const Cylinder &other) const{
 }
 
 bool Grid::collidesWith(const Function &other) const{
-	return false;
+  return false;
 }
 
 void Grid::really_draw(const DrawOptions &options) const {
@@ -628,7 +628,7 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
 }
 
 bool Cylinder::collidesWith(const Function &other) const{
-	return false;
+  return false;
 }
 
 void Cylinder::really_draw(const DrawOptions &options) const {
