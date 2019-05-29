@@ -568,36 +568,25 @@ void Grid::really_draw(const DrawOptions &options) const {
   double cellSize = 1.0 / tesselation;
   
   for(int i = 0; i < tesselation; i++){
+    glBegin(GL_QUAD_STRIP);
     for(int j = 0; j < tesselation + 1; j++){
-      glBegin(GL_QUADS);
-      v3d pos4 = v3d(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
-      v3d pos3 = v3d(-0.5 + (i + 1) * cellSize, 0, -0.5 + j * cellSize);
-      v3d pos2 = v3d(-0.5 + (i + 1) * cellSize, 0, -0.5 + (j + 1) * cellSize);
-      v3d pos1 = v3d(-0.5 + i * cellSize, 0, -0.5 + (j + 1) * cellSize);
-
       v3d::Y.glNormal();
-      pos1.glVertex();
-
-      v3d::Y.glNormal();
-      pos2.glVertex();
-
-      v3d::Y.glNormal();
-      pos3.glVertex();
-
-      v3d::Y.glNormal();
-      pos4.glVertex();
-
-      glEnd();
-    }
-
-  }
-  for(int i = 0; i < tesselation + 1; i++){
-    for(int j = 0; j < tesselation + 1; j++){
-      v3d pos1 = v3d(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
       if(options.normals) {
-        v3d::Y.draw(pos1);
+        v3d::Y.draw(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
       }
+
+      glVertex3f(-0.5 + i * cellSize, 0, -0.5 + j * cellSize);
+
+      v3d::Y.glNormal();
+
+      if(options.normals) {
+        v3d::Y.draw(-0.5 + (i + 1) * cellSize, 0, -0.5 + j * cellSize);
+      }
+      glVertex3f(-0.5 + (i + 1) * cellSize, 0, -0.5 + j * cellSize);
+
     }
+    glEnd();
+
   }
 
   glPopMatrix();

@@ -16,7 +16,7 @@ void create_terrain() {
   Colour green(0.14509, 0.3, 0.08627, 1);
   Material grassMaterial(128, green * ambient_scale, green, white_specular);
   // Main grass
-  Scene::add(shared_ptr<GameObject>(new GameObject(new Cube(grassMaterial, v3d(0, -1.5, 0), v3d(10, 1, 5)))), tag::floor);
+  Scene::add(shared_ptr<GameObject>(new GameObject(new Grid(grassMaterial, v3d(0, -0.75, 0), v3d(10, 1, 5), 8))), tag::floor);
 
   Colour grey(0.1, 0.1, 0.1, 1);
   Material roadMaterial(128, grey * ambient_scale, grey, white_specular * 0.1);

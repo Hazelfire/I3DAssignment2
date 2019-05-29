@@ -82,8 +82,8 @@ class Grid : public Shape{
     v3d size;
     double tesselation;
 
-		Grid(const Material &material, v3d position, v3d size): Shape(material), position(position), size(size), tesselation(tesselation) {};
-		Grid(v3d position, v3d size): Shape(), position(position), size(size), tesselation(tesselation) {};
+		Grid(const Material &material, v3d position, v3d size, int tesselation): Shape(material), position(position), size(size), tesselation(tesselation) {};
+		Grid(v3d position, v3d size, int tesselation): Shape(), position(position), size(size), tesselation(tesselation) {};
 		Grid(const Grid &other) : Shape(other.material), position(other.position), size(other.size), tesselation(other.tesselation) {};
 		Grid() : Shape() {}
 
