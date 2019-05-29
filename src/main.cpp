@@ -52,14 +52,13 @@ void update(void) {
     }
   }
 
-  if(player->position.z > 20){
+  if(player->position.z > 24){
     score++;
     reset();
   }
 
   auto logsCollided = Scene::get_instance().getCollidingObjectsByTag(*player, tag::log);
   if(logsCollided.size() > 0){
-    std::cout << "Log" << std::endl;
     (*player).bind(*logsCollided[0]);
   }
 
