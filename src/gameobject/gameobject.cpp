@@ -3,7 +3,7 @@
 
 
 GameObject::GameObject(): shape(nullptr), collider(nullptr), position(v3d::zero), rotation(v3d::zero) {};
-GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), collider(nullptr), position(v3d::zero), rotation(v3d::zero) {};
+GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), collider(shape), position(v3d::zero), rotation(v3d::zero) {};
 GameObject::GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider): shape(shape), collider(collider), position(v3d::zero), rotation(v3d::zero) {};
 
 GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), children(other.children), shape(nullptr), collider(nullptr), position(other.position), rotation(other.rotation) {
@@ -18,6 +18,9 @@ GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObj
 
 bool GameObject::collidesWith(const GameObject &other) const {
   bool collides = collider->collidesWith(*other.collider);
+  if(collides){
+    std::cout << "colliding" << std::endl;
+  }
   return collides;
 }
 
@@ -48,13 +51,17 @@ std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_pa
 void GameObject::draw(DrawOptions ops){
   this->pushRelativeTransform();
 
-  if(shape)
-    shape->draw(ops);
+  //if(shape)
+   // shape->draw(ops);
 
   for(auto child : children) {
     child->draw(ops);
   }
+
   this->popRelativeTransform();
+  if(collider){
+    collider->draw(ops);
+  }
 }
 
 void GameObject::pushTransform() const{
