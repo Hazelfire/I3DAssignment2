@@ -1,5 +1,6 @@
 #include "gameobject.hpp"
 #include <GL/gl.h>
+#include <vector>
 
 
 GameObject::GameObject(): shape(nullptr), collider(nullptr), position(v3d::zero), rotation(v3d::zero) {};
@@ -28,25 +29,55 @@ std::shared_ptr<GameObject> GameObject::clone() const {
   return clone(this->parent.lock());
 }
 
+
+  struct cont {
+    std::shared_ptr<const GameObject> child;
+    std::shared_ptr<GameObject> parent;
+    cont(std::shared_ptr<const GameObject> child, std::shared_ptr<GameObject> parent): child(child), parent(parent) {};
+  };
+
 std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_parent) const {
-  auto temp = std::shared_ptr<GameObject>(new GameObject(*this));
+  // temporary container type
+  // stack so we can recursively make clones
+  std::vector<cont> to_clone;
+  // init the stack
+  to_clone.push_back(cont(shared_from_this(), new_parent));
 
-  if(new_parent) {
-    temp->parent = new_parent;
-    new_parent->children.insert(temp);
-    //parent->children.push_back(temp);
+  std::shared_ptr<GameObject> ret = nullptr;
+  while(!to_clone.empty()) {
+    // clone the next one
+    cont current = to_clone.back();
+    to_clone.pop_back();
+    auto clone = std::shared_ptr<GameObject>(new GameObject(*current.child));
+    if(ret == nullptr) ret = clone;
+
+    // set parents
+    if(current.parent) {
+      // set a new parent for the clone
+      clone->parent = current.parent;
+      current.parent->children.insert(clone);
+    } else {
+      // no new parent, try to give the clone to its original's parents
+      if(std::shared_ptr<GameObject> parent = clone->parent.lock()) {
+        parent->children.insert(clone);
+      }
+    }
+
+    // clone has children, pointing to children of the original
+    // we need to clone the children
+    int child_count = 0;
+    for(std::set<std::shared_ptr<GameObject>>::iterator child_of_original = clone->children.begin(); clone->children.size() > 0; child_of_original++) {
+      //don't set the shared_ptr while its in the set, that invalidates the set
+      //  since thats how it detects dupes
+      to_clone.push_back(cont(*child_of_original, clone));
+      child_of_original = clone->children.erase(child_of_original);
+      child_count++;
+    }
+    std::cout << "child_count:" << child_count << std::endl;
   }
 
-  for(auto child : temp->children) {
-    std::shared_ptr<GameObject> object_sp = child;// grab it so we don't delete it
-    //don't set the sp while its in the set, that invalidates the set
-    //  since thats how it detects dupes
-    //object_sp = object_sp->clone(temp);
-    temp->children.erase(object_sp);
-    object_sp->clone(temp);
-  }
 
-  return temp;
+  return ret;
 }
 
 void GameObject::draw(DrawOptions ops){
