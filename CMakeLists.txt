@@ -27,6 +27,8 @@ set(GAME_SRC
   src/shape/shape.cpp
 
   src/material/material.cpp
+
+	src/frog.cpp
 	)
 
 set(GAME_HEADERS
@@ -53,12 +55,16 @@ set(GAME_HEADERS
   src/shape/shape.hpp
 
   src/material/material.hpp
+
+	src/frog.hpp
 	)
 
 set(GAME_TESTS
   src/vector/vector.test.cpp
 
-  src/shape/primitives/primitives.test.cpp
+  src/gameobject/gameobject.test.cpp
+
+	#src/shape/primitives/primitives.test.cpp
 
 
   src/testmain.cpp)
@@ -95,6 +101,10 @@ target_link_libraries(Frogger
 	${GLUT_LIBRARY}
   ${CMAKE_SOURCE_DIR}/lib/libSOIL.a
 	)
+
+#add_definitions(Frogger
+#	-Wfatal-errors
+#	)
 
 # create a symlink to the resources
 ADD_CUSTOM_TARGET(link_target ALL COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/resources ${CMAKE_SOURCE_DIR}/build/resources)

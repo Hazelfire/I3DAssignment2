@@ -23,13 +23,14 @@ void glutBitmapString(void *font, char *str);
 #include "shape/primitives/primitives.hpp"
 #include "shape/primitives/function/function.hpp"
 #include "player/player.hpp"
+#include "frog.hpp"
 #include <cmath>
 
 #define UNIT_TESTS 0
 
-std::shared_ptr<GameObject> focus(new GameObject(nullptr));
-std::shared_ptr<Camera> player_camera(new Camera());
-std::shared_ptr<Player> player(new Player());
+std::shared_ptr<GameObject> focus = std::make_shared<GameObject>(nullptr);
+std::shared_ptr<Camera> player_camera = std::make_shared<Camera>();
+std::shared_ptr<Player> player = std::make_shared<Player>();
 DrawOptions drawOpts;
 
 

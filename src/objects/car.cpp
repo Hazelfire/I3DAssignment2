@@ -2,7 +2,7 @@
 #include <cmath>
 
 Colour red(1, 0, 0, 1);
-Car::Car(v3d position, double speed): GameObject(new Cube(Material(1, red, red, red), v3d::zero, v3d(2, 1, 1)), new Cube(Material(1, red, red, red), v3d::zero, v3d(2, 1, 1))), carSpeed(speed) {
+Car::Car(v3d position, double speed): GameObject(std::make_shared<Cube>(Material(1, red, red, red), v3d::zero, v3d(2, 1, 1)), std::make_shared<Cube>(Material(1, red, red, red), v3d::zero, v3d(2, 1, 1))), carSpeed(speed) {
   this->position = position;
 };
 

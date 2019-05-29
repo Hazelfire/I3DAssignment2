@@ -39,6 +39,10 @@ bool Sphere::collidesWith(const Cylinder &other) const{
   return insideX && insideLength;
 }
 
+std::unique_ptr<Shape> Sphere::clone() const {
+  return std::make_unique<Sphere>(*this);
+}
+
 bool Sphere::collidesWith(const Function &other) const{
   return this->position.y < other.position.y;
 }
@@ -190,6 +194,7 @@ bool Function::collidesWith(const Sphere &other) const{
 bool Function::collidesWith(const Function &other) const{
   return false;
 }
+
 
 void Function::really_draw(const DrawOptions &options) const {
   // push position
@@ -348,6 +353,10 @@ bool Cube::collidesWith(const Cylinder &other) const{
   bool insideY = position.y + (size.y / 2) > other.position.y - other.radius && position.y - ( size.y / 2 ) < other.position.y + other.radius;
   bool insideZ = position.z + (size.z / 2) > other.position.z - other.radius && position.z - ( size.z / 2 ) < other.position.z + other.radius;
   return insideX && insideY && insideZ;
+}
+
+std::unique_ptr<Shape> Cube::clone() const {
+  return std::make_unique<Cube>(*this);
 }
 
 bool Cube::collidesWith(const Function &other) const{
@@ -560,6 +569,10 @@ bool Grid::collidesWith(const Function &other) const{
   return false;
 }
 
+std::unique_ptr<Shape> Grid::clone() const {
+  return std::make_unique<Grid>(*this);
+}
+
 void Grid::really_draw(const DrawOptions &options) const {
   glPushMatrix();
   glTranslated(position.x, position.y, position.z);
@@ -625,6 +638,11 @@ bool Cylinder::collidesWith(const Cylinder &other) const{
   bool insideLength = sqrt(diffy * diffy + diffz * diffz) < radius + other.radius;
   bool insideX = position.x + length / 2 > other.position.x - (other.length / 2) && position.x - length / 2 < other.position.x + (other.length / 2);
   return insideX && insideLength;
+}
+
+
+std::unique_ptr<Shape> Cylinder::clone() const {
+  return std::make_unique<Cylinder>(*this);
 }
 
 bool Cylinder::collidesWith(const Function &other) const{
