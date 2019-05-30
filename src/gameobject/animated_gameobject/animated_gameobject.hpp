@@ -47,3 +47,6 @@ class animated_gameobject : public GameObject {
     bool play(anim_id to_play);
     bool recursive_play(anim_id to_play);
 };
+
+
+#include "animated_gameobject.cpp"

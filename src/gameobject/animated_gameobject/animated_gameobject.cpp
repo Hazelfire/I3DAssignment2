@@ -1,5 +1,3 @@
-#include "animated_gameobject.hpp"
-
 
 template <typename anim_id>
 animated_gameobject<anim_id>::animated_gameobject():
@@ -22,13 +20,6 @@ template <typename anim_id>
 animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::set<animation>> &&anims):
       GameObject(shape, collider), animations(*anims.release()) {};
 
-
-/*
-template <typename anim_id>
-bool animated_gameobject<anim_id>::animation::operator<(const animation& r) const {
-  return name < r.name;
-}
-*/
 
 template <typename anim_id>
 animated_gameobject<anim_id>::animation::keyframe::keyframe(
@@ -57,7 +48,7 @@ bool animated_gameobject<anim_id>::play(anim_id to_play) {
 template <typename anim_id>
 bool animated_gameobject<anim_id>::recursive_play(anim_id to_play) {
   // stack so we can recursively tell it to play
-  std::vector<std::shared_ptr<animated_gameobject<anim_id>>> to_update;
+  std::vector<std::shared_ptr<GameObject>> to_update;
   // init the stack
   to_update.push_back(shared_from_this());
 
@@ -65,10 +56,12 @@ bool animated_gameobject<anim_id>::recursive_play(anim_id to_play) {
   while(!to_update.empty()) {
     std::shared_ptr<animated_gameobject<anim_id>> current = to_update.back();
     to_update.pop_back();
-    has_any_played = has_any_played || current->play(to_play);
+    if(auto current_anim = dynamic_cast<animated_gameobject<anim_id>*>(current)) {
+      has_any_played = has_any_played || current_anim->play(to_play);
+    }
 
     for(std::set<std::shared_ptr<GameObject>>::iterator child = current->children.begin(); child != current->children.end(); child++) {
-      to_update.push_back(child);
+      to_update.push_back(*child);
     }
   }
   return has_any_played;

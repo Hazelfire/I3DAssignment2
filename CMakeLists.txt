@@ -14,7 +14,6 @@ set(GAME_SRC
   src/keyboard/keyboard.cpp
 
   src/gameobject/gameobject.cpp
-  src/gameobject/animated_gameobject/animated_gameobject.cpp
 
   src/scene/scene.cpp
   src/terrain.cpp

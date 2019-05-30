@@ -1,5 +1,6 @@
 #include "shape/primitives/primitives.hpp"
 #include "gameobject/gameobject.hpp"
+#include "gameobject/animated_gameobject/animated_gameobject.hpp"
 #include "material/material.hpp"
 
 #include <iostream>
@@ -107,11 +108,16 @@ void create_frog(std::shared_ptr<GameObject> player){
   mouth_root->position = v3d(0, -0.4 * head_diameter, -1*head_zsize/2);
   mouth_root->setParent(head);
 
+  enum frog_anim {
+    jump,
+    ribbet,
+  };
+
   double underbite = 0.9;
   double mouth_zsize = (head_zsize + snout_zsize) * underbite;
   double mouth_xsize = snout_xsize * 0.9;
   double mouth_ysize = mouth_xsize / 4;
-  auto mouth = std::make_shared<GameObject>(std::make_shared<Cube>(
+  auto mouth = std::make_shared</*animated_gameobject<frog_anim>*/GameObject>(std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(mouth_xsize, mouth_ysize, mouth_zsize)// size
