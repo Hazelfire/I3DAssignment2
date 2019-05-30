@@ -10,5 +10,5 @@ class Log : public GameObject {
   public:
     Log(v3d position, GLuint texture, double speed);
     virtual void update(double dt) override;
-    virtual void draw(DrawOptions opts) override;
+    virtual void draw(DrawOptions opts) const override;
 };

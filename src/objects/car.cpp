@@ -11,6 +11,6 @@ void Car::update(double dt){
   position.x = fmod(( (position.x + 5 ) + dt * carSpeed) + 10, 10) - 5;
 }
 
-void Car::draw(DrawOptions opts){
+void Car::draw(DrawOptions opts) const {
   GameObject::draw(opts);
 }

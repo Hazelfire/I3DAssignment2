@@ -18,6 +18,6 @@ void Log::update(double dt){
   position.x = fmod(( (position.x + 5) + dt * logSpeed) + 10, 10) - 5;
 }
 
-void Log::draw(DrawOptions opts){
+void Log::draw(DrawOptions opts) const {
   GameObject::draw(opts);
 }

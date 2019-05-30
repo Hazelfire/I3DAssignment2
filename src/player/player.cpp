@@ -7,7 +7,7 @@ Colour specular_white(1,1,1,1);
 Material player_mat(128, player_green * 0.3, player_green, specular_white);
 Player::Player(): GameObject(std::shared_ptr<Shape>(nullptr), std::make_shared<Sphere>(player_mat, v3d::zero, 0.2)){};
 
-void Player::draw(DrawOptions options){
+void Player::draw(DrawOptions options) const {
   GameObject::draw(options);
 
   drawJump();
@@ -20,7 +20,7 @@ void Player::bind(GameObject& other){
     bound = true;
   }
 }
-void Player::drawJump(){
+void Player::drawJump() const {
   glColor3f(1, 1, 1);
 
   v3d currentPos(position);

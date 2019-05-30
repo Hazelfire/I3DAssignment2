@@ -80,7 +80,7 @@ std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_pa
   return ret;
 }
 
-void GameObject::draw(DrawOptions ops){
+void GameObject::draw(DrawOptions ops) const {
   this->pushRelativeTransform();
 
   if(shape)

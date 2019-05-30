@@ -7,7 +7,7 @@ class Player : public GameObject {
     v3d velocity = v3d::zero;
     bool grounded = true;
 
-    void drawJump();
+    void drawJump() const;
     GameObject* boundTo;
     v3d boundDistance;
     bool bound;
@@ -17,6 +17,6 @@ class Player : public GameObject {
     void ground();
     void bind(GameObject& other);
     Player();
-    virtual void draw(DrawOptions options) override;
+    virtual void draw(DrawOptions options) const override;
     virtual void update(double dt) override;
 };

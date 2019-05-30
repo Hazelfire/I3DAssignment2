@@ -36,7 +36,7 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     void setParent(std::shared_ptr<GameObject>);
 
     bool collidesWith(const GameObject &other) const;
-    virtual void draw(DrawOptions ops);
+    virtual void draw(DrawOptions ops) const;
 
     void pushTransform() const;
     void popTransform() const;

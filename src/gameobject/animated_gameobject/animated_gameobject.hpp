@@ -39,5 +39,7 @@ class animated_gameobject : public GameObject {
     animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::set<animation>> &&anims);
     animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::set<animation>> &&anims);
 
-    virtual void draw(DrawOptions ops) override;
+    virtual void draw(DrawOptions ops) const override;
+
+
 };
