@@ -30,13 +30,13 @@ std::shared_ptr<GameObject> GameObject::clone() const {
 }
 
 
+
+std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_parent) const {
   struct cont {
     std::shared_ptr<const GameObject> child;
     std::shared_ptr<GameObject> parent;
     cont(std::shared_ptr<const GameObject> child, std::shared_ptr<GameObject> parent): child(child), parent(parent) {};
   };
-
-std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_parent) const {
   // temporary container type
   // stack so we can recursively make clones
   std::vector<cont> to_clone;
