@@ -19,6 +19,7 @@ class animated_gameobject : public GameObject {
       public:
       const double& length = total_len;
       anim_id name;
+      unsigned int up_to;
       std::vector<keyframe> frames;
 
       bool operator<(const animation& r) const;// for use in std::set
@@ -39,7 +40,7 @@ class animated_gameobject : public GameObject {
     animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::set<animation>> &&anims);
     animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::set<animation>> &&anims);
 
-    virtual void draw(DrawOptions ops) const override;
+    virtual void update(double dt) override;
 
-
+    void play(anim_id to_play);
 };

@@ -37,20 +37,15 @@ animated_gameobject<anim_id>::animation::keyframe::keyframe(
 {
 }
 
-/*
-void animated_gameobject::draw(DrawOptions ops){
-  this->pushRelativeTransform();
+template <typename anim_id>
+void animated_gameobject<anim_id>::play(anim_id to_play) {
+  //TODO
+}
 
-  if(shape)
-    shape->draw(ops);
-
-  for(auto child : children) {
-    child->draw(ops);
-  }
-
-  this->popRelativeTransform();
-  if(ops.collider && collider){
-    collider->draw(ops);
+template <typename anim_id>
+void animated_gameobject<anim_id>::update(double dt) {
+  if(playing) {
+    //TODO
   }
 }
-*/
+
