@@ -1,6 +1,7 @@
 #pragma once
 #include "gameobject/gameobject.hpp"
 #include <vector>
+#include <map>
 
 template <typename anim_id>
 class animated_gameobject : public GameObject {
@@ -18,19 +19,20 @@ class animated_gameobject : public GameObject {
 
       public:
       const double& length = total_len;
-      anim_id name;
-      unsigned int up_to;
+      //anim_id name;
+      unsigned int next_frame;
       std::vector<keyframe> frames;
 
-      bool operator<(const animation& r) const;// for use in std::set
+      //bool operator<(const animation& r) const;// for use in std::set
     };
 
-    std::set<animation> animations;
+    std::map<anim_id, animation> animations;
 
   private:
     v3d orig_position;
     v3d orig_rotation;
     animation *playing;
+    double playing_duration;
 
   public:
     animated_gameobject();
@@ -42,5 +44,5 @@ class animated_gameobject : public GameObject {
 
     virtual void update(double dt) override;
 
-    void play(anim_id to_play);
+    bool play(anim_id to_play);
 };
