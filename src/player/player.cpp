@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "gameobject/animated_gameobject/animated_gameobject.hpp"
 #include <iostream>
 
 
@@ -38,6 +39,16 @@ void Player::drawJump() const {
 }
 
 void Player::jump(){
+  for(auto child : children) {
+    auto animation_child = dynamic_cast<animated_gameobject*>(child.get());
+    if(animation_child) {
+      std::cout << "ribbet..?" << std::endl;
+      animation_child->recursive_play(anim::ribbet);
+    } else {
+      std::cout << "child does not animate" << std::endl;
+    }
+  }
+
   if(grounded){
     velocity = v3d(jumpV);
     grounded = false;

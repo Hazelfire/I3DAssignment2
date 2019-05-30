@@ -1,28 +1,22 @@
+#include "animated_gameobject.hpp"
 
-template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject():
+animated_gameobject::animated_gameobject():
       animated_gameobject(nullptr, (std::shared_ptr<Shape>)nullptr) {};
-template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape):
+animated_gameobject::animated_gameobject(std::shared_ptr<Shape> shape):
       animated_gameobject(shape, (std::shared_ptr<Shape>)nullptr) {};
-template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider):
+animated_gameobject::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider):
       GameObject(shape, collider), playing(nullptr) {};
-template <typename anim_id>
 
 
-animated_gameobject<anim_id>::animated_gameobject(std::unique_ptr<std::map<anim_id, animation>> anims):
+animated_gameobject::animated_gameobject(std::unique_ptr<std::map<anim::anim, animation>> anims):
       animated_gameobject(nullptr, nullptr, std::move(anims)) {};
-template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim_id, animation>> anims):
+animated_gameobject::animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim::anim, animation>> anims):
       animated_gameobject(shape, nullptr, std::move(anims)) {};
-template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim_id, animation>> anims):
+animated_gameobject::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim::anim, animation>> anims):
       GameObject(shape, collider), animations(*anims.release()) {};
 
 
-template <typename anim_id>
-animated_gameobject<anim_id>::animation::keyframe::keyframe(
+animated_gameobject::animation::keyframe::keyframe(
     const v3d &position, 
     const v3d &rotation, 
     double time_offset
@@ -30,23 +24,22 @@ animated_gameobject<anim_id>::animation::keyframe::keyframe(
 {
 }
 
-template <typename anim_id>
-bool animated_gameobject<anim_id>::play(anim_id to_play) {
+
+bool animated_gameobject::play(anim::anim to_play) {
   auto anim = animations.find(to_play);
-  if(!anim) {
+  if(anim == animations.end()) {
     playing = nullptr;
     return false;
   }
-  playing = &*anim;
+  playing = &anim->second;
   orig_position = position;
   orig_rotation = rotation;
   playing_duration = 0;
-  anim->next_frame = 0;
+  anim->second.next_frame = 0;
   return true;
 }
 
-template <typename anim_id>
-bool animated_gameobject<anim_id>::recursive_play(anim_id to_play) {
+bool animated_gameobject::recursive_play(anim::anim to_play) {
   // stack so we can recursively tell it to play
   std::vector<std::shared_ptr<GameObject>> to_update;
   // init the stack
@@ -54,9 +47,9 @@ bool animated_gameobject<anim_id>::recursive_play(anim_id to_play) {
 
   bool has_any_played = false;
   while(!to_update.empty()) {
-    std::shared_ptr<animated_gameobject<anim_id>> current = to_update.back();
+    std::shared_ptr<GameObject> current = to_update.back();
     to_update.pop_back();
-    if(auto current_anim = dynamic_cast<animated_gameobject<anim_id>*>(current)) {
+    if(auto current_anim = dynamic_cast<animated_gameobject*>(current.get())) {
       has_any_played = has_any_played || current_anim->play(to_play);
     }
 
@@ -67,8 +60,8 @@ bool animated_gameobject<anim_id>::recursive_play(anim_id to_play) {
   return has_any_played;
 }
 
-template <typename anim_id>
-void animated_gameobject<anim_id>::update(double dt) {
+
+void animated_gameobject::update(double dt) {
   if(playing) {
     //TODO
     playing_duration += dt;

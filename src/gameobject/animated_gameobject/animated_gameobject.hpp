@@ -3,7 +3,13 @@
 #include <vector>
 #include <map>
 
-template <typename anim_id>
+namespace anim {
+  enum anim {
+    jump,
+    ribbet,
+  };
+};
+
 class animated_gameobject : public GameObject {
   public:
     struct animation {
@@ -26,7 +32,7 @@ class animated_gameobject : public GameObject {
       animation() {};
     };
 
-    std::map<anim_id, animation> animations;
+    std::map<anim::anim, animation> animations;
 
   private:
     v3d orig_position;
@@ -38,15 +44,12 @@ class animated_gameobject : public GameObject {
     animated_gameobject();
     animated_gameobject(std::shared_ptr<Shape> shape);
     animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider);
-    animated_gameobject(std::unique_ptr<std::map<anim_id, animation>> anims);
-    animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim_id, animation>> anims);
-    animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim_id, animation>> anims);
+    animated_gameobject(std::unique_ptr<std::map<anim::anim, animation>> anims);
+    animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim::anim, animation>> anims);
+    animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim::anim, animation>> anims);
 
     virtual void update(double dt) override;
 
-    bool play(anim_id to_play);
-    bool recursive_play(anim_id to_play);
+    bool play(anim::anim to_play);
+    bool recursive_play(anim::anim to_play);
 };
-
-// implementations of templated stuff
-#include "animated_gameobject.cpp"

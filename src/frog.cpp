@@ -6,7 +6,9 @@
 #include <initializer_list>
 #include <iostream>
 
+
 void create_frog(std::shared_ptr<GameObject> player){
+
 
   Colour white(1, 1, 1, 1);
   Colour black(0, 0, 0, 1);
@@ -26,7 +28,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double body_xsize = 0.5;
   double body_ysize = 0.5;
   double body_zsize = 1;
-  auto body = std::make_shared<GameObject>(std::make_shared<Cube>(frog_material, 
+  auto body = std::make_shared<animated_gameobject>(std::make_shared<Cube>(frog_material, 
         v3d(0,0,0),//position
         v3d(body_xsize, body_ysize, body_zsize)//size
         ));
@@ -109,15 +111,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   mouth_root->position = v3d(0, -0.4 * head_diameter, -1*head_zsize/2);
   mouth_root->setParent(head);
 
-  enum frog_anim {
-    jump,
-    ribbet,
-  };
 
-
-  using animation = animated_gameobject<frog_anim>::animation;
-  using anim_map = std::map<frog_anim, animation>;
-
+  using animation = animated_gameobject::animation;
+  using anim_map = std::map<anim::anim, animation>;
 
   std::unique_ptr<anim_map> mouth_animation = std::make_unique<anim_map>(); 
   {
@@ -127,7 +123,7 @@ void create_frog(std::shared_ptr<GameObject> player){
             animation::keyframe(v3d(0,0,0), v3d(-25,0,0), 1)
             })));
 
-    (*mouth_animation)[ribbet] = *ribbet_anim.release();
+    (*mouth_animation)[anim::ribbet] = *ribbet_anim.release();
   }
 
 
@@ -135,7 +131,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double mouth_zsize = (head_zsize + snout_zsize) * underbite;
   double mouth_xsize = snout_xsize * 0.9;
   double mouth_ysize = mouth_xsize / 4;
-  auto mouth = std::make_shared<animated_gameobject<frog_anim>>(
+  auto mouth = std::make_shared<animated_gameobject>(
       std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position

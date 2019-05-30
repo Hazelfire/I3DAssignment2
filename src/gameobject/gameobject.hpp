@@ -15,6 +15,7 @@ struct Transform {
 
 class GameObject : public std::enable_shared_from_this<GameObject> {
   protected:
+  public:
     std::weak_ptr<GameObject> parent;
     std::set<std::shared_ptr<GameObject>> children;
 
