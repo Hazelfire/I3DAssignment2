@@ -10,21 +10,21 @@ void create_frog(std::shared_ptr<GameObject> player){
   Colour black(0, 0, 0, 1);
   float ambient_scale = 0.4;
 
-  Colour pink(1, 0.2, 0.5, 1);
-  Material debugMaterial(128, pink * ambient_scale, pink, 0.3 * white);
+  Colour debug_pink(1, 0.2, 0.5, 0.6);
+  Material debug_material(128, debug_pink * ambient_scale, debug_pink, 0.3 * white);
 
   Colour red(1, 0, 0, 1);
   Colour green(0, 1, 0.1, 1);
-  Material frogMaterial(128, green * ambient_scale, green, 0.3 * white);
+  Material frog_material(128, green * ambient_scale, green, 0.3 * white);
 
-  Material eyeMaterial(128, white * ambient_scale, white, black);
-  Material pupilMaterial(128, black * ambient_scale, black, white);
-  Material tongueMaterial(128, red * ambient_scale, red, white * 0.8);
+  Material eye_material(128, white * ambient_scale, white, black);
+  Material pupil_material(128, black * ambient_scale, black, white);
+  Material tongue_material(128, red * ambient_scale, red, white * 0.8);
 
   double body_xsize = 0.5;
   double body_ysize = 0.5;
-  double body_zsize = 0.8;
-  auto body = std::make_shared<GameObject>(std::make_shared<Cube>(frogMaterial, 
+  double body_zsize = 1;
+  auto body = std::make_shared<GameObject>(std::make_shared<Cube>(frog_material, 
         v3d(0,0,0),//position
         v3d(body_xsize, body_ysize, body_zsize)//size
         ));
@@ -43,7 +43,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double head_zsize = 0.2;
   double head_diameter = 0.4;
   auto head = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(head_diameter, head_diameter, head_zsize)// size
         ));
@@ -55,7 +55,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double snout_ypos = -0.1;
   double snout_ysize = 0.2;
   auto snout = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(snout_xsize, snout_ysize, snout_zsize)// size
         ));
@@ -74,7 +74,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double lefteye_xpos = -1 * lefteye_diameter/2 - eye_distance;
   double lefteye_ypos = snout_ypos + snout_zsize/2 + lefteye_diameter/2 + eyesnout_distance/2;
   auto lefteye = std::make_shared<GameObject>(std::make_shared<Cube>(
-        eyeMaterial,
+        eye_material,
         v3d(0,0,0),// position
         v3d(lefteye_diameter, lefteye_diameter, lefteye_zsize)// size
         ));
@@ -85,7 +85,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double pupil_zsize = 0.001;
   double pupil_diameter = lefteye_diameter * pupil_percent;
   auto leftpupil = std::make_shared<GameObject>(std::make_shared<Cube>(
-        pupilMaterial,
+        pupil_material,
         v3d(0,0,0),// position
         v3d(pupil_diameter, pupil_diameter, pupil_zsize)// size
         ));
@@ -112,7 +112,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double mouth_xsize = snout_xsize * 0.9;
   double mouth_ysize = mouth_xsize / 4;
   auto mouth = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(mouth_xsize, mouth_ysize, mouth_zsize)// size
         ));
@@ -130,7 +130,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double tongue_ysize = mouth_ysize * 0.8;
   double tongue_zsize = mouth_zsize * 0.8;//TODO extend tongue on jump
   auto tongue = std::make_shared<GameObject>(std::make_shared<Cube>(
-        tongueMaterial,
+        tongue_material,
         v3d(0,0,0),// position
         v3d(tongue_xsize, tongue_ysize, tongue_zsize)// size
         ));
@@ -150,8 +150,8 @@ void create_frog(std::shared_ptr<GameObject> player){
 #if 1
       nullptr
 #else
-      //std::make_shared<Sphere>(frogMaterial, v3d::zero, 0.2)
-      std::make_shared<Cube>(debugMaterial, v3d::zero, 0.2 * v3d::unit)
+      //std::make_shared<Sphere>(frog_material, v3d::zero, 0.2)
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
 #endif
       );
   left_thigh_root->position = v3d(body_xsize/2, -1 * body_ysize/2 + left_thigh_diameter/2, -1 * body_zsize/2);
@@ -163,7 +163,7 @@ void create_frog(std::shared_ptr<GameObject> player){
 
   double left_thigh_zsize = 0.7;
   auto left_thigh = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(left_thigh_diameter, left_thigh_diameter, left_thigh_zsize)// size
         ));
@@ -173,7 +173,7 @@ void create_frog(std::shared_ptr<GameObject> player){
 
   auto left_shin_root = std::make_shared<GameObject>(
 #if 0
-      std::make_shared<Cube>(debugMaterial, v3d::zero, 0.2 * v3d::unit)
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
 #endif
       );
   left_shin_root->position = v3d(0, 0, left_thigh_zsize/2);
@@ -182,7 +182,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double left_shin_diameter = 0.1;
   double left_shin_zsize = 0.5;
   auto left_shin = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(left_shin_diameter, left_shin_diameter, left_shin_zsize)// size
         ));
@@ -193,7 +193,7 @@ void create_frog(std::shared_ptr<GameObject> player){
 
   auto left_foot_root = std::make_shared<GameObject>(
 #if 0
-      std::make_shared<Cube>(debugMaterial, v3d::zero, 0.2 * v3d::unit)
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
 #endif
       );
   left_foot_root->position = v3d(0, 0, left_shin_zsize/2);
@@ -202,7 +202,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double left_foot_diameter = 0.1;
   double left_foot_zsize = 0.5;
   auto left_foot = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(left_foot_diameter, left_foot_diameter, left_foot_zsize)// size
         ));
@@ -213,7 +213,7 @@ void create_frog(std::shared_ptr<GameObject> player){
 
   auto left_ball_root = std::make_shared<GameObject>(
 #if 0
-      std::make_shared<Cube>(debugMaterial, v3d::zero, 0.2 * v3d::unit)
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
 #endif
       );
   left_ball_root->position = v3d(0, 0, left_foot_zsize/2);
@@ -223,7 +223,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double left_ball_ysize = left_ball_xsize * 0.8;
   double left_ball_zsize = left_ball_xsize;
   auto left_ball = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(left_ball_xsize, left_ball_ysize, left_ball_zsize)// size
         ));
@@ -233,7 +233,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double left_toe_diameter = left_ball_xsize * 0.3;
   double left_toe_zsize = left_toe_diameter * 2.7;
   auto left_toe = std::make_shared<GameObject>(std::make_shared<Cube>(
-        frogMaterial,
+        frog_material,
         v3d(0,0,0),// position
         v3d(left_toe_diameter, left_toe_diameter, left_toe_zsize)// size
         ));
@@ -246,15 +246,23 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_toe_3->rotation.y = -30;
 
 
+  right_thigh_root->position.x *= -1;
   auto right_thigh = left_thigh->clone();
   right_thigh->setParent(right_thigh_root);
-  right_thigh->rotation = v3d(0,30,-15);
+  right_thigh->rotation = v3d(0,-30,-15);
 
 
+
+  // ARMS
+
+  double left_forearm_diameter = 0.15;
+  auto left_forearm_root = std::make_shared<GameObject>(
 #if 0
-  auto right_leg = left_thigh_rotator->clone();
-  right_leg_rotator->position.x *= -1;
-  Cube *right_leg_cube = dynamic_cast<Cube *>(&*right_leg->shape);
+      nullptr
+#else
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
 #endif
-
+      );
+  left_forearm_root->position = v3d(body_xsize/2, -1 * body_ysize/2 + left_forearm_diameter/2, body_zsize/2 - left_forearm_diameter/2);
+  left_forearm_root->setParent(body);
 }
