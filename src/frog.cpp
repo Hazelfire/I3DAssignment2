@@ -145,7 +145,7 @@ void create_frog(std::shared_ptr<GameObject> player){
 
 
 
-  double left_thigh_diameter = 0.15;
+  double left_thigh_diameter = 0.2;
   auto left_thigh_root = std::make_shared<GameObject>(
 #if 1
       nullptr
@@ -158,6 +158,8 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_thigh_root->setParent(body);
 
 
+  // clone now, so we can separately clone the thigh
+  //   so that we can change the thighs angle
   auto right_thigh_root = left_thigh_root->clone();
 
 
@@ -179,7 +181,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_shin_root->position = v3d(0, 0, left_thigh_zsize/2);
   left_shin_root->setParent(left_thigh);
 
-  double left_shin_diameter = 0.1;
+  double left_shin_diameter = left_thigh_diameter * 0.8;
   double left_shin_zsize = 0.5;
   auto left_shin = std::make_shared<GameObject>(std::make_shared<Cube>(
         frog_material,
@@ -199,7 +201,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_foot_root->position = v3d(0, 0, left_shin_zsize/2);
   left_foot_root->setParent(left_shin);
 
-  double left_foot_diameter = 0.1;
+  double left_foot_diameter = left_shin_diameter * 0.8f;
   double left_foot_zsize = 0.5;
   auto left_foot = std::make_shared<GameObject>(std::make_shared<Cube>(
         frog_material,
@@ -237,32 +239,124 @@ void create_frog(std::shared_ptr<GameObject> player){
         v3d(0,0,0),// position
         v3d(left_toe_diameter, left_toe_diameter, left_toe_zsize)// size
         ));
-  left_toe->position = v3d(0, -1*left_ball_ysize/2 + left_toe_diameter/2, left_toe_zsize/2 + left_ball_zsize/2);
+  left_toe->position = v3d(0, 0, left_toe_zsize/2 + left_ball_zsize/2);
   left_toe->setParent(left_ball);
 
   auto left_toe_2 = left_toe->clone();
-  left_toe_2->rotation.y = 30;
+  left_toe_2->rotation.y = 20;
+  left_toe_2->position.x += left_toe_diameter/2;
   auto left_toe_3 = left_toe->clone();
-  left_toe_3->rotation.y = -30;
+  left_toe_3->rotation.y = -20;
+  left_toe_3->position.x -= left_toe_diameter/2;
 
 
   right_thigh_root->position.x *= -1;
   auto right_thigh = left_thigh->clone();
   right_thigh->setParent(right_thigh_root);
-  right_thigh->rotation = v3d(0,-30,-15);
+  right_thigh->rotation.y *= -1;
+  right_thigh->rotation.z *= -1;
 
 
 
   // ARMS
 
-  double left_forearm_diameter = 0.15;
-  auto left_forearm_root = std::make_shared<GameObject>(
-#if 0
+  double left_arm_diameter = 0.13;
+  auto left_arm_root = std::make_shared<GameObject>(
+#if 1
       nullptr
 #else
       std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
 #endif
       );
-  left_forearm_root->position = v3d(body_xsize/2, -1 * body_ysize/2 + left_forearm_diameter/2, body_zsize/2 - left_forearm_diameter/2);
-  left_forearm_root->setParent(body);
+  left_arm_root->position = v3d(body_xsize/2, -1 * body_ysize/2 + left_arm_diameter/2, body_zsize/2 - left_arm_diameter/2);
+  left_arm_root->setParent(body);
+
+  // clone now, so we can separately clone the arm
+  //   so that we can change the arms angle
+  auto right_arm_root = left_arm_root->clone();
+
+  double left_arm_zsize = 0.2;
+  auto left_arm = std::make_shared<GameObject>(std::make_shared<Cube>(
+        frog_material,
+        v3d(0,0,0),// position
+        v3d(left_arm_diameter, left_arm_diameter, left_arm_zsize)// size
+        ));
+  left_arm->position = v3d(0,0, left_arm_zsize/2);
+  left_arm->rotation = v3d(-50,30,15);
+  left_arm->setParent(left_arm_root);
+
+
+  auto left_forearm_root = std::make_shared<GameObject>(
+#if 1
+      nullptr
+#else
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
+#endif
+      );
+  left_forearm_root->position = v3d(0, 0, left_arm_zsize/2);
+  left_forearm_root->setParent(left_arm);
+
+
+  double left_forearm_diameter = left_arm_diameter * 0.8;
+  double left_forearm_zsize = left_arm_zsize * 1.1;
+  auto left_forearm = std::make_shared<GameObject>(std::make_shared<Cube>(
+        frog_material,
+        v3d(0,0,0),// position
+        v3d(left_forearm_diameter, left_forearm_diameter, left_forearm_zsize)// size
+        ));
+  left_forearm->position = v3d(0,0, left_forearm_zsize/2);
+  left_forearm->rotation = v3d(20, 0, 0);
+  left_forearm->setParent(left_forearm_root);
+
+
+
+
+
+
+  auto left_hand_root = std::make_shared<GameObject>(
+#if 0
+      std::make_shared<Cube>(debug_material, v3d::zero, 0.2 * v3d::unit)
+#endif
+      );
+  left_hand_root->position = v3d(0, 0, left_forearm_zsize/2);
+  left_hand_root->setParent(left_forearm);
+
+  double left_hand_xsize = left_forearm_diameter * 1.3;
+  double left_hand_ysize = left_hand_xsize * 0.8;
+  double left_hand_zsize = left_hand_xsize;
+  auto left_hand = std::make_shared<GameObject>(std::make_shared<Cube>(
+        frog_material,
+        v3d(0,0,0),// position
+        v3d(left_hand_xsize, left_hand_ysize, left_hand_zsize)// size
+        ));
+  left_hand->position = v3d(0, 0, left_hand_zsize/2);
+  left_hand->setParent(left_hand_root);
+
+  double left_finger_diameter = left_hand_xsize * 0.3;
+  double left_finger_zsize = left_finger_diameter * 2.7;
+  auto left_finger = std::make_shared<GameObject>(std::make_shared<Cube>(
+        frog_material,
+        v3d(0,0,0),// position
+        v3d(left_finger_diameter, left_finger_diameter, left_finger_zsize)// size
+        ));
+  left_finger->position = v3d(0, 0, left_finger_zsize/2 + left_hand_zsize/2);
+  left_finger->setParent(left_hand);
+
+  auto left_finger_2 = left_finger->clone();
+  left_finger_2->rotation.y = 30;
+  left_finger_2->position.x += left_finger_diameter/2;
+  auto left_finger_3 = left_finger->clone();
+  left_finger_3->rotation.y = -30;
+  left_finger_3->position.x -= left_finger_diameter/2;
+
+
+
+
+
+  right_arm_root->position.x *= -1;
+  auto right_arm = left_arm->clone();
+  right_arm->setParent(right_arm_root);
+  right_arm->rotation.y *= -1;
+  right_arm->rotation.z *= -1;
+
 }
