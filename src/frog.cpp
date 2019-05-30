@@ -3,6 +3,7 @@
 #include "gameobject/animated_gameobject/animated_gameobject.hpp"
 #include "material/material.hpp"
 
+#include <initializer_list>
 #include <iostream>
 
 void create_frog(std::shared_ptr<GameObject> player){
@@ -114,15 +115,33 @@ void create_frog(std::shared_ptr<GameObject> player){
   };
 
 
+  using animation = animated_gameobject<frog_anim>::animation;
+  using anim_map = std::map<frog_anim, animation>;
+
+
+  std::unique_ptr<anim_map> mouth_animation = std::make_unique<anim_map>(); 
+  {
+    auto ribbet_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.5),
+            animation::keyframe(v3d(0,0,0), v3d(-25,0,0), 1)
+            })));
+
+    (*mouth_animation)[ribbet] = *ribbet_anim.release();
+  }
+
+
   double underbite = 0.9;
   double mouth_zsize = (head_zsize + snout_zsize) * underbite;
   double mouth_xsize = snout_xsize * 0.9;
   double mouth_ysize = mouth_xsize / 4;
-  auto mouth = std::make_shared<animated_gameobject<frog_anim>>(std::make_shared<Cube>(
+  auto mouth = std::make_shared<animated_gameobject<frog_anim>>(
+      std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(mouth_xsize, mouth_ysize, mouth_zsize)// size
-        ));
+        ),
+      std::move(mouth_animation));
   mouth->position = v3d(0, 0, mouth_zsize/2);
   // open mouth angle:
   //mouth->rotation.x = -32;

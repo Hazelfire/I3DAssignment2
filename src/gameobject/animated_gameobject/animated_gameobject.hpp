@@ -18,9 +18,12 @@ class animated_gameobject : public GameObject {
       double total_len;
 
       public:
-      const double& length = total_len;
+      //const double& length = total_len;
       unsigned int next_frame;
       std::vector<keyframe> frames;
+
+      animation(std::unique_ptr<std::vector<keyframe>> frames): frames(*frames.release()) {};
+      animation() {};
     };
 
     std::map<anim_id, animation> animations;
@@ -35,9 +38,9 @@ class animated_gameobject : public GameObject {
     animated_gameobject();
     animated_gameobject(std::shared_ptr<Shape> shape);
     animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider);
-    animated_gameobject(std::unique_ptr<std::map<anim_id, animation>> &&anims);
-    animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim_id, animation>> &&anims);
-    animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim_id, animation>> &&anims);
+    animated_gameobject(std::unique_ptr<std::map<anim_id, animation>> anims);
+    animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim_id, animation>> anims);
+    animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim_id, animation>> anims);
 
     virtual void update(double dt) override;
 
