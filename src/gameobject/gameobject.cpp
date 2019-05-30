@@ -66,14 +66,14 @@ std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_pa
     // clone has children, pointing to children of the original
     // we need to clone the children
     int child_count = 0;
-    for(std::set<std::shared_ptr<GameObject>>::iterator child_of_original = clone->children.begin(); clone->children.size() > 0; child_of_original++) {
+    std::set<std::shared_ptr<GameObject>> temp;
+    temp.swap(clone->children);// dump the fake children here, they will go out of scope
+    for(std::set<std::shared_ptr<GameObject>>::iterator child_of_original = temp.begin(); child_of_original != temp.end(); child_of_original++) {
       //don't set the shared_ptr while its in the set, that invalidates the set
       //  since thats how it detects dupes
       to_clone.push_back(cont(*child_of_original, clone));
-      child_of_original = clone->children.erase(child_of_original);
       child_count++;
     }
-    std::cout << "child_count:" << child_count << std::endl;
   }
 
 
