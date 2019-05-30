@@ -389,6 +389,8 @@ void keyboard(unsigned char key, int x, int y) {
 void handle_keys() {
   double movement = 20;
   double extensionSpeed = 1;
+  double min_jump = 0.05;
+  double max_jump = 2;
 
 #define USE_XZ 0
 #if USE_XZ
@@ -440,9 +442,19 @@ void handle_keys() {
     jumpD.normalise();
     if(*keys & kb_up) {
       player->jumpV += jumpD * extensionSpeed * time.delta;
+      double jumplen = player->jumpV.length();
+      if(jumplen > max_jump) {
+        player->jumpV /= jumplen;
+        player->jumpV *= max_jump;
+      }
     }
     if(*keys & kb_down) {
       player->jumpV -= jumpD * extensionSpeed * time.delta;
+      double jumplen = player->jumpV.length();
+      if(jumplen < min_jump) {
+        player->jumpV /= jumplen;
+        player->jumpV *= min_jump;
+      }
     }
     if(*keys & kb_left) {
       v3d right = jumpD.cross(v3d::Y);
