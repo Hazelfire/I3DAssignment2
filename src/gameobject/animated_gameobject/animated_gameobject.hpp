@@ -45,4 +45,5 @@ class animated_gameobject : public GameObject {
     virtual void update(double dt) override;
 
     bool play(anim_id to_play);
+    bool recursive_play(anim_id to_play);
 };
