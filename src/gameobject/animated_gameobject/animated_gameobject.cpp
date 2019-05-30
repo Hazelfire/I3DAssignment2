@@ -1,10 +1,10 @@
 
 template <typename anim_id>
 animated_gameobject<anim_id>::animated_gameobject():
-      animated_gameobject(nullptr, nullptr) {};
+      animated_gameobject(nullptr, (std::shared_ptr<Shape>)nullptr) {};
 template <typename anim_id>
 animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape):
-      animated_gameobject(shape, nullptr) {};
+      animated_gameobject(shape, (std::shared_ptr<Shape>)nullptr) {};
 template <typename anim_id>
 animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider):
       GameObject(shape, collider), playing(nullptr) {};
@@ -73,7 +73,7 @@ void animated_gameobject<anim_id>::update(double dt) {
     //TODO
     playing_duration += dt;
     if(playing->next_frame < playing->frames.size()) {
-      if(playing_duration > playing->frames[playing->next_frame]) {
+      if(playing_duration > playing->frames[playing->next_frame].time_offset) {
         playing->next_frame++;
       }
     }

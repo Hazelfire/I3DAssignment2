@@ -117,7 +117,7 @@ void create_frog(std::shared_ptr<GameObject> player){
   double mouth_zsize = (head_zsize + snout_zsize) * underbite;
   double mouth_xsize = snout_xsize * 0.9;
   double mouth_ysize = mouth_xsize / 4;
-  auto mouth = std::make_shared</*animated_gameobject<frog_anim>*/GameObject>(std::make_shared<Cube>(
+  auto mouth = std::make_shared<animated_gameobject<frog_anim>>(std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(mouth_xsize, mouth_ysize, mouth_zsize)// size

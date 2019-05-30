@@ -19,11 +19,8 @@ class animated_gameobject : public GameObject {
 
       public:
       const double& length = total_len;
-      //anim_id name;
       unsigned int next_frame;
       std::vector<keyframe> frames;
-
-      //bool operator<(const animation& r) const;// for use in std::set
     };
 
     std::map<anim_id, animation> animations;
@@ -48,5 +45,5 @@ class animated_gameobject : public GameObject {
     bool recursive_play(anim_id to_play);
 };
 
-
+// implementations of templated stuff
 #include "animated_gameobject.cpp"
