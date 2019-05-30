@@ -11,13 +11,13 @@ animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, 
 template <typename anim_id>
 
 
-animated_gameobject<anim_id>::animated_gameobject(std::unique_ptr<std::set<animation>> &&anims):
+animated_gameobject<anim_id>::animated_gameobject(std::unique_ptr<std::map<anim_id, animation>> &&anims):
       animated_gameobject(nullptr, nullptr, anims) {};
 template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::set<animation>> &&anims):
+animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim_id, animation>> &&anims):
       animated_gameobject(shape, nullptr, anims) {};
 template <typename anim_id>
-animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::set<animation>> &&anims):
+animated_gameobject<anim_id>::animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim_id, animation>> &&anims):
       GameObject(shape, collider), animations(*anims.release()) {};
 
 

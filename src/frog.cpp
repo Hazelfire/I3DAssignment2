@@ -113,6 +113,7 @@ void create_frog(std::shared_ptr<GameObject> player){
     ribbet,
   };
 
+
   double underbite = 0.9;
   double mouth_zsize = (head_zsize + snout_zsize) * underbite;
   double mouth_xsize = snout_xsize * 0.9;

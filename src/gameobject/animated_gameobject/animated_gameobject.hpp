@@ -35,9 +35,9 @@ class animated_gameobject : public GameObject {
     animated_gameobject();
     animated_gameobject(std::shared_ptr<Shape> shape);
     animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider);
-    animated_gameobject(std::unique_ptr<std::set<animation>> &&anims);
-    animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::set<animation>> &&anims);
-    animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::set<animation>> &&anims);
+    animated_gameobject(std::unique_ptr<std::map<anim_id, animation>> &&anims);
+    animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim_id, animation>> &&anims);
+    animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim_id, animation>> &&anims);
 
     virtual void update(double dt) override;
 
