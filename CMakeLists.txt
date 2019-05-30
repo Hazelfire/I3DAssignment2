@@ -14,7 +14,8 @@ set(GAME_SRC
   src/keyboard/keyboard.cpp
 
   src/gameobject/gameobject.cpp
-  
+  src/gameobject/animated_gameobject/animated_gameobject.cpp
+
   src/scene/scene.cpp
   src/terrain.cpp
 
@@ -41,6 +42,7 @@ set(GAME_HEADERS
   src/keyboard/keyboard.h
 
   src/gameobject/gameobject.hpp
+  src/gameobject/animated_gameobject/animated_gameobject.hpp
   src/SOIL.h
 
   src/scene/scene.hpp

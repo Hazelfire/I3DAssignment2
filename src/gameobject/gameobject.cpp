@@ -169,3 +169,4 @@ void GameObject::update(double dt) {
       child->update(dt);
     }
 }
+
