@@ -435,62 +435,86 @@ void Cube::really_draw(const DrawOptions &options) const {
   {
     //+x
     v3d::X.glNormal();
+    glTexCoord2f(0, 0);
     points[5].glVertex();
     v3d::X.glNormal();
+    glTexCoord2f(1, 0);
     points[4].glVertex();
     v3d::X.glNormal();
+    glTexCoord2f(1, 1);
     points[6].glVertex();
     v3d::X.glNormal();
+    glTexCoord2f(0, 1);
     points[7].glVertex();
 
     //-x
     (-1*v3d::X).glNormal();
+    glTexCoord2f(0, 0);
     points[0].glVertex();
     (-1*v3d::X).glNormal();
+    glTexCoord2f(1, 0);
     points[1].glVertex();
     (-1*v3d::X).glNormal();
+    glTexCoord2f(1, 1);
     points[3].glVertex();
     (-1*v3d::X).glNormal();
+    glTexCoord2f(0, 1);
     points[2].glVertex();
   }
   {
     //+y
     v3d::Y.glNormal();
+    glTexCoord2f(0, 0);
     points[2].glVertex();
     v3d::Y.glNormal();
+    glTexCoord2f(1, 0);
     points[3].glVertex();
     v3d::Y.glNormal();
+    glTexCoord2f(1, 1);
     points[7].glVertex();
     v3d::Y.glNormal();
+    glTexCoord2f(0, 1);
     points[6].glVertex();
     //-y
     (-1*v3d::Y).glNormal();
+    glTexCoord2f(0, 0);
     points[1].glVertex();
     (-1*v3d::Y).glNormal();
+    glTexCoord2f(1, 0);
     points[0].glVertex();
     (-1*v3d::Y).glNormal();
+    glTexCoord2f(1, 1);
     points[4].glVertex();
     (-1*v3d::Y).glNormal();
+    glTexCoord2f(0, 1);
     points[5].glVertex();
   }
   {
     //+z
     v3d::Z.glNormal();
+    glTexCoord2f(0, 0);
     points[3].glVertex();
     v3d::Z.glNormal();
+    glTexCoord2f(1, 0);
     points[1].glVertex();
     v3d::Z.glNormal();
+    glTexCoord2f(1, 1);
     points[5].glVertex();
     v3d::Z.glNormal();
+    glTexCoord2f(0, 1);
     points[7].glVertex();
     //-z
     (-1*v3d::Z).glNormal();
+    glTexCoord2f(0, 0);
     points[0].glVertex();
     (-1*v3d::Z).glNormal();
+    glTexCoord2f(1, 0);
     points[2].glVertex();
     (-1*v3d::Z).glNormal();
+    glTexCoord2f(1, 1);
     points[6].glVertex();
     (-1*v3d::Z).glNormal();
+    glTexCoord2f(0, 1);
     points[4].glVertex();
   }
   glEnd();
@@ -588,15 +612,19 @@ void Grid::really_draw(const DrawOptions &options) const {
       v3d pos1 = v3d(-0.5 + i * cellSize, 0, -0.5 + (j + 1) * cellSize);
 
       v3d::Y.glNormal();
+      glTexCoord2f(pos1.x + 0.5, pos1.z + 0.5);
       pos1.glVertex();
 
       v3d::Y.glNormal();
+      glTexCoord2f(pos2.x + 0.5, pos2.z + 0.5);
       pos2.glVertex();
 
       v3d::Y.glNormal();
+      glTexCoord2f(pos3.x + 0.5, pos3.z + 0.5);
       pos3.glVertex();
 
       v3d::Y.glNormal();
+      glTexCoord2f(pos4.x + 0.5, pos4.z + 0.5);
       pos4.glVertex();
 
       glEnd();
