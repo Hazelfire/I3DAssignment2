@@ -197,6 +197,12 @@ v3d& v3d::cross(const v3d& right) {
   return *this;
 }
 
+
+double v3d::angle(const v3d& a, const v3d& b) {
+  return 180/PI * acos(v3d::dot(a, b) / (a.length() * b.length()));
+}
+
+
 double v3d::dot(const v3d& right) const {
   return v3d::dot(*this, right);
 }

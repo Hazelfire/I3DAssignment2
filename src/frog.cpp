@@ -28,14 +28,22 @@ void create_frog(std::shared_ptr<GameObject> player){
   Material pupil_material(128, black * ambient_scale, black, white);
   Material tongue_material(128, red * ambient_scale, red, white * 0.8);
 
+
+  auto body_root = std::make_shared<animated_gameobject>();
+  body_root->position = v3d(0, 0, 0);
+  body_root->setParent(player);
+#if GO_DEBUG_LABELS
+  body_root->name = "body_root";
+#endif
+
   double body_xsize = 0.5;
   double body_ysize = 0.5;
   double body_zsize = 1;
-  auto body = std::make_shared<animated_gameobject>(std::make_shared<Cube>(frog_material, 
+  auto body = std::make_shared<GameObject>(std::make_shared<Cube>(frog_material, 
         v3d(0,0,0),//position
         v3d(body_xsize, body_ysize, body_zsize)//size
         ));
-  body->setParent(player);
+  body->setParent(body_root);
 #if GO_DEBUG_LABELS
   body->name = "body";
 #endif

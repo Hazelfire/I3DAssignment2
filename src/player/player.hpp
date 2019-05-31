@@ -22,6 +22,7 @@ class Player : public GameObject {
     void jump();
     void ribbet(double dt);
     void ground();
+    void rotate_to_jump();
     void bind(GameObject& other);
     void reset();
     Player();

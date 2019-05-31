@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "gameobject/animated_gameobject/animated_gameobject.hpp"
 #include <iostream>
+#include "vector/vector.h"
 
 
 Colour player_green(0,1,0.2,1);
@@ -24,7 +25,9 @@ void Player::bind(GameObject& other){
 
 void Player::reset(void) {
   position = v3d::zero;
-  ground();
+  grounded = false;
+  velocity = v3d(0,-5,0);
+
 
   Sphere* sphere = static_cast<Sphere*>(this->collider.get());
   sphere->position = position;
@@ -93,6 +96,27 @@ void Player::jump(){
   }
 }
 
+void Player::rotate_to_jump() {
+  v3d forward = v3d::reject(jumpV, v3d::Y).normalise();
+
+  double y_angle = v3d::angle(forward, v3d::Z);
+  if(v3d::dot(forward, v3d::X) < 0) {
+    y_angle *= -1;
+  }
+
+  double x_angle = v3d::angle(jumpV, forward);
+  if(v3d::dot(jumpV, v3d::Y) < 0) {
+    x_angle *= -1;
+  }
+
+  for(auto child : children) {
+    child->rotation.y = y_angle;
+    for(auto meta_child : child->children) {
+      meta_child->rotation.x = x_angle;
+    }
+  }
+}
+
 void Player::ground(){
   grounded = true;
 }
@@ -100,6 +124,7 @@ void Player::ground(){
 
 void Player::update(double dt){
   ribbet(dt);
+  rotate_to_jump();
 
   Sphere* sphere = static_cast<Sphere*>(this->collider.get());
   if(!grounded){

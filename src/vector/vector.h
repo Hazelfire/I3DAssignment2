@@ -39,6 +39,8 @@ class v3d {
     // static methods here do not modify the inputs
     // non-static versions modify the class its called on
 
+    static double angle(const v3d&, const v3d&);
+
     double dot(const v3d&) const;
     static double dot(const v3d&, const v3d&);
 
