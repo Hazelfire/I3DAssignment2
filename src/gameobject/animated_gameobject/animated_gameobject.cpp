@@ -31,9 +31,11 @@ bool animated_gameobject::play(anim::anim to_play) {
     playing = nullptr;
     return false;
   }
+  if(!playing) {
+    orig_position = position;
+    orig_rotation = rotation;
+  }
   playing = &anim->second;
-  orig_position = position;
-  orig_rotation = rotation;
   playing_duration = 0;
   anim->second.next_frame = 0;
   return true;
@@ -63,34 +65,44 @@ bool animated_gameobject::recursive_play(anim::anim to_play) {
 
 void animated_gameobject::update(double dt) {
   if(playing) {
-    //TODO
+    // set the current time offset
     playing_duration += dt;
-    if(playing->next_frame < playing->frames.size()) {
-      if(playing_duration > playing->frames[playing->next_frame].time_offset) {
-        playing->next_frame++;
-      }
+    size_t num_frames = playing->frames.size();
+    while(playing->next_frame < num_frames &&
+        playing_duration > playing->frames[playing->next_frame].time_offset) {
+      playing->next_frame++;
     }
 
     if(playing->next_frame == 0) {
       // interp between orig_pos and keyframe
       double between_frames = playing->frames[playing->next_frame].time_offset;
       double prv_percent = playing_duration / between_frames;
-      double nxt_percent = (playing->frames[playing->next_frame].time_offset - playing_duration) / between_frames;
+      double nxt_percent = 1 - prv_percent;
 
-      position = orig_position * prv_percent + playing->frames[playing->next_frame].position * nxt_percent;
-      rotation = orig_rotation * prv_percent + playing->frames[playing->next_frame].rotation * nxt_percent;
-    } else if(playing->next_frame < playing->frames.size()) {
+      v3d nxt_pos = playing->frames[playing->next_frame].position + orig_position;
+      v3d nxt_rot = playing->frames[playing->next_frame].rotation + orig_rotation;
+
+      position = orig_position * prv_percent + nxt_pos * nxt_percent;
+      rotation = orig_rotation * prv_percent + nxt_rot * nxt_percent;
+    } else if(playing->next_frame < num_frames) {
       // interp between keyframe and keyframe
       double between_frames = playing->frames[playing->next_frame].time_offset - playing->frames[playing->next_frame-1].time_offset;
       double prv_percent = (playing_duration - playing->frames[playing->next_frame-1].time_offset) / between_frames;
-      double nxt_percent = (playing->frames[playing->next_frame].time_offset - playing_duration) / between_frames;
+      double nxt_percent = 1.0 - playing_duration;
 
-      position = playing->frames[playing->next_frame-1].position * prv_percent + playing->frames[playing->next_frame].position * nxt_percent;
-      rotation = playing->frames[playing->next_frame-1].rotation * prv_percent + playing->frames[playing->next_frame].rotation * nxt_percent;
+      v3d prv_pos = playing->frames[playing->next_frame-1].position + orig_position;
+      v3d prv_rot = playing->frames[playing->next_frame-1].rotation + orig_rotation;
+
+      v3d nxt_pos = playing->frames[playing->next_frame].position + orig_position;
+      v3d nxt_rot = playing->frames[playing->next_frame].rotation + orig_rotation;
+
+      position = prv_pos * prv_percent + nxt_pos * nxt_percent;
+      rotation = prv_rot * prv_percent + nxt_rot * nxt_percent;
     } else {
       // back to orig_pos
       position = orig_position;
       rotation = orig_rotation;
+      playing = nullptr;
     }
   }
   GameObject::update(dt);
