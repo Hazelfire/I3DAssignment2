@@ -27,6 +27,13 @@ void Player::drawJump() const {
   v3d currentPos(position);
   v3d currentVel(jumpV);
   
+  glPushAttrib(GL_ENABLE_BIT);
+  glPushAttrib(GL_NORMALIZE);
+  glPushAttrib(GL_COLOR_MATERIAL);
+
+  glDisable(GL_LIGHTING);
+
+
   const double dt = 0.1;
   const double gravity = 1;
   while(currentPos.y >= -1){
@@ -36,6 +43,10 @@ void Player::drawJump() const {
     movement.draw(currentPos.x, currentPos.y, currentPos.z);
     currentPos = newPos;
   }
+  glPopAttrib();
+  glPopAttrib();
+  glPopAttrib();
+
 }
 
 void Player::jump(){
