@@ -19,12 +19,14 @@ void create_terrain() {
 
   //Colour green(0.05, 0.4, 0.05, 1);
   Colour green(0.14509, 0.3, 0.08627, 1);
-  Material grassMaterial(128, green * ambient_scale, green, white_specular);
+  GLuint grassTexture = SOIL_load_OGL_texture("resources/grass.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+  Material grassMaterial(128, green * ambient_scale, green, white_specular, grassTexture);
   // Main grass
   Scene::add(std::make_shared<GameObject>(std::make_shared<Grid>(grassMaterial, v3d(0, -0.75, 0), v3d(10, 1, 5), 8)), tag::floor);
 
   Colour grey(0.1, 0.1, 0.1, 1);
-  Material roadMaterial(128, grey * ambient_scale, grey, white_specular * 0.1);
+  GLuint roadTexture = SOIL_load_OGL_texture("resources/road.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+  Material roadMaterial(128, grey * ambient_scale, grey, white_specular * 0.1, roadTexture);
   // Road
   Scene::add(make_shared<GameObject>(std::make_shared<Cube>(roadMaterial, v3d(0, -1, 6), v3d(10, 1, 7))), tag::floor);
 
