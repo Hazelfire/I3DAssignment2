@@ -45,7 +45,6 @@ void animated_gameobject::operator=(const GameObject& other) {
     playing = other_anim->playing;
     playing_duration = other_anim->playing_duration;
   }
-  std::cout << "animated_gameobject override of operator=" << std::endl;
 
   GameObject::operator=(other);
 }
@@ -94,7 +93,7 @@ bool animated_gameobject::recursive_play(anim::anim to_play) {
       to_update.push_back(child);
     }
   }
-  std::cout << "anim_gameobject count: " << animated_gameobject_count << std::endl;
+  //std::cout << "anim_gameobject count: " << animated_gameobject_count << std::endl;
   return has_any_played;
 }
 

@@ -44,9 +44,6 @@ GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObj
 
 bool GameObject::collidesWith(const GameObject &other) const {
   bool collides = collider->collidesWith(*other.collider);
-  if(collides){
-    std::cout << "colliding" << std::endl;
-  }
   return collides;
 }
 
