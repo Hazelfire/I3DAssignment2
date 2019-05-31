@@ -12,7 +12,7 @@ class Player : public GameObject {
     v3d boundDistance;
     bool bound;
   public:
-    v3d jumpV = v3d::unit;
+    v3d jumpV = v3d(0, 1, 1);
     void jump();
     void ground();
     void bind(GameObject& other);
