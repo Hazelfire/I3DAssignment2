@@ -186,8 +186,7 @@ void create_frog(std::shared_ptr<GameObject> player){
 #endif
 
 
-  //double tongue_stickout = mouth_zsize * 2.5;
-  double tongue_stickout = 0;
+  double tongue_stickout = mouth_zsize * 2.5;
   std::unique_ptr<anim_map> tongue_animation = std::make_unique<anim_map>(); 
   {
     auto tongue_ribbet_anim = std::make_unique<animation>(std::move(

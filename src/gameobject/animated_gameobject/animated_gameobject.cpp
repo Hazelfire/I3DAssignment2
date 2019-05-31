@@ -26,6 +26,9 @@ animated_gameobject::animation::keyframe::keyframe(
 
 
 bool animated_gameobject::play(anim::anim to_play) {
+#if GO_DEBUG_LABELS
+  std::cout << name << " play function" << std::endl;
+#endif
   auto anim = animations.find(to_play);
   if(anim == animations.end()) {
     playing = nullptr;
@@ -53,11 +56,11 @@ bool animated_gameobject::recursive_play(anim::anim to_play) {
     std::shared_ptr<GameObject> current = to_update.back();
     to_update.pop_back();
     if(auto current_anim = dynamic_cast<animated_gameobject*>(current.get())) {
-      has_any_played = has_any_played || current_anim->play(to_play);
-      animated_gameobject_count++;
 #if GO_DEBUG_LABELS
-      std::cout << "recursive play: playing " << current->name << std::endl;
+      std::cout << "recursive play: playing " << current_anim->name << std::endl;
 #endif
+      has_any_played = current_anim->play(to_play) || has_any_played;
+      animated_gameobject_count++;
     }
 
     //for(std::set<std::shared_ptr<GameObject>>::iterator child = current->children.begin(); child != current->children.end(); child++) {
@@ -72,7 +75,7 @@ bool animated_gameobject::recursive_play(anim::anim to_play) {
 
 void animated_gameobject::update(double dt) {
 #if GO_DEBUG_LABELS
-    std::cout << name << " update" << std::endl;
+    //std::cout << name << " update" << std::endl;
 #endif
   if(playing) {
 #if GO_DEBUG_LABELS

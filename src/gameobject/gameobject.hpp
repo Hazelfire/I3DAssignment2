@@ -13,7 +13,7 @@ struct Transform {
   v3d scale;
 };
 
-#define GO_DEBUG_LABELS 1
+#define GO_DEBUG_LABELS 0
 class GameObject : public std::enable_shared_from_this<GameObject> {
   protected:
   public:
