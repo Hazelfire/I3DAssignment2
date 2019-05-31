@@ -93,5 +93,6 @@ void animated_gameobject::update(double dt) {
       rotation = orig_rotation;
     }
   }
+  GameObject::update(dt);
 }
 

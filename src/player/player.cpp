@@ -42,10 +42,7 @@ void Player::jump(){
   for(auto child : children) {
     auto animation_child = dynamic_cast<animated_gameobject*>(child.get());
     if(animation_child) {
-      std::cout << "ribbet..?" << std::endl;
       animation_child->recursive_play(anim::ribbet);
-    } else {
-      std::cout << "child does not animate" << std::endl;
     }
   }
 
@@ -79,7 +76,7 @@ void Player::update(double dt){
       scene.getCollidingObjectsByTag(*this, tag::floor);
     if(!colliding_floors.empty()) {
       grounded = true;
-      return;
+      //return;
     }
 
     if(grounded) {
@@ -93,4 +90,6 @@ void Player::update(double dt){
     position = boundDistance + boundTo->position;
     grounded = true;
   }
+
+  GameObject::update(dt);
  }
