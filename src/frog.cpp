@@ -186,16 +186,9 @@ void create_frog(std::shared_ptr<GameObject> player){
 #endif
 
 
-  double tongue_stickout = mouth_zsize * 2.5;
+  double tongue_stickout = mouth_zsize * 1.5;
   std::unique_ptr<anim_map> tongue_animation = std::make_unique<anim_map>(); 
   {
-    auto tongue_ribbet_anim = std::make_unique<animation>(std::move(
-          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
-            animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.25),
-            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.3)
-            })));
-
-    (*tongue_animation)[anim::ribbet] = *tongue_ribbet_anim.release();
 
     auto tongue_jump_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({

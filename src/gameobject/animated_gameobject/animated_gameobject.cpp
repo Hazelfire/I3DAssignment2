@@ -51,6 +51,7 @@ void animated_gameobject::operator=(const GameObject& other) {
 
 
 bool animated_gameobject::play(anim::anim to_play) {
+  cancel_anim();
 #if GO_DEBUG_LABELS
   std::cout << name << " play function" << std::endl;
 #endif
@@ -68,6 +69,16 @@ bool animated_gameobject::play(anim::anim to_play) {
   anim->second.next_frame = 0;
   return true;
 }
+
+void animated_gameobject::cancel_anim() {
+  if(playing) {
+    position = orig_position;
+    rotation = orig_rotation;
+    playing = nullptr;
+  }
+}
+
+
 
 bool animated_gameobject::recursive_play(anim::anim to_play) {
   // stack so we can recursively tell it to play

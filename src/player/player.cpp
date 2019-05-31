@@ -60,6 +60,24 @@ void Player::drawJump() const {
 
 }
 
+void Player::ribbet(double dt) {
+
+  time_till_ribbet -= dt;
+  if(time_till_ribbet < 0) {
+    time_till_ribbet = rand() % time_between_ribbet;
+
+
+    if(grounded) {
+      for(auto child : children) {
+        auto animation_child = dynamic_cast<animated_gameobject*>(child.get());
+        if(animation_child) {
+          animation_child->recursive_play(anim::ribbet);
+        }
+      }
+    }
+  }
+}
+
 void Player::jump(){
   if(grounded){
     velocity = v3d(jumpV);
@@ -81,6 +99,8 @@ void Player::ground(){
 #include "scene/scene.hpp"
 
 void Player::update(double dt){
+  ribbet(dt);
+
   Sphere* sphere = static_cast<Sphere*>(this->collider.get());
   if(!grounded){
     const Scene& scene = Scene::get_instance();

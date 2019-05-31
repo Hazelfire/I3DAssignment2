@@ -56,4 +56,5 @@ class animated_gameobject : public GameObject {
 
     bool play(anim::anim to_play);
     bool recursive_play(anim::anim to_play);
+    void cancel_anim();
 };
