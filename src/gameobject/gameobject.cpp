@@ -7,6 +7,7 @@ GameObject::GameObject(): shape(nullptr), collider(nullptr), position(v3d::zero)
 GameObject::GameObject(std::shared_ptr<Shape> shape): shape(shape), collider(shape), position(v3d::zero), rotation(v3d::zero) {};
 GameObject::GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider): shape(shape), collider(collider), position(v3d::zero), rotation(v3d::zero) {};
 
+
 GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), children(other.children), shape(nullptr), collider(nullptr), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
   if(other.shape) {
@@ -15,6 +16,9 @@ GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObj
   if(other.collider) {
     collider.reset(other.collider->clone().release());
   }
+#if GO_DEBUG_LABELS
+  name = other.name + "_copy";
+#endif
 }
 
 bool GameObject::collidesWith(const GameObject &other) const {

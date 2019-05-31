@@ -13,6 +13,7 @@ struct Transform {
   v3d scale;
 };
 
+#define GO_DEBUG_LABELS 1
 class GameObject : public std::enable_shared_from_this<GameObject> {
   protected:
   public:
@@ -29,6 +30,10 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     GameObject();
     GameObject(std::shared_ptr<Shape> shape);
     GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider);
+
+#if GO_DEBUG_LABELS
+    std::string name;
+#endif
 
     // deep copies the shape
     // shallow copies the parent - preserves heirarchy

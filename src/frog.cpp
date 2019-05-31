@@ -33,6 +33,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         v3d(body_xsize, body_ysize, body_zsize)//size
         ));
   body->setParent(player);
+#if GO_DEBUG_LABELS
+  body->name = "body";
+#endif
 
 
 
@@ -43,6 +46,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   auto headrotator = std::make_shared<GameObject>(nullptr);
   headrotator->position = v3d(0, 0, body_zsize/2);
   headrotator->setParent(body);
+#if GO_DEBUG_LABELS
+  headrotator->name = "headrotator";
+#endif
 
   double head_zsize = 0.2;
   double head_diameter = 0.4;
@@ -53,6 +59,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   head->position = v3d(0, 0, head_zsize/2);
   head->setParent(headrotator);
+#if GO_DEBUG_LABELS
+  head->name = "head";
+#endif
 
   double snout_zsize = 0.2;
   double snout_xsize = 0.3;
@@ -65,6 +74,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   snout->position = v3d(0, snout_ypos, head_zsize/2 + snout_zsize/2);
   snout->setParent(head);
+#if GO_DEBUG_LABELS
+  snout->name = "snout";
+#endif
 
 
 
@@ -84,6 +96,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   lefteye->position = v3d(lefteye_xpos, lefteye_ypos, head_zsize/2 + lefteye_zsize/2);
   lefteye->setParent(head);
+#if GO_DEBUG_LABELS
+  lefteye->name = "lefteye";
+#endif
 
   double pupil_percent = 0.30;
   double pupil_zsize = 0.001;
@@ -95,6 +110,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   leftpupil->position = v3d(0, 0, lefteye_zsize/2 + pupil_zsize/2);
   leftpupil->setParent(lefteye);
+#if GO_DEBUG_LABELS
+  leftpupil->name = "leftpupil";
+#endif
 
 
 #define MIRROR 1
@@ -110,6 +128,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   auto mouth_root = std::make_shared<GameObject>(nullptr);
   mouth_root->position = v3d(0, -0.4 * head_diameter, -1*head_zsize/2);
   mouth_root->setParent(head);
+#if GO_DEBUG_LABELS
+  mouth_root->name = "mouth_root";
+#endif
 
 
   using animation = animated_gameobject::animation;
@@ -143,10 +164,16 @@ void create_frog(std::shared_ptr<GameObject> player){
   //mouth->rotation.x = -32;
   mouth->rotation.x = -25;
   mouth->setParent(mouth_root);
+#if GO_DEBUG_LABELS
+  mouth->name = "mouth";
+#endif
 
   auto tongue_root = std::make_shared<GameObject>(nullptr);
   tongue_root->position = v3d(0,0,-0.18);
   tongue_root->setParent(mouth);
+#if GO_DEBUG_LABELS
+  tongue_root->name = "tongue_root";
+#endif
 
   double tongue_xsize = mouth_xsize * 0.5;
   double tongue_ysize = mouth_ysize * 0.8;
@@ -159,6 +186,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   tongue->position = v3d(0, 0, tongue_zsize/2);
   tongue->rotation.x = 10;
   tongue->setParent(tongue_root);
+#if GO_DEBUG_LABELS
+  tongue->name = "tongue";
+#endif
 
 
 
@@ -178,6 +208,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_thigh_root->position = v3d(body_xsize/2, -1 * body_ysize/2 + left_thigh_diameter/2, -1 * body_zsize/2);
   left_thigh_root->setParent(body);
+#if GO_DEBUG_LABELS
+  left_thigh_root->name = "left_thigh_root";
+#endif
 
 
   // clone now, so we can separately clone the thigh
@@ -194,6 +227,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_thigh->position = v3d(0,0, left_thigh_zsize/2);
   left_thigh->rotation = v3d(0,30,15);
   left_thigh->setParent(left_thigh_root);
+#if GO_DEBUG_LABELS
+  left_thigh->name = "left_thigh";
+#endif
 
   auto left_shin_root = std::make_shared<GameObject>(
 #if 0
@@ -202,6 +238,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_shin_root->position = v3d(0, 0, left_thigh_zsize/2);
   left_shin_root->setParent(left_thigh);
+#if GO_DEBUG_LABELS
+  left_shin_root->name = "left_shin_root";
+#endif
 
   double left_shin_diameter = left_thigh_diameter * 0.8;
   double left_shin_zsize = 0.5;
@@ -213,6 +252,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_shin->position = v3d(0, 0, left_thigh_zsize/2);
   left_shin->rotation.x = -150;
   left_shin->setParent(left_shin_root);
+#if GO_DEBUG_LABELS
+  left_shin->name = "left_shin";
+#endif
 
 
   auto left_foot_root = std::make_shared<GameObject>(
@@ -222,6 +264,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_foot_root->position = v3d(0, 0, left_shin_zsize/2);
   left_foot_root->setParent(left_shin);
+#if GO_DEBUG_LABELS
+  left_foot_root->name = "left_foot_root";
+#endif
 
   double left_foot_diameter = left_shin_diameter * 0.8f;
   double left_foot_zsize = 0.5;
@@ -233,6 +278,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_foot->position = v3d(0, 0, left_shin_zsize/2);
   left_foot->rotation.x = 140;
   left_foot->setParent(left_foot_root);
+#if GO_DEBUG_LABELS
+  left_foot->name = "left_foot";
+#endif
 
 
   auto left_ball_root = std::make_shared<GameObject>(
@@ -242,6 +290,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_ball_root->position = v3d(0, 0, left_foot_zsize/2);
   left_ball_root->setParent(left_foot);
+#if GO_DEBUG_LABELS
+  left_ball_root->name = "left_ball_root";
+#endif
 
   double left_ball_xsize = left_foot_diameter * 1.3;
   double left_ball_ysize = left_ball_xsize * 0.8;
@@ -253,6 +304,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   left_ball->position = v3d(0, 0, left_ball_zsize/2);
   left_ball->setParent(left_ball_root);
+#if GO_DEBUG_LABELS
+  left_ball->name = "left_ball";
+#endif
 
   double left_toe_diameter = left_ball_xsize * 0.3;
   double left_toe_zsize = left_toe_diameter * 2.7;
@@ -263,6 +317,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   left_toe->position = v3d(0, 0, left_toe_zsize/2 + left_ball_zsize/2);
   left_toe->setParent(left_ball);
+#if GO_DEBUG_LABELS
+  left_toe->name = "left_toe";
+#endif
 
   auto left_toe_2 = left_toe->clone();
   left_toe_2->rotation.y = 20;
@@ -275,6 +332,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   right_thigh_root->position.x *= -1;
   auto right_thigh = left_thigh->clone();
   right_thigh->setParent(right_thigh_root);
+#if GO_DEBUG_LABELS
+  right_thigh->name = "right_thigh";
+#endif
   right_thigh->rotation.y *= -1;
   right_thigh->rotation.z *= -1;
 
@@ -292,6 +352,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_arm_root->position = v3d(body_xsize/2, -1 * body_ysize/2 + left_arm_diameter/2, body_zsize/2 - left_arm_diameter/2);
   left_arm_root->setParent(body);
+#if GO_DEBUG_LABELS
+  left_arm_root->name = "left_arm_root";
+#endif
 
   // clone now, so we can separately clone the arm
   //   so that we can change the arms angle
@@ -306,6 +369,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_arm->position = v3d(0,0, left_arm_zsize/2);
   left_arm->rotation = v3d(-50,30,15);
   left_arm->setParent(left_arm_root);
+#if GO_DEBUG_LABELS
+  left_arm->name = "left_arm";
+#endif
 
 
   auto left_forearm_root = std::make_shared<GameObject>(
@@ -317,6 +383,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_forearm_root->position = v3d(0, 0, left_arm_zsize/2);
   left_forearm_root->setParent(left_arm);
+#if GO_DEBUG_LABELS
+  left_forearm_root->name = "left_forearm_root";
+#endif
 
 
   double left_forearm_diameter = left_arm_diameter * 0.8;
@@ -329,6 +398,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_forearm->position = v3d(0,0, left_forearm_zsize/2);
   left_forearm->rotation = v3d(20, 0, 0);
   left_forearm->setParent(left_forearm_root);
+#if GO_DEBUG_LABELS
+  left_forearm->name = "left_forearm";
+#endif
 
 
 
@@ -342,6 +414,9 @@ void create_frog(std::shared_ptr<GameObject> player){
       );
   left_hand_root->position = v3d(0, 0, left_forearm_zsize/2);
   left_hand_root->setParent(left_forearm);
+#if GO_DEBUG_LABELS
+  left_hand_root->name = "left_hand_root";
+#endif
 
   double left_hand_xsize = left_forearm_diameter * 1.3;
   double left_hand_ysize = left_hand_xsize * 0.8;
@@ -353,6 +428,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   left_hand->position = v3d(0, 0, left_hand_zsize/2);
   left_hand->setParent(left_hand_root);
+#if GO_DEBUG_LABELS
+  left_hand->name = "left_hand";
+#endif
 
   double left_finger_diameter = left_hand_xsize * 0.3;
   double left_finger_zsize = left_finger_diameter * 2.7;
@@ -363,6 +441,9 @@ void create_frog(std::shared_ptr<GameObject> player){
         ));
   left_finger->position = v3d(0, 0, left_finger_zsize/2 + left_hand_zsize/2);
   left_finger->setParent(left_hand);
+#if GO_DEBUG_LABELS
+  left_finger->name = "left_finger";
+#endif
 
   auto left_finger_2 = left_finger->clone();
   left_finger_2->rotation.y = 30;
@@ -378,6 +459,9 @@ void create_frog(std::shared_ptr<GameObject> player){
   right_arm_root->position.x *= -1;
   auto right_arm = left_arm->clone();
   right_arm->setParent(right_arm_root);
+#if GO_DEBUG_LABELS
+  right_arm->name = "right_arm";
+#endif
   right_arm->rotation.y *= -1;
   right_arm->rotation.z *= -1;
 
