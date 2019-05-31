@@ -444,12 +444,30 @@ void create_frog(std::shared_ptr<GameObject> player){
   //   so that we can change the arms angle
   auto right_arm_root = left_arm_root->clone();
 
+
+  double arm_jumpanim_angle = -90;
+  std::unique_ptr<anim_map> arm_animation = std::make_unique<anim_map>(); 
+  {
+
+    auto arm_jump_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(arm_jumpanim_angle,0,0), 0.2),
+            animation::keyframe(v3d(0,0,0), v3d(arm_jumpanim_angle,0,0), 0.7),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1.1)
+            })));
+
+    (*arm_animation)[anim::jump] = *arm_jump_anim.release();
+  }
+
+
+
   double left_arm_zsize = 0.2;
-  auto left_arm = std::make_shared<GameObject>(std::make_shared<Cube>(
+  auto left_arm = std::make_shared<animated_gameobject>(std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(left_arm_diameter, left_arm_diameter, left_arm_zsize)// size
-        ));
+        ),
+      std::move(arm_animation));
   left_arm->position = v3d(0,0, left_arm_zsize/2);
   left_arm->rotation = v3d(-50,30,15);
   left_arm->setParent(left_arm_root);
