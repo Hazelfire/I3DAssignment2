@@ -16,7 +16,7 @@ class Player : public GameObject {
     int lives = 5;
     int score = 0;
 
-    v3d jumpV = v3d(0, 1, 1);
+    v3d jumpV = v3d(0, 1.5, 1);
     void jump();
     void ground();
     void bind(GameObject& other);

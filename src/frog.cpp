@@ -252,14 +252,14 @@ void create_frog(std::shared_ptr<GameObject> player){
   //   so that we can change the thighs angle
   auto right_thigh_root = left_thigh_root->clone();
 
-  double thigh_jumpanim_angle = 60;
+  double thigh_jumpanim_angle = -60;
   std::unique_ptr<anim_map> thigh_animation = std::make_unique<anim_map>(); 
   {
 
     auto thigh_jump_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
             animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle,0,0), 0.2),
-            animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle,0,0), 0.8),
+            animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle*1.2,0,0), 0.6),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
             })));
 
@@ -293,13 +293,31 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_shin_root->name = "left_shin_root";
 #endif
 
+
+  double shin_jumpanim_angle = 130;
+  std::unique_ptr<anim_map> shin_animation = std::make_unique<anim_map>(); 
+  {
+
+    auto shin_jump_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(shin_jumpanim_angle,0,0), 0.2),
+            animation::keyframe(v3d(0,0,0), v3d(shin_jumpanim_angle,0,0), 0.6),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.8)
+            })));
+
+    (*shin_animation)[anim::jump] = *shin_jump_anim.release();
+  }
+
+
+
   double left_shin_diameter = left_thigh_diameter * 0.8;
   double left_shin_zsize = 0.5;
-  auto left_shin = std::make_shared<GameObject>(std::make_shared<Cube>(
+  auto left_shin = std::make_shared<animated_gameobject>(std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(left_shin_diameter, left_shin_diameter, left_shin_zsize)// size
-        ));
+        ),
+      std::move(shin_animation));
   left_shin->position = v3d(0, 0, left_thigh_zsize/2);
   left_shin->rotation.x = -150;
   left_shin->setParent(left_shin_root);
@@ -319,13 +337,28 @@ void create_frog(std::shared_ptr<GameObject> player){
   left_foot_root->name = "left_foot_root";
 #endif
 
+  double foot_jumpanim_angle = -90;
+  std::unique_ptr<anim_map> foot_animation = std::make_unique<anim_map>(); 
+  {
+
+    auto foot_jump_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(foot_jumpanim_angle,0,0), 0.2),
+            animation::keyframe(v3d(0,0,0), v3d(foot_jumpanim_angle,0,0), 0.6),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1.2)
+            })));
+
+    (*foot_animation)[anim::jump] = *foot_jump_anim.release();
+  }
+
   double left_foot_diameter = left_shin_diameter * 0.8f;
   double left_foot_zsize = 0.5;
-  auto left_foot = std::make_shared<GameObject>(std::make_shared<Cube>(
+  auto left_foot = std::make_shared<animated_gameobject>(std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(left_foot_diameter, left_foot_diameter, left_foot_zsize)// size
-        ));
+        ),
+      std::move(foot_animation));
   left_foot->position = v3d(0, 0, left_shin_zsize/2);
   left_foot->rotation.x = 140;
   left_foot->setParent(left_foot_root);
