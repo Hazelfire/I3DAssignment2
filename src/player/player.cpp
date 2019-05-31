@@ -60,11 +60,12 @@ void Player::ground(){
 
 void Player::update(double dt){
   Sphere* sphere =  (Sphere*) this->collider.get();
-  sphere->position = this->position;
   if(!grounded){
     const Scene& scene = Scene::get_instance();
     const double gravity = 1;
+    v3d old_pos = position;
     position += velocity * dt;
+    sphere->position = this->position;
 
     // collide with -y
     if(position.y <= -10){
@@ -81,7 +82,8 @@ void Player::update(double dt){
 
     if(grounded) {
       // reverse the position to before we collided
-      position -= velocity * dt;
+      position = old_pos;
+      sphere->position = old_pos;
     }
     velocity.y -= dt * gravity;
   }

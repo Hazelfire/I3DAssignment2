@@ -77,7 +77,6 @@ void animated_gameobject::update(double dt) {
       // interp between orig_pos and keyframe
       double between_frames = playing->frames[playing->next_frame].time_offset;
       double nxt_percent = playing_duration / between_frames;
-      double prv_percent = 1 - prv_percent;
 
       v3d nxt_pos = playing->frames[playing->next_frame].position;
       v3d nxt_rot = playing->frames[playing->next_frame].rotation;
@@ -88,7 +87,7 @@ void animated_gameobject::update(double dt) {
       // interp between keyframe and keyframe
       double between_frames = playing->frames[playing->next_frame].time_offset - playing->frames[playing->next_frame-1].time_offset;
       double nxt_percent = (playing_duration - playing->frames[playing->next_frame-1].time_offset) / between_frames;
-      double prv_percent = 1.0 - playing_duration;
+      double prv_percent = 1.0 - nxt_percent;
 
       v3d prv_pos = playing->frames[playing->next_frame-1].position;
       v3d prv_rot = playing->frames[playing->next_frame-1].rotation;
