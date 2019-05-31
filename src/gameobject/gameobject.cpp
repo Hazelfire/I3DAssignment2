@@ -20,6 +20,15 @@ GameObject::GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> coll
 {};
 
 
+void GameObject::operator=(const GameObject& other) {
+  parent = other.parent;
+  children = other.children;
+  shape = other.shape;
+  collider = other.collider;
+  position = other.position;
+  rotation = other.rotation;
+}
+
 GameObject::GameObject(const GameObject& other): enable_shared_from_this<GameObject>(other), parent(other.parent), children(other.children), shape(nullptr), collider(nullptr), position(other.position), rotation(other.rotation) {
   // TODO make shape a unique_ptr instead
   if(other.shape) {

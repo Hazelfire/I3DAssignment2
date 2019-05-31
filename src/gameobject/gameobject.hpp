@@ -31,6 +31,8 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     GameObject(std::shared_ptr<Shape> shape);
     GameObject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider);
 
+    virtual void operator=(const GameObject&);
+
 #if GO_DEBUG_LABELS
     std::string name;
 #endif

@@ -48,6 +48,9 @@ class animated_gameobject : public GameObject {
     animated_gameobject(std::shared_ptr<Shape> shape, std::unique_ptr<std::map<anim::anim, animation>> anims);
     animated_gameobject(std::shared_ptr<Shape> shape, std::shared_ptr<Shape> collider, std::unique_ptr<std::map<anim::anim, animation>> anims);
 
+    animated_gameobject(const animated_gameobject &other);
+    virtual void operator=(const GameObject&) override;
+
     virtual void update(double dt) override;
 
     bool play(anim::anim to_play);

@@ -16,12 +16,28 @@ animated_gameobject::animated_gameobject(std::shared_ptr<Shape> shape, std::shar
       GameObject(shape, collider), animations(*anims.release()) {};
 
 
+animated_gameobject::animated_gameobject(const animated_gameobject &other): GameObject(other), animations(other.animations), orig_position(other.orig_position), orig_rotation(other.orig_rotation), playing(other.playing), playing_duration(other.playing_duration) {}
+
 animated_gameobject::animation::keyframe::keyframe(
     const v3d &position, 
     const v3d &rotation, 
     double time_offset
     ): position(position), rotation(rotation), time_offset(time_offset) 
 {
+}
+
+
+void animated_gameobject::operator=(const GameObject& other) {
+  const animated_gameobject* other_anim = dynamic_cast<const animated_gameobject*>(&other);
+  if(other_anim) {
+    animations = other_anim->animations;
+    orig_position = other_anim->orig_position;
+    orig_rotation = other_anim->orig_rotation;
+    playing = other_anim->playing;
+    playing_duration = other_anim->playing_duration;
+  }
+
+  GameObject::operator=(other);
 }
 
 
