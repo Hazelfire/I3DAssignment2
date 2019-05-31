@@ -50,6 +50,12 @@ bool GameObject::collidesWith(const GameObject &other) const {
   return collides;
 }
 
+
+
+std::unique_ptr<GameObject> GameObject::copy_ctor() const {
+  return std::make_unique<GameObject>(*this);
+}
+
 std::shared_ptr<GameObject> GameObject::clone() const {
   return clone(this->parent.lock());
 }
@@ -73,7 +79,7 @@ std::shared_ptr<GameObject> GameObject::clone(std::shared_ptr<GameObject> new_pa
     // clone the next one
     cont current = to_clone.back();
     to_clone.pop_back();
-    auto clone = std::shared_ptr<GameObject>(new GameObject(*current.child));
+    auto clone = std::shared_ptr<GameObject>(current.child->copy_ctor().release());
     if(ret == nullptr) ret = clone;
 
     // set parents

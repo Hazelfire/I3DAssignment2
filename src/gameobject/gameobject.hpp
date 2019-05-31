@@ -42,6 +42,7 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     virtual std::shared_ptr<GameObject> clone() const;
     virtual std::shared_ptr<GameObject> clone(std::shared_ptr<GameObject> new_parent) const;
     void setParent(std::shared_ptr<GameObject>);
+    virtual std::unique_ptr<GameObject> copy_ctor() const;
 
     bool collidesWith(const GameObject &other) const;
     virtual void draw(DrawOptions ops) const;

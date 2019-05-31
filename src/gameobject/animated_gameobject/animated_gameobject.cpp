@@ -26,6 +26,15 @@ animated_gameobject::animation::keyframe::keyframe(
 {
 }
 
+std::unique_ptr<GameObject> animated_gameobject::copy_ctor() const {
+  std::unique_ptr<animated_gameobject> obj = std::make_unique<animated_gameobject>(*this);
+  obj->animations = this->animations;
+  obj->orig_position = this->orig_position;
+  obj->orig_rotation = this->orig_rotation;
+  obj->playing = this->playing;
+  obj->playing_duration = this->playing_duration;
+  return obj;
+}
 
 void animated_gameobject::operator=(const GameObject& other) {
   const animated_gameobject* other_anim = dynamic_cast<const animated_gameobject*>(&other);
@@ -36,6 +45,7 @@ void animated_gameobject::operator=(const GameObject& other) {
     playing = other_anim->playing;
     playing_duration = other_anim->playing_duration;
   }
+  std::cout << "animated_gameobject override of operator=" << std::endl;
 
   GameObject::operator=(other);
 }

@@ -50,6 +50,7 @@ class animated_gameobject : public GameObject {
 
     animated_gameobject(const animated_gameobject &other);
     virtual void operator=(const GameObject&) override;
+    virtual std::unique_ptr<GameObject> copy_ctor() const override;
 
     virtual void update(double dt) override;
 
