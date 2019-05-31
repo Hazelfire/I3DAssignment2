@@ -140,7 +140,6 @@ void create_frog(std::shared_ptr<GameObject> player){
   {
     auto ribbet_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
-            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0),
             animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.5),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
             })));

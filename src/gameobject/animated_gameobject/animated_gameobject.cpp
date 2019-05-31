@@ -76,28 +76,28 @@ void animated_gameobject::update(double dt) {
     if(playing->next_frame == 0) {
       // interp between orig_pos and keyframe
       double between_frames = playing->frames[playing->next_frame].time_offset;
-      double prv_percent = playing_duration / between_frames;
-      double nxt_percent = 1 - prv_percent;
+      double nxt_percent = playing_duration / between_frames;
+      double prv_percent = 1 - prv_percent;
 
-      v3d nxt_pos = playing->frames[playing->next_frame].position + orig_position;
-      v3d nxt_rot = playing->frames[playing->next_frame].rotation + orig_rotation;
+      v3d nxt_pos = playing->frames[playing->next_frame].position;
+      v3d nxt_rot = playing->frames[playing->next_frame].rotation;
 
-      position = orig_position * prv_percent + nxt_pos * nxt_percent;
-      rotation = orig_rotation * prv_percent + nxt_rot * nxt_percent;
+      position = nxt_pos * nxt_percent + orig_position;
+      rotation = nxt_rot * nxt_percent + orig_rotation;
     } else if(playing->next_frame < num_frames) {
       // interp between keyframe and keyframe
       double between_frames = playing->frames[playing->next_frame].time_offset - playing->frames[playing->next_frame-1].time_offset;
-      double prv_percent = (playing_duration - playing->frames[playing->next_frame-1].time_offset) / between_frames;
-      double nxt_percent = 1.0 - playing_duration;
+      double nxt_percent = (playing_duration - playing->frames[playing->next_frame-1].time_offset) / between_frames;
+      double prv_percent = 1.0 - playing_duration;
 
-      v3d prv_pos = playing->frames[playing->next_frame-1].position + orig_position;
-      v3d prv_rot = playing->frames[playing->next_frame-1].rotation + orig_rotation;
+      v3d prv_pos = playing->frames[playing->next_frame-1].position;
+      v3d prv_rot = playing->frames[playing->next_frame-1].rotation;
 
-      v3d nxt_pos = playing->frames[playing->next_frame].position + orig_position;
-      v3d nxt_rot = playing->frames[playing->next_frame].rotation + orig_rotation;
+      v3d nxt_pos = playing->frames[playing->next_frame].position;
+      v3d nxt_rot = playing->frames[playing->next_frame].rotation;
 
-      position = prv_pos * prv_percent + nxt_pos * nxt_percent;
-      rotation = prv_rot * prv_percent + nxt_rot * nxt_percent;
+      position = prv_pos * prv_percent + nxt_pos * nxt_percent + orig_position;
+      rotation = prv_rot * prv_percent + nxt_rot * nxt_percent + orig_rotation;
     } else {
       // back to orig_pos
       position = orig_position;
