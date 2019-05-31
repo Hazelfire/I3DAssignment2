@@ -52,7 +52,7 @@ void Scene::draw(DrawOptions options) const {
 }
 void Scene::update(double delta){
   for(auto& pair : instance.get()->gameObjects){
-    pair.first->update(delta);
+    pair.first->recursive_update(delta);
   }
 }
 

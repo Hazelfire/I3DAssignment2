@@ -181,8 +181,29 @@ void GameObject::setParent(std::shared_ptr<GameObject> new_parent){
 
 void GameObject::update(double dt) {
   if(shape) shape->update(dt);
-    for(auto child : children) {
-      child->update(dt);
-    }
 }
 
+
+void GameObject::recursive_update(double dt) {
+  // stack so we can behave recursively
+  std::vector<std::shared_ptr<GameObject>> to_update;
+  // init the stack
+  to_update.push_back(shared_from_this());
+
+  while(!to_update.empty()) {
+    // pop the next one
+    std::shared_ptr<GameObject> current = to_update.back();
+    to_update.pop_back();
+
+    current->update(dt);
+
+    // we need to update the children
+    //for(std::set<std::shared_ptr<GameObject>>::iterator child = current->children.begin(); child != current->children.end(); child++) {
+    for(auto child : current->children) {
+      //don't set the shared_ptr while its in the set, that invalidates the set
+      //  since thats how it detects dupes
+      to_update.push_back(child);
+    }
+  }
+
+}

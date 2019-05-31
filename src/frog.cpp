@@ -253,13 +253,29 @@ void create_frog(std::shared_ptr<GameObject> player){
   //   so that we can change the thighs angle
   auto right_thigh_root = left_thigh_root->clone();
 
+  double thigh_jumpanim_angle = 60;
+  std::unique_ptr<anim_map> thigh_animation = std::make_unique<anim_map>(); 
+  {
+
+    auto jump_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle,0,0), 0.2),
+            animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle,0,0), 0.8),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
+            })));
+
+    (*thigh_animation)[anim::jump] = *jump_anim.release();
+  }
+
+
 
   double left_thigh_zsize = 0.7;
-  auto left_thigh = std::make_shared<GameObject>(std::make_shared<Cube>(
+  auto left_thigh = std::make_shared<animated_gameobject>(std::make_shared<Cube>(
         frog_material,
         v3d(0,0,0),// position
         v3d(left_thigh_diameter, left_thigh_diameter, left_thigh_zsize)// size
-        ));
+        ),
+      std::move(thigh_animation));
   left_thigh->position = v3d(0,0, left_thigh_zsize/2);
   left_thigh->rotation = v3d(0,30,15);
   left_thigh->setParent(left_thigh_root);

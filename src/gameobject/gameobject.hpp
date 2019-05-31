@@ -50,6 +50,7 @@ class GameObject : public std::enable_shared_from_this<GameObject> {
     void popRelativeTransform() const;
 
     virtual void update(double dt);
+    void recursive_update(double dt);
 
 
 #ifdef TEST_ACCESS
