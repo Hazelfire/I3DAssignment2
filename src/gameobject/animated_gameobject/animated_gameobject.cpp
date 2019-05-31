@@ -47,24 +47,37 @@ bool animated_gameobject::recursive_play(anim::anim to_play) {
   // init the stack
   to_update.push_back(shared_from_this());
 
+  int animated_gameobject_count = 0;
   bool has_any_played = false;
   while(!to_update.empty()) {
     std::shared_ptr<GameObject> current = to_update.back();
     to_update.pop_back();
     if(auto current_anim = dynamic_cast<animated_gameobject*>(current.get())) {
       has_any_played = has_any_played || current_anim->play(to_play);
+      animated_gameobject_count++;
+#if GO_DEBUG_LABELS
+      std::cout << "recursive play: playing " << current->name << std::endl;
+#endif
     }
 
-    for(std::set<std::shared_ptr<GameObject>>::iterator child = current->children.begin(); child != current->children.end(); child++) {
-      to_update.push_back(*child);
+    //for(std::set<std::shared_ptr<GameObject>>::iterator child = current->children.begin(); child != current->children.end(); child++) {
+    for(auto child : current->children) {
+      to_update.push_back(child);
     }
   }
+  std::cout << "anim_gameobject count: " << animated_gameobject_count << std::endl;
   return has_any_played;
 }
 
 
 void animated_gameobject::update(double dt) {
+#if GO_DEBUG_LABELS
+    std::cout << name << " update" << std::endl;
+#endif
   if(playing) {
+#if GO_DEBUG_LABELS
+    std::cout << name << " playing animation" << std::endl;
+#endif
     // set the current time offset
     playing_duration += dt;
     size_t num_frames = playing->frames.size();

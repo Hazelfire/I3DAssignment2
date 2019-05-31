@@ -139,22 +139,22 @@ void create_frog(std::shared_ptr<GameObject> player){
   double mouth_jumpanim_angle = -60;
   std::unique_ptr<anim_map> mouth_animation = std::make_unique<anim_map>(); 
   {
-    auto ribbet_anim = std::make_unique<animation>(std::move(
+    auto mouth_ribbet_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
             animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.25),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.3)
             })));
 
-    (*mouth_animation)[anim::ribbet] = *ribbet_anim.release();
+    (*mouth_animation)[anim::ribbet] = *mouth_ribbet_anim.release();
 
-    auto jump_anim = std::make_unique<animation>(std::move(
+    auto mouth_jump_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
             animation::keyframe(v3d(0,0,0), v3d(mouth_jumpanim_angle,0,0), 0.2),
             animation::keyframe(v3d(0,0,0), v3d(mouth_jumpanim_angle,0,0), 0.8),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
             })));
 
-    (*mouth_animation)[anim::jump] = *jump_anim.release();
+    (*mouth_animation)[anim::jump] = *mouth_jump_anim.release();
   }
 
 
@@ -190,22 +190,22 @@ void create_frog(std::shared_ptr<GameObject> player){
   double tongue_stickout = 0;
   std::unique_ptr<anim_map> tongue_animation = std::make_unique<anim_map>(); 
   {
-    auto ribbet_anim = std::make_unique<animation>(std::move(
+    auto tongue_ribbet_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
             animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.25),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.3)
             })));
 
-    (*tongue_animation)[anim::ribbet] = *ribbet_anim.release();
+    (*tongue_animation)[anim::ribbet] = *tongue_ribbet_anim.release();
 
-    auto jump_anim = std::make_unique<animation>(std::move(
+    auto tongue_jump_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
             animation::keyframe(v3d(0,0,tongue_stickout), v3d(mouth_jumpanim_angle / -2,0,0), 0.2),
             animation::keyframe(v3d(0,0,tongue_stickout), v3d(mouth_jumpanim_angle / -2,0,0), 0.8),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
             })));
 
-    (*tongue_animation)[anim::jump] = *jump_anim.release();
+    (*tongue_animation)[anim::jump] = *tongue_jump_anim.release();
   }
 
   double tongue_restlen = mouth_zsize * 0.8;
@@ -257,14 +257,14 @@ void create_frog(std::shared_ptr<GameObject> player){
   std::unique_ptr<anim_map> thigh_animation = std::make_unique<anim_map>(); 
   {
 
-    auto jump_anim = std::make_unique<animation>(std::move(
+    auto thigh_jump_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
             animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle,0,0), 0.2),
             animation::keyframe(v3d(0,0,0), v3d(thigh_jumpanim_angle,0,0), 0.8),
             animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
             })));
 
-    (*thigh_animation)[anim::jump] = *jump_anim.release();
+    (*thigh_animation)[anim::jump] = *thigh_jump_anim.release();
   }
 
 
