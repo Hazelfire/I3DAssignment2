@@ -8,7 +8,7 @@ Car::Car(v3d position, double speed): GameObject(std::make_shared<Cube>(Material
 
 void Car::update(double dt){
   ((Cube*)collider.get())->position = this->position;
-  position.x = fmod(( (position.x + 5 ) + dt * carSpeed) + 10, 10) - 5;
+  position.x = fmod(( (position.x + 10 ) + dt * carSpeed) + 20, 20) - 10;
 }
 
 void Car::draw(DrawOptions opts) const {

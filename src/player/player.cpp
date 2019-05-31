@@ -17,7 +17,7 @@ void Player::draw(DrawOptions options) const {
 void Player::bind(GameObject& other){
   if(!bound){
     boundTo = &other;
-    boundDistance = v3d(0, (((Cylinder*)other.shape.get())->radius) + 0.25, 0);
+    boundDistance = v3d(0, (((Cylinder*)other.shape.get())->radius) + 0.55, 0);
     bound = true;
   }
 }

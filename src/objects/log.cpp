@@ -15,7 +15,7 @@ Colour brown(0.3, 0.3, 0.2, 1);
 
 void Log::update(double dt){
   ((Cylinder*)collider.get())->position = this->position;
-  position.x = fmod(( (position.x + 5) + dt * logSpeed) + 10, 10) - 5;
+  position.x = fmod(( (position.x + 10) + dt * logSpeed) + 20, 20) - 10;
 }
 
 void Log::draw(DrawOptions opts) const {
