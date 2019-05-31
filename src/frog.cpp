@@ -7,6 +7,9 @@
 #include <iostream>
 
 
+using animation = animated_gameobject::animation;
+using anim_map = std::map<anim::anim, animation>;
+
 void create_frog(std::shared_ptr<GameObject> player){
 
 
@@ -133,20 +136,25 @@ void create_frog(std::shared_ptr<GameObject> player){
 #endif
 
 
-  using animation = animated_gameobject::animation;
-  using anim_map = std::map<anim::anim, animation>;
-
+  double mouth_jumpanim_angle = -60;
   std::unique_ptr<anim_map> mouth_animation = std::make_unique<anim_map>(); 
   {
     auto ribbet_anim = std::make_unique<animation>(std::move(
           std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
-            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0),
-            animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.5),
-            animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.6),
-            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
+            animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.25),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.3)
             })));
 
     (*mouth_animation)[anim::ribbet] = *ribbet_anim.release();
+
+    auto jump_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(mouth_jumpanim_angle,0,0), 0.2),
+            animation::keyframe(v3d(0,0,0), v3d(mouth_jumpanim_angle,0,0), 0.8),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
+            })));
+
+    (*mouth_animation)[anim::jump] = *jump_anim.release();
   }
 
 
@@ -177,15 +185,41 @@ void create_frog(std::shared_ptr<GameObject> player){
   tongue_root->name = "tongue_root";
 #endif
 
+
+  //double tongue_stickout = mouth_zsize * 2.5;
+  double tongue_stickout = 0;
+  std::unique_ptr<anim_map> tongue_animation = std::make_unique<anim_map>(); 
+  {
+    auto ribbet_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,0), v3d(-30,0,0), 0.25),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 0.3)
+            })));
+
+    (*tongue_animation)[anim::ribbet] = *ribbet_anim.release();
+
+    auto jump_anim = std::make_unique<animation>(std::move(
+          std::make_unique<std::vector<animation::keyframe>, std::initializer_list<animation::keyframe>>({
+            animation::keyframe(v3d(0,0,tongue_stickout), v3d(mouth_jumpanim_angle / -2,0,0), 0.2),
+            animation::keyframe(v3d(0,0,tongue_stickout), v3d(mouth_jumpanim_angle / -2,0,0), 0.8),
+            animation::keyframe(v3d(0,0,0), v3d(0,0,0), 1)
+            })));
+
+    (*tongue_animation)[anim::jump] = *jump_anim.release();
+  }
+
+  double tongue_restlen = mouth_zsize * 0.8;
+
   double tongue_xsize = mouth_xsize * 0.5;
   double tongue_ysize = mouth_ysize * 0.8;
-  double tongue_zsize = mouth_zsize * 0.8;//TODO extend tongue on jump
-  auto tongue = std::make_shared<GameObject>(std::make_shared<Cube>(
+  double tongue_zsize = tongue_stickout + tongue_restlen;
+  auto tongue = std::make_shared<animated_gameobject>(std::make_shared<Cube>(
         tongue_material,
         v3d(0,0,0),// position
         v3d(tongue_xsize, tongue_ysize, tongue_zsize)// size
-        ));
-  tongue->position = v3d(0, 0, tongue_zsize/2);
+        ),
+      std::move(tongue_animation));
+  tongue->position = v3d(0, 0, tongue_restlen - tongue_zsize/2);
   tongue->rotation.x = 10;
   tongue->setParent(tongue_root);
 #if GO_DEBUG_LABELS

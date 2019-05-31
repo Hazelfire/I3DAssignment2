@@ -64,7 +64,7 @@ void Player::jump(){
   for(auto child : children) {
     auto animation_child = dynamic_cast<animated_gameobject*>(child.get());
     if(animation_child) {
-      animation_child->recursive_play(anim::ribbet);
+      animation_child->recursive_play(anim::jump);
     }
   }
 
