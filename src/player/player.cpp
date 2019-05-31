@@ -6,7 +6,7 @@
 Colour player_green(0,1,0.2,1);
 Colour specular_white(1,1,1,1);
 Material player_mat(128, player_green * 0.3, player_green, specular_white);
-Player::Player(): GameObject(std::shared_ptr<Shape>(nullptr), std::make_shared<Sphere>(player_mat, v3d::zero, 0.2)){};
+Player::Player(): GameObject(std::shared_ptr<Shape>(nullptr), std::make_shared<Sphere>(player_mat, v3d::zero, 0.5)){};
 
 void Player::draw(DrawOptions options) const {
   GameObject::draw(options);
@@ -21,6 +21,17 @@ void Player::bind(GameObject& other){
     bound = true;
   }
 }
+
+void Player::reset(void) {
+  position = v3d::zero;
+  ground();
+
+  Sphere* sphere = static_cast<Sphere*>(this->collider.get());
+  sphere->position = position;
+}
+
+
+
 void Player::drawJump() const {
   glColor3f(1, 1, 1);
 
@@ -70,7 +81,7 @@ void Player::ground(){
 #include "scene/scene.hpp"
 
 void Player::update(double dt){
-  Sphere* sphere =  (Sphere*) this->collider.get();
+  Sphere* sphere = static_cast<Sphere*>(this->collider.get());
   if(!grounded){
     const Scene& scene = Scene::get_instance();
     const double gravity = 1;

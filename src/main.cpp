@@ -1,11 +1,6 @@
 #include "main.hpp"
 #include "terrain.hpp"
 
-void reset(void) {
-  player->position = v3d::zero;
-  player->ground();
-}
-
 void drawOsd(){
   const _time& t = _time::get_instance();
   glColor3f(1.0, 1.0, 1.0);
@@ -26,15 +21,11 @@ void drawGameOver(){
   glutBitmapString(GLUT_BITMAP_HELVETICA_18, string);
 }
 
-int lives = 5;
-int score = 0;
-bool playerDead = false;
-
 void drawScore(){
   glColor3f(1.0, 1.0, 1.0);
 
   char cstring[100];
-  sprintf(cstring, "Score: %d\nLives: %d", score, lives);
+  sprintf(cstring, "Score: %d\nLives: %d", player->score, player->lives);
 
   glRasterPos3f(-0.5, 0.5, -1);
   glutBitmapString(GLUT_BITMAP_HELVETICA_18, cstring);
@@ -57,16 +48,16 @@ void update(void) {
   }
 
   if(Scene::get_instance().getCollidingObjectsByTag(*player, tag::death).size() > 0){
-    lives--;
-    reset();
-    if(lives == 0){
-      playerDead = true;    
+    player->lives--;
+    player->reset();
+    if(player->lives == 0){
+      player->dead = true;
     }
   }
 
   if(player->position.z > 24){
-    score++;
-    reset();
+    player->score++;
+    player->reset();
   }
 
   auto logsCollided = Scene::get_instance().getCollidingObjectsByTag(*player, tag::log);
@@ -246,7 +237,7 @@ void display() {
     drawOsd();
   }
 
-  if(playerDead){
+  if(player->dead){
     drawGameOver();
   }
 
@@ -381,7 +372,7 @@ void keyboard(unsigned char key, int x, int y) {
       }
       break;
     case 'r':
-      reset();
+      player->reset();
       break;
   }
 }
@@ -428,7 +419,7 @@ void handle_keys() {
   }
 #endif
 
-  if(!playerDead){
+  if(!player->dead){
     if(*keys & kb_space) {
       player->jump();
     }
